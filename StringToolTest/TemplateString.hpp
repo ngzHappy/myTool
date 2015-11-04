@@ -16,6 +16,19 @@ ${} must be added!!
 */
 
 /*
+ * example:
+ * #include <iostream>
+ * #include <string>
+ * #include "TemplateString.hpp"
+ *
+ *
+ * int main(int,char **)
+ * {
+ *     TemplateString<std::string> templateString("today is a fine ${a}${b}");
+ *     std::cout << templateString("a", "Day", "b", "!") << std::endl;
+ *     std::cout << templateString("a", "day", "b", "!") << std::endl;
+ *     return 0;
+ * }
 */
 
 template<typename StringType>
@@ -161,3 +174,7 @@ public:
 
 
 #endif
+
+/*
+ * endl of the file
+*/
