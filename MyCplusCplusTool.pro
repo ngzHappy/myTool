@@ -1,7 +1,7 @@
 TEMPLATE = subdirs
 
-SUBDIRS += StringToolTest \
-    GetLine
+SUBDIRS += StringToolTest
+SUBDIRS += GetLine
 SUBDIRS += CPPSETGET
 
 

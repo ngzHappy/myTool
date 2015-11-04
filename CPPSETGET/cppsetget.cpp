@@ -472,7 +472,13 @@ void CppSetGet::_split(){
 	}
 	else {
 		if (false == bool(inputFileData)) {
-			throw std::exception("null data");
+            class Exception : public std::exception {
+            public:
+                virtual const char* what() const noexcept override{
+                    return "null data";
+                }
+            };
+            throw Exception();
 		}
 		inputStream_ = new std::stringstream( *inputFileData );
 	}
@@ -568,12 +574,18 @@ hppStream(nullptr, nullptr),
 cppStream(nullptr, nullptr){
 
 	auto error_throw = []() {
-		throw std::exception(u8R"(-f <filename> or -d <"data">
+        class Exception : public std::exception {
+        public:
+            virtual const char* what() const noexcept override{
+                return u8R"(-f <filename> or -d <"data">
 -w <"this->">
 -n <"Type::">
 -o <"outFileName">
 /* PROPERTYR PROPERTYW */
-)");
+                        )"  ;
+            }
+        };
+        throw Exception();
 	};
 
 	if (argc < 2) {
