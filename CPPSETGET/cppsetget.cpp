@@ -582,7 +582,7 @@ cppStream(nullptr, nullptr){
 -n <"Type::">
 -o <"outFileName">
 /* PROPERTYR PROPERTYW */
-                        )"  ;
+)"  ;
             }
         };
         throw Exception();

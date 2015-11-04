@@ -3,6 +3,7 @@
 
 int main(int,char **)
 {
+
 	{
 		std::stringstream v0("1234");
 		std::stringstream v1;
