@@ -93,14 +93,14 @@ public:
         const T2 & after_,
         const T3 & next_begin_,
         const Args & ... args
-        ) {
+        ) const{
         StringType _temp = this->operator()( before_, after_);
         TemplateString _temp_string( std::move(_temp) );
         return std::move( _temp_string(next_begin_,args...) );
     }
 
 	template<typename ... Args>
-	StringType substitute(const Args& ...args ) {
+	StringType substitute(const Args& ...args ) const{
 		return this->operator()(args...);
 	}
 
@@ -152,7 +152,7 @@ public:
     }
 
     template<typename T1, typename T2, typename T3, typename ... Args>
-    StringType operator()(
+    StringType operator() const (
         const T1 & before_,
         const T2 & after_,
         const T3 & next_begin_,
@@ -164,7 +164,7 @@ public:
     }
 
 	template<typename ... Args>
-	StringType substitute(const Args& ...args) {
+	StringType substitute(const Args& ...args)const {
 		return this->operator()(args...);
 	}
 
