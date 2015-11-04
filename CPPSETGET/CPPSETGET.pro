@@ -11,7 +11,7 @@ CONFIG   -= app_bundle
 TEMPLATE = app
 
 HEADERS += \
-    cppsetget.hpp
+    $$PWD/cppsetget.hpp
 
 SOURCES += main.cpp \
     cppsetget.cpp

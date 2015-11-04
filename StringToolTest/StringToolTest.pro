@@ -7,7 +7,7 @@ CONFIG   += c++14
 SOURCES += main.cpp
 
 HEADERS += \
-    TemplateString.hpp
+    $$PWD/TemplateString.hpp
 
 
 
