@@ -42,7 +42,7 @@ public:
 
     const auto size() const{
         auto * buffer = this->rdbuf();
-        return buffer->in_avail();;
+        return buffer->in_avail();
     }
 
 };
