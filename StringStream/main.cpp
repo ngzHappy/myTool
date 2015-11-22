@@ -25,24 +25,12 @@ public:
     }
 
     const auto * end() const {
-        auto * buffer = this->rdbuf();
-
-        typedef typename std::remove_reference<
-            typename std::remove_cv< decltype(*buffer) >::type
-        >::type Buffer ;
-
-        class RDBuffer : public Buffer{
-        public:
-            using Buffer::gptr;
-            using Buffer::egptr;
-        };
-
-        return static_cast<RDBuffer *>(buffer)->egptr();
-    }
-
-    const auto size() const{
-        auto * buffer = this->rdbuf();
-        return buffer->in_avail();
+        auto * pthis = const_cast<IStringStream *>(this);
+        const auto pos_=pthis->tellg( );
+        pthis->seekg( 0,std::ios::end );
+        const auto * const ans=this->begin();
+        pthis->seekg(pos_,std::ios::beg);
+        return ans;
     }
 
 };
