@@ -8,12 +8,12 @@ namespace range_name{
 //input abc<int,dboule>
 //output abc
     template<
-        typename Item_I,
+        typename Item_I,typename Item_Ie,
         typename CallBackFunction_
     >
     Item_I find_name(
         const Item_I b,
-        const Item_I e ,
+        const Item_Ie e ,
         CallBackFunction_ callback_function_ /* void(Item_I,Item_I) */
         ) {
 
