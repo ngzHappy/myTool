@@ -1,7 +1,8 @@
 TEMPLATE = subdirs
 
 SUBDIRS += StringToolTest \
-    StringStream
+    StringStream \
+    MakeSharedTuple
 SUBDIRS += TempOptional
 SUBDIRS += GetLine
 SUBDIRS += CPPSETGET
