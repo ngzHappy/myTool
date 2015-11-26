@@ -49,6 +49,9 @@ namespace cct{
         ${List}(Super && o):Super( std::move(o) ) {}
         ${List}(const Super & o):Super( o ) {}
         
+        ${List} copy() const { return ${List}( *(*this) ); }
+        ${List} unique_copy() const { if (this->use_count()<2) { return *this; }return copy(); }
+        
     };
 
 }
@@ -82,6 +85,9 @@ namespace cct{
         ${List}(Super && o):Super( std::move(o) ) {}
         ${List}(const Super & o):Super( o ) {}
         
+        ${List} copy() const { return ${List}( *(*this) ); }
+        ${List} unique_copy() const { if (this->use_count()<2) { return *this; }return copy(); }
+
     };
 
 }
@@ -143,5 +149,6 @@ int main( int argc,char ** argv ) {
     cct::Unordered_multimap<int, int> unordered_multimap;
     cct::Unordered_multiset<int> unordered_set;
     cct::Vector<int> vector;
+    
 }
 

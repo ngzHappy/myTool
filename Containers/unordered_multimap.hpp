@@ -22,6 +22,9 @@ namespace cct{
         Unordered_multimap(Super && o):Super( std::move(o) ) {}
         Unordered_multimap(const Super & o):Super( o ) {}
         
+        Unordered_multimap copy() const { return Unordered_multimap( *(*this) ); }
+        Unordered_multimap unique_copy() const { if (this->use_count()<2) { return *this; }return copy(); }
+
     };
 
 }

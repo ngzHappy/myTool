@@ -22,6 +22,9 @@ namespace cct{
         Unordered_multiset(Super && o):Super( std::move(o) ) {}
         Unordered_multiset(const Super & o):Super( o ) {}
         
+        Unordered_multiset copy() const { return Unordered_multiset( *(*this) ); }
+        Unordered_multiset unique_copy() const { if (this->use_count()<2) { return *this; }return copy(); }
+        
     };
 
 }
