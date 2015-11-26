@@ -25,7 +25,7 @@ public:
     }
 
     const auto * end() const {
-        auto * pthis = const_cast<IStringStream *>(this);
+        IStringStream * pthis = const_cast<IStringStream *>(this);
         const auto pos_=pthis->tellg( );
         pthis->seekg( 0,std::ios::end );
         const auto * const ans=this->begin();
