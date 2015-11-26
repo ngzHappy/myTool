@@ -1,4 +1,6 @@
-﻿
+﻿#if !defined(SHARED_POINTER_HPP__CCT)
+#define SHARED_POINTER_HPP__CCT
+
 #include <mutex>
 #include <shared_mutex>
 #include <memory>
@@ -22,12 +24,19 @@ namespace  cct {
             SharedPointerDataPointer(const SharedPointerDataPointer & v) :Super(v) {}
             SharedPointerDataPointer(SharedPointerDataPointer && v) :Super(std::move(v)) {}
             void destory() {
+                if(this->get() == nullptr){return ;}
                 std::unique_lock< std::recursive_mutex > locker_(this->get()->mutex);
                 this->get()->onDestory=true;
             }
             auto isDestory()const ->std::tuple< bool, std::unique_lock<std::recursive_mutex> > {
+
+                if(this->get() == nullptr){
+                    return std::tuple< bool, std::unique_lock<std::recursive_mutex> >(true,std::unique_lock<std::recursive_mutex>());
+                }
+                //must lock first
+                auto lock__ = std::unique_lock< std::recursive_mutex >(this->get()->mutex);
                 std::tuple< bool, std::unique_lock<std::recursive_mutex> > ans{
-                    this->get()->onDestory,std::unique_lock< std::recursive_mutex >(this->get()->mutex)
+                    this->get()->onDestory,std::move( lock__ )
                 };
                 return std::move(ans);
             }
@@ -98,14 +107,18 @@ namespace cct {
             SharedPointerDataPointer(const SharedPointerDataPointer & v) :Super(v) {}
             SharedPointerDataPointer(SharedPointerDataPointer && v) :Super(std::move(v)) {}
             void destory() {
+                if(this->get() == nullptr ){return ;}
                 std::unique_lock< std::shared_timed_mutex > locker_(this->get()->mutex);/*write*/
                 this->get()->onDestory=true;
             }
             auto isDestory()const ->std::tuple< bool, std::shared_lock<std::shared_timed_mutex> > {
                 typedef std::tuple< bool, std::shared_lock<std::shared_timed_mutex> > AnsType;
+                if(this->get() == nullptr ){return AnsType(true,std::shared_lock<std::shared_timed_mutex>() )  ;}
+                //must lock first
+                auto lock__ = std::shared_lock<std::shared_timed_mutex>(this->get()->mutex);
                 AnsType ans{
                     this->get()->onDestory,
-                    std::shared_lock<std::shared_timed_mutex>(this->get()->mutex)/*read*/
+                    std::move(lock__)/*read*/
                 };
                 return std::move(ans);
             }
@@ -163,6 +176,9 @@ namespace cct {
     }
 
 }
+
+#endif
+
 
 class X {
     SHARED_POINTER_READER_CLASS;
