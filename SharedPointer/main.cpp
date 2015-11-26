@@ -75,7 +75,7 @@ namespace  cct {
             return std::get<1>(d);
         }
 
-#define SHARED_POINTER_CLASS public: cct::SharedPointerDataPointer shared_pointer_data_pointer /**/
+#define SHARED_POINTER_CLASS public: cct::unique::SharedPointerDataPointer shared_pointer_data_pointer /**/
 #define SHARED_POINTER_CLASS_DESTORY this->shared_pointer_data_pointer.destory()/**/
     }
 }
@@ -137,7 +137,7 @@ namespace cct {
 
         template<typename T>
         SharedPointer<T> make_shared_pointer(T * base) {
-            return SharedPointer<T>(base, base->shared_pointer_data_pointer);
+            return SharedPointer<T>(base, base->shared_pointer_shared_data_pointer);
         }
 
         template<typename T>auto & first(T & d) { return std::get<0>(d); }
@@ -155,10 +155,10 @@ namespace cct {
         }
 
 #if !defined(SHARED_POINTER_READER_CLASS)
-#define SHARED_POINTER_READER_CLASS public: cct::shared::SharedPointerDataPointer shared_pointer_data_pointer /**/
+#define SHARED_POINTER_READER_CLASS public: cct::shared::SharedPointerDataPointer shared_pointer_shared_data_pointer /**/
 #endif
-#if !defined(SHARED_POINTER_CLASS_DESTORY)
-#define SHARED_POINTER_CLASS_DESTORY this->shared_pointer_data_pointer.destory()/**/
+#if !defined(SHARED_POINTER_READER_CLASS_DESTORY)
+#define SHARED_POINTER_READER_CLASS_DESTORY this->shared_pointer_shared_data_pointer.destory()/**/
 #endif
     }
 
@@ -166,10 +166,11 @@ namespace cct {
 
 class X {
     SHARED_POINTER_READER_CLASS;
-
+    SHARED_POINTER_CLASS;
 public:
     X() {}
     ~X() {
+        SHARED_POINTER_READER_CLASS_DESTORY;
         SHARED_POINTER_CLASS_DESTORY;
     }
 };
@@ -178,11 +179,13 @@ int main() {
     using namespace cct::shared;
     X x;
     auto sharedX = cct::shared::make_shared_pointer(&x);
+    auto writeX = cct::unique::make_shared_pointer(&x);
     SharedPointer<int> sdf;
     sdf.pointer();
     {
         auto x1=sharedX.pointer();
         auto y1=sharedX.pointer();
+        writeX.pointer();
         if ( pointer(x1) ) {  }
     }
 
