@@ -37,8 +37,8 @@ namespace  cct {
                 const std::shared_ptr<SharedPointerData> data__=*this;//make a copy of data
                 if(this->get() == nullptr){return ;}
                 if (this->get()->onDestoryQuickAsk.load()) { return; }/*have destoryed!!*/
+                this->get()->onDestoryQuickAsk.store(true); //+speed
                 std::unique_lock< std::recursive_mutex > locker_(this->get()->mutex);
-                this->get()->onDestoryQuickAsk.store(true);
                 this->get()->onDestory=true;
             }
 
@@ -144,8 +144,8 @@ namespace cct {
                 const std::shared_ptr<SharedPointerData> data__=*this;//make a copy of data
                 if(this->get() == nullptr ){return ;}
                 if (this->get()->onDestoryQuickAsk.load()) { return; }
+                this->get()->onDestoryQuickAsk.store(true); //+speed
                 std::unique_lock< std::shared_timed_mutex > locker_(this->get()->mutex);/*write*/
-                this->get()->onDestoryQuickAsk.store(true);
                 this->get()->onDestory=true;
             }
             auto isDestory()const ->std::tuple< bool, std::shared_lock<std::shared_timed_mutex> > {
