@@ -5,6 +5,7 @@
 #include <shared_mutex>
 #include <memory>
 #include <tuple>
+#include <atomic>
 
 namespace  cct {
     namespace unique {
@@ -12,6 +13,7 @@ namespace  cct {
         public:
             mutable std::recursive_mutex mutex;
             bool onDestory=false;
+            std::atomic<bool> onDestoryQuickAsk{false};
             class Undefine {};
         };
 
@@ -23,18 +25,34 @@ namespace  cct {
             SharedPointerDataPointer() :Super(new SharedPointerData) {}
             SharedPointerDataPointer(const SharedPointerDataPointer & v) :Super(v) {}
             SharedPointerDataPointer(SharedPointerDataPointer && v) :Super(std::move(v)) {}
+
             void destory() {
+                std::shared_ptr<SharedPointerData> data__=*this;//make a copy of data
                 if(this->get() == nullptr){return ;}
+                if (this->get()->onDestoryQuickAsk.load()) { return; }/*have destoryed!!*/
                 std::unique_lock< std::recursive_mutex > locker_(this->get()->mutex);
+                this->get()->onDestoryQuickAsk.store(true);
                 this->get()->onDestory=true;
             }
-            auto isDestory()const ->std::tuple< bool, std::unique_lock<std::recursive_mutex> > {
 
+            auto isDestory()const ->std::tuple< bool, std::unique_lock<std::recursive_mutex> > {
+                std::shared_ptr<SharedPointerData> data__=*this;//make a copy of data
                 if(this->get() == nullptr){
                     return std::tuple< bool, std::unique_lock<std::recursive_mutex> >(true,std::unique_lock<std::recursive_mutex>());
                 }
+
+                if (this->get()->onDestoryQuickAsk.load()) {
+                    return std::tuple< bool, std::unique_lock<std::recursive_mutex> >(true,std::unique_lock<std::recursive_mutex>());
+                }/*have destoryed!!*/
+
                 //must lock first
                 auto lock__ = std::unique_lock< std::recursive_mutex >(this->get()->mutex);
+
+                //?destory
+                if ( this->get()->onDestory ) {
+                    return std::tuple< bool, std::unique_lock<std::recursive_mutex> >(true,std::unique_lock<std::recursive_mutex>());
+                }
+
                 std::tuple< bool, std::unique_lock<std::recursive_mutex> > ans{
                     this->get()->onDestory,std::move( lock__ )
                 };
@@ -55,6 +73,7 @@ namespace  cct {
                 const auto data__=data_;/*make a copy of data*/
                 typedef std::tuple< T *, std::unique_lock<std::recursive_mutex> > AnsType;
                 if (bool(data_)==false) { return AnsType{ nullptr,std::unique_lock<std::recursive_mutex>() }; }
+
                 auto isDestory_=data_.isDestory();
                 if (std::get<0>(isDestory_)) {
                     data_.reset();/*give up data*/
@@ -95,6 +114,7 @@ namespace cct {
         public:
             mutable std::shared_timed_mutex mutex;
             bool onDestory=false;
+            std::atomic<bool> onDestoryQuickAsk{false};//quick ask
             class Undefine {};
         };
 
@@ -107,15 +127,29 @@ namespace cct {
             SharedPointerDataPointer(const SharedPointerDataPointer & v) :Super(v) {}
             SharedPointerDataPointer(SharedPointerDataPointer && v) :Super(std::move(v)) {}
             void destory() {
+                std::shared_ptr<SharedPointerData> data__=*this;//make a copy of data
                 if(this->get() == nullptr ){return ;}
+                if (this->get()->onDestoryQuickAsk.load()) { return; }
                 std::unique_lock< std::shared_timed_mutex > locker_(this->get()->mutex);/*write*/
+                this->get()->onDestoryQuickAsk.store(true);
                 this->get()->onDestory=true;
             }
             auto isDestory()const ->std::tuple< bool, std::shared_lock<std::shared_timed_mutex> > {
+                std::shared_ptr<SharedPointerData> data__ = *this;//make a copy of data
                 typedef std::tuple< bool, std::shared_lock<std::shared_timed_mutex> > AnsType;
                 if(this->get() == nullptr ){return AnsType(true,std::shared_lock<std::shared_timed_mutex>() )  ;}
+
+                if (this->get()->onDestoryQuickAsk.load()) {
+                    return AnsType(true,std::shared_lock<std::shared_timed_mutex>() )  ;
+                }//is destoryed !!
+
                 //must lock first
                 auto lock__ = std::shared_lock<std::shared_timed_mutex>(this->get()->mutex);
+
+                if (this->get()->onDestory ) {
+                    return AnsType(true,std::shared_lock<std::shared_timed_mutex>() )  ;
+                }//is destoryed !!
+
                 AnsType ans{
                     this->get()->onDestory,
                     std::move(lock__)/*read*/
