@@ -15,6 +15,13 @@ namespace  cct {
             bool onDestory=false;
             std::atomic<bool> onDestoryQuickAsk{false};
             class Undefine {};
+            class NoCopy{ public:
+                        NoCopy(){}
+                        NoCopy(const NoCopy & ) = delete;
+                        NoCopy( NoCopy && ) = delete;
+                        NoCopy&operator =(const NoCopy & ) = delete;
+                        NoCopy&operator =( NoCopy && ) = delete;
+                        };
         };
 
         class SharedPointerDataPointer :
@@ -54,7 +61,7 @@ namespace  cct {
                 }
 
                 std::tuple< bool, std::unique_lock<std::recursive_mutex> > ans{
-                    this->get()->onDestory,std::move( lock__ )
+                    false,std::move( lock__ )
                 };
                 return std::move(ans);
             }
@@ -103,7 +110,7 @@ namespace  cct {
             return std::get<1>(d);
         }
 
-#define SHARED_POINTER_CLASS public: cct::unique::SharedPointerDataPointer shared_pointer_data_pointer /**/
+#define SHARED_POINTER_CLASS public: cct::unique::SharedPointerDataPointer shared_pointer_data_pointer /**/;cct::unique::SharedPointerData::NoCopy __cct__unshared_cct_
 #define SHARED_POINTER_CLASS_DESTORY this->shared_pointer_data_pointer.destory()/**/
     }
 }
@@ -116,6 +123,13 @@ namespace cct {
             bool onDestory=false;
             std::atomic<bool> onDestoryQuickAsk{false};//quick ask
             class Undefine {};
+            class NoCopy{ public:
+                        NoCopy(){}
+                        NoCopy(const NoCopy & ) = delete;
+                        NoCopy( NoCopy && ) = delete;
+                        NoCopy&operator =(const NoCopy & ) = delete;
+                        NoCopy&operator =( NoCopy && ) = delete;
+                        };
         };
 
         class SharedPointerDataPointer :
@@ -151,7 +165,7 @@ namespace cct {
                 }//is destoryed !!
 
                 AnsType ans{
-                    this->get()->onDestory,
+                    false,
                     std::move(lock__)/*read*/
                 };
                 return std::move(ans);
@@ -202,10 +216,10 @@ namespace cct {
         }
 
 #if !defined(SHARED_POINTER_READER_CLASS)
-#define SHARED_POINTER_READER_CLASS public: cct::shared::SharedPointerDataPointer shared_pointer_shared_data_pointer /**/
+#define SHARED_POINTER_READER_CLASS public: cct::shared::SharedPointerDataPointer shared_pointer_shared_data_pointer /**/;private : cct::shared::SharedPointerData::NoCopy __cct__shared_cct_
 #endif
 #if !defined(SHARED_POINTER_READER_CLASS_DESTORY)
-#define SHARED_POINTER_READER_CLASS_DESTORY this->shared_pointer_shared_data_pointer.destory()/**/
+#define SHARED_POINTER_READER_CLASS_DESTORY this->shared_pointer_shared_data_pointer.destory()/**/;
 #endif
     }
 
