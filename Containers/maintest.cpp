@@ -49,6 +49,9 @@ namespace cct{
         ${List}(Super && o):Super( std::move(o) ) {}
         ${List}(const Super & o):Super( o ) {}
         
+        ${List}&operator=(const ${List}&)=default;
+        ${List}&operator=(${List}&&)=default;
+
         ${List} copy() const { return ${List}( *(*this) ); }
         ${List} unique_copy() const { if (this->use_count()<2) { return *this; }return copy(); }
         
@@ -84,6 +87,9 @@ namespace cct{
         ${List}(${List} &&)=default;
         ${List}(Super && o):Super( std::move(o) ) {}
         ${List}(const Super & o):Super( o ) {}
+
+        ${List}&operator=(const ${List}&)=default;
+        ${List}&operator=(${List}&&)=default;
         
         ${List} copy() const { return ${List}( *(*this) ); }
         ${List} unique_copy() const { if (this->use_count()<2) { return *this; }return copy(); }
@@ -112,6 +118,9 @@ namespace spt{
         ${List}(${List} &&)=default;
         ${List}(Super && o):Super( std::move(o) ) {}
         ${List}(const Super & o):Super( o ) {}
+
+        ${List}&operator=(const ${List}&)=default;
+        ${List}&operator=(${List}&&)=default;
         
         ${List} copy() const { return ${List}( *(*this) ); }
         ${List} unique_copy() const { if (this->use_count()<2) { return *this; }return copy(); }
