@@ -23,4 +23,6 @@ HEADERS += \
     Unordered_multimap.hpp \
     Unordered_multiset.hpp \
     Unordered_set.hpp \
-    Vector.hpp
+    Vector.hpp \
+    Function.hpp \
+    String.hpp
