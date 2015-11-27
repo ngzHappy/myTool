@@ -27,7 +27,7 @@ namespace  cct {
             SharedPointerDataPointer(SharedPointerDataPointer && v) :Super(std::move(v)) {}
 
             void destory() {
-                std::shared_ptr<SharedPointerData> data__=*this;//make a copy of data
+                const std::shared_ptr<SharedPointerData> data__=*this;//make a copy of data
                 if(this->get() == nullptr){return ;}
                 if (this->get()->onDestoryQuickAsk.load()) { return; }/*have destoryed!!*/
                 std::unique_lock< std::recursive_mutex > locker_(this->get()->mutex);
@@ -36,7 +36,7 @@ namespace  cct {
             }
 
             auto isDestory()const ->std::tuple< bool, std::unique_lock<std::recursive_mutex> > {
-                std::shared_ptr<SharedPointerData> data__=*this;//make a copy of data
+                const std::shared_ptr<SharedPointerData> data__=*this;//make a copy of data
                 if(this->get() == nullptr){
                     return std::tuple< bool, std::unique_lock<std::recursive_mutex> >(true,std::unique_lock<std::recursive_mutex>());
                 }
@@ -127,7 +127,7 @@ namespace cct {
             SharedPointerDataPointer(const SharedPointerDataPointer & v) :Super(v) {}
             SharedPointerDataPointer(SharedPointerDataPointer && v) :Super(std::move(v)) {}
             void destory() {
-                std::shared_ptr<SharedPointerData> data__=*this;//make a copy of data
+                const std::shared_ptr<SharedPointerData> data__=*this;//make a copy of data
                 if(this->get() == nullptr ){return ;}
                 if (this->get()->onDestoryQuickAsk.load()) { return; }
                 std::unique_lock< std::shared_timed_mutex > locker_(this->get()->mutex);/*write*/
@@ -135,7 +135,7 @@ namespace cct {
                 this->get()->onDestory=true;
             }
             auto isDestory()const ->std::tuple< bool, std::shared_lock<std::shared_timed_mutex> > {
-                std::shared_ptr<SharedPointerData> data__ = *this;//make a copy of data
+                const std::shared_ptr<SharedPointerData> data__ = *this;//make a copy of data
                 typedef std::tuple< bool, std::shared_lock<std::shared_timed_mutex> > AnsType;
                 if(this->get() == nullptr ){return AnsType(true,std::shared_lock<std::shared_timed_mutex>() )  ;}
 
