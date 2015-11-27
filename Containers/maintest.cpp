@@ -96,6 +96,31 @@ namespace cct{
 
 )";
 
+std::string code2=u8R"(           
+namespace spt{
+
+    class ${List} : public std::shared_ptr< class ${list} > {
+    private:
+        typedef std::shared_ptr< class ${list} > Super;
+    public:
+
+        template<typename ... Ta>
+        ${List}(Ta && ... args):Super(new class ${list}( std::forward<Ta>(args) ... ) ) {}
+        ${List}( decltype(nullptr) ) {}
+        ${List}() :Super( new class ${list} ){}
+        ${List}(const ${List} &)=default;
+        ${List}(${List} &&)=default;
+        ${List}(Super && o):Super( std::move(o) ) {}
+        ${List}(const Super & o):Super( o ) {}
+        
+        ${List} copy() const { return ${List}( *(*this) ); }
+        ${List} unique_copy() const { if (this->use_count()<2) { return *this; }return copy(); }
+        
+    };
+
+}
+)";
+
 std::string toUpper(const std::string & source_ ){
     std::string source=source_;
     for( auto & i : source ){
@@ -109,7 +134,26 @@ std::string toUpper(const std::string & source_ ){
 #include "Containers.hpp"
  
 
+
 int main( int argc,char ** argv ) {
+
+    if (argc > 1) {
+        std::string namespace_="::";
+        if (argc > 2) {
+            namespace_=argv[2]+"::"s;
+        }
+
+        Item i{ namespace_+argv[1],argv[1],1,argv[1] };
+        TemplateString<std::string> templateString2( code2 );
+        std::ofstream ofs(std::get<1>(i)+std::string("spt.hpp"));
+        ofs<<templateString2(
+            "list"s, std::get<0>(i),
+            "List"s, std::get<1>(i),
+            "LIST"s, toUpper( std::get<0>(i) ),
+            "include"s,std::get<3>(i)
+            )<<std::endl;
+        return 0;
+    }
 
     TemplateString<std::string> templateString( code );
     TemplateString<std::string> templateString1( code1 );
@@ -135,7 +179,7 @@ int main( int argc,char ** argv ) {
     }
 
     //test 
-    cct::Deque<int> deque;
+    /*cct::Deque<int> deque;
     cct::Forward_list<int> forward_list;
     cct::List<int>  list;
     cct::Map<int, double> map;
@@ -148,7 +192,7 @@ int main( int argc,char ** argv ) {
     cct::Unordered_map<int, int> unordered_map;
     cct::Unordered_multimap<int, int> unordered_multimap;
     cct::Unordered_multiset<int> unordered_set;
-    cct::Vector<int> vector;
+    cct::Vector<int> vector;*/
     
 }
 
