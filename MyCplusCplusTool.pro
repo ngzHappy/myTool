@@ -5,7 +5,8 @@ SUBDIRS += StringToolTest \
     MakeSharedTuple \
     SharedPointer \
     Containers \
-    ObjectDelete
+    ObjectDelete \
+    CheckArgs
 SUBDIRS += TempOptional
 SUBDIRS += GetLine
 SUBDIRS += CPPSETGET
