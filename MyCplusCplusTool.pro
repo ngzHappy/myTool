@@ -7,7 +7,8 @@ SUBDIRS += StringToolTest \
     Containers \
     ObjectDelete \
     CheckArgs \
-    SharedFromSuper
+    SharedFromSuper \
+    FunctionType
 SUBDIRS += TempOptional
 SUBDIRS += GetLine
 SUBDIRS += CPPSETGET
