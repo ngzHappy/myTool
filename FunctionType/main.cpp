@@ -8,6 +8,7 @@
 using namespace std::literals;
 
 auto header_begin_=u8R"(
+#include <functional>
 template<typename T >
 class FunctionType {
 };
@@ -19,10 +20,19 @@ class FunctionType< ReturnType( ) > {
 public:
     typedef ReturnType return_type;
     typedef void _0;
+    typedef void _r0;
     typedef ReturnType(* function_type)();
     typedef ReturnType(std_function_type)();
     enum { arg_size = 1 };
 };
+
+//std function surport
+template<
+    typename ReturnType
+>
+class FunctionType< std::function< ReturnType( ) > >
+    :public FunctionType< ReturnType( ) >
+{};
 
 template<
     typename ReturnType
@@ -31,6 +41,7 @@ class FunctionType< ReturnType(*)( ) > {
 public:
     typedef ReturnType return_type;
     typedef void _0;
+    typedef void _r0;
     typedef ReturnType(* function_type)();
     typedef ReturnType(std_function_type)();
     enum { arg_size = 1 };
@@ -44,6 +55,7 @@ class FunctionType< ReturnType(ClassType::*)( ) > {
 public:
     typedef ReturnType return_type;
     typedef void _0;
+    typedef void _r0;
     typedef ReturnType(ClassType::* function_type)();
     typedef ReturnType(std_function_type)(ClassType *);
     typedef ClassType class_type;
@@ -122,9 +134,15 @@ std::string get_function(int n ) {
         <<space_<< endl_<<space_;
 
     ss<<"typedef ReturnType return_type ;"<<space_<<endl_<<space_;
+
+    //define
     ss<<"typedef Arg0 _0 ;"<<space_<<endl_<<space_;
-    for (int i=1; i<(n ); ++i) {
+    for (int i=1; i<n ; ++i) {
         ss<<"typedef Arg"<<num_str_[i]<<" _"<<num_str_[i]<<" ; "<<space_<<endl_<<space_;
+    }
+    //rdefine
+    for (int i=n-1; i>=0;--i) {
+        ss<<"typedef Arg"<<num_str_[i]<<" _r"<<num_str_[ n-1-i ]<<" ; "<<space_<<endl_<<space_;
     }
 
     ss<<"typedef ReturnType(* function_type)("<<space_<<endl_
@@ -164,6 +182,11 @@ std::string get_class_function(int n ) {
     for (int i=1; i<(n ); ++i) {
         ss<<"typedef Arg"<<num_str_[i]<<" _"<<num_str_[i]<<" ; "<<space_<<endl_<<space_;
     }
+    //rdefine
+    for (int i=n-1; i>=0;--i) {
+        ss<<"typedef Arg"<<num_str_[i]<<" _r"<<num_str_[ n-1-i ]<<" ; "<<space_<<endl_<<space_;
+    }
+
 
     ss<<"typedef ReturnType(ClassType::* function_type)("<<space_<<endl_
         <<args_types_
@@ -205,6 +228,10 @@ std::string get_pointer_function(int n ) {
     for (int i=1; i<(n ); ++i) {
         ss<<"typedef Arg"<<num_str_[i]<<" _"<<num_str_[i]<<" ; "<<space_<<endl_<<space_;
     }
+    //rdefine
+    for (int i=n-1; i>=0;--i) {
+        ss<<"typedef Arg"<<num_str_[i]<<" _r"<<num_str_[ n-1-i ]<<" ; "<<space_<<endl_<<space_;
+    }
 
     ss<<"typedef ReturnType(* function_type)("<<space_<<endl_
         <<args_types_
@@ -217,6 +244,35 @@ std::string get_pointer_function(int n ) {
     ss<<"enum { arg_size = "<<num_str_[n]<<" } ;" ;
 
     ss<<endl_<<"} ;"<<space_<<endl_<<space_<<endl_;
+    return ss.str();
+}
+
+std::string get_std_function( int n) {
+    std::stringstream ss;
+
+    ss<<get_function_template(n);
+
+    ss<<"class FunctionType< std::function< ReturnType(" << endl_;
+    std::string args_types_;
+    {
+        std::stringstream ss1;
+        ss1<<space_<<space_<<"Arg0";
+        for (int i=1; i <n; ++i) {
+            ss1<<","<<space_<<endl_<<space_<<space_;
+            ss1<<"Arg"<<num_str_[i];
+        }
+        args_types_ = ss1.str();
+        ss << args_types_;
+    }
+    ss<<" ) > > ";
+    ss<<": public FunctionType< "<<endl_;
+    ss<<space_<<space_;
+    ss<<"ReturnType(" << endl_;
+    ss<<args_types_<<" ) >";
+    ss<<endl_;
+    ss<<"{} ;"<<endl_;
+
+    ss <<endl_;
     return ss.str();
 }
 
@@ -243,6 +299,7 @@ int main() {
 
     for (int i=1; i<SIZE;++i ) {
         ofs<<get_function(i);
+        ofs<<get_std_function(i);
         ofs<<get_pointer_function(i);
         ofs<<get_class_function(i);
     }
@@ -251,29 +308,5 @@ int main() {
     ofs<<endl_;
     ofs<<std::endl;
 
-}
-
-#include <functional>
-#include "FunctoinType.hpp"
-#include <iostream>
-class TTTT {
-public:
-    using FooCallBacke = cct::FunctionType< void(int, int) >;
-    using Foo = cct::FunctionType<void(TTTT:: *)(int ,double , std::function< FooCallBacke::std_function_type > ) > ;
-public:
-    auto foo(Foo::_0 ,Foo::_1 ,Foo::_2 )->Foo::return_type ;
-
-};
-
-TTTT::Foo::return_type TTTT::foo(Foo::_0,Foo::_1,Foo::_2  fxx) {
-    fxx( 1,2 );
-}
-
-void test(){
-
-    TTTT t;
-       t.foo(1, 2, [](int a, int b) {
-           std::cout<<a<<b<<std::endl; }
-       );
 }
 
