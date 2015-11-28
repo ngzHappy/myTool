@@ -1,4 +1,4 @@
-
+﻿
 #include <string>
 #include <iostream>
 #include <fstream>
@@ -7,8 +7,8 @@
 
 using namespace std::literals;
 
-auto header_begin_=u8R"(        
-template<typename T > 
+auto header_begin_=u8R"(
+template<typename T >
 class FunctionType {
 };
 
@@ -71,7 +71,7 @@ std::string get_function_template(int n) {
     }
 
     ss<<endl_<<">"<<endl_;
-    
+
     return ss.str();
 }
 
@@ -102,7 +102,7 @@ std::string get_class_function_template(int n) {
 // <int(int,int)>
 std::string get_function(int n ) {
     std::stringstream ss;
-    
+
     ss<<get_function_template(n);
 
     ss<<"class FunctionType< ReturnType(" << endl_;
@@ -136,7 +136,7 @@ std::string get_function(int n ) {
         <<");"<<space_<<endl_;
     ss<<space_;
     ss<<"enum { arg_size = "<<num_str_[n]<<" } ;" ;
-    
+
     ss<<endl_<<"} ;"<<space_<<endl_<<space_<<endl_;
     return ss.str();
 }
@@ -222,11 +222,11 @@ std::string get_pointer_function(int n ) {
 
 int main() {
     std::ofstream ofs("FunctoinType.hpp");
-    
+
     ofs<<std::endl;
     ofs<<std::endl;
     ofs<<std::endl;
-    
+
     ofs<<header_begin_;
     enum { SIZE = 37 };
 
@@ -251,5 +251,29 @@ int main() {
     ofs<<endl_;
     ofs<<std::endl;
 
+}
+
+#include <functional>
+#include "FunctoinType.hpp"
+#include <iostream>
+class TTTT {
+public:
+    using FooCallBacke = cct::FunctionType< void(int, int) >;
+    using Foo = cct::FunctionType<void(TTTT:: *)(int ,double , std::function< FooCallBacke::std_function_type > ) > ;
+public:
+    auto foo(Foo::_0 ,Foo::_1 ,Foo::_2 )->Foo::return_type ;
+
+};
+
+TTTT::Foo::return_type TTTT::foo(Foo::_0,Foo::_1,Foo::_2  fxx) {
+    fxx( 1,2 );
+}
+
+void test(){
+
+    TTTT t;
+       t.foo(1, 2, [](int a, int b) {
+           std::cout<<a<<b<<std::endl; }
+       );
 }
 
