@@ -1,4 +1,4 @@
-﻿
+
 #include <string>
 #include <iostream>
 #include <fstream>
@@ -7,8 +7,8 @@
 
 using namespace std::literals;
 
-auto header_begin_=u8R"(
-template<typename T >
+auto header_begin_=u8R"(        
+template<typename T > 
 class FunctionType {
 };
 
@@ -71,7 +71,7 @@ std::string get_function_template(int n) {
     }
 
     ss<<endl_<<">"<<endl_;
-
+    
     return ss.str();
 }
 
@@ -102,7 +102,7 @@ std::string get_class_function_template(int n) {
 // <int(int,int)>
 std::string get_function(int n ) {
     std::stringstream ss;
-
+    
     ss<<get_function_template(n);
 
     ss<<"class FunctionType< ReturnType(" << endl_;
@@ -117,7 +117,9 @@ std::string get_function(int n ) {
         args_types_ = ss1.str();
         ss << args_types_;
     }
-    ss<<" ) > {"<<space_<< endl_<<space_;
+    ss<<" ) > {"<<
+        endl_ <<"public:"
+        <<space_<< endl_<<space_;
 
     ss<<"typedef ReturnType return_type ;"<<space_<<endl_<<space_;
     ss<<"typedef Arg0 _0 ;"<<space_<<endl_<<space_;
@@ -134,7 +136,7 @@ std::string get_function(int n ) {
         <<");"<<space_<<endl_;
     ss<<space_;
     ss<<"enum { arg_size = "<<num_str_[n]<<" } ;" ;
-
+    
     ss<<endl_<<"} ;"<<space_<<endl_<<space_<<endl_;
     return ss.str();
 }
@@ -154,7 +156,8 @@ std::string get_class_function(int n ) {
         args_types_ = ss1.str();
         ss << args_types_;
     }
-    ss<<" ) > {"<<space_<< endl_<<space_;
+    ss<<" ) > {"<<
+        endl_ <<"public:"<<space_<< endl_<<space_;
 
     ss<<"typedef ReturnType return_type ;"<<space_<<endl_<<space_;
     ss<<"typedef Arg0 _0 ;"<<space_<<endl_<<space_;
@@ -194,7 +197,8 @@ std::string get_pointer_function(int n ) {
         args_types_ = ss1.str();
         ss << args_types_;
     }
-    ss<<" ) > {"<<space_<< endl_<<space_;
+    ss<<" ) > {"<<
+        endl_ <<"public:"<<space_<< endl_<<space_;
 
     ss<<"typedef ReturnType return_type ;"<<space_<<endl_<<space_;
     ss<<"typedef Arg0 _0 ;"<<space_<<endl_<<space_;
@@ -217,12 +221,12 @@ std::string get_pointer_function(int n ) {
 }
 
 int main() {
-    std::ofstream ofs("tFunctoinType.hpp");
-
+    std::ofstream ofs("FunctoinType.hpp");
+    
     ofs<<std::endl;
     ofs<<std::endl;
     ofs<<std::endl;
-
+    
     ofs<<header_begin_;
     enum { SIZE = 37 };
 
