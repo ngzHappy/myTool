@@ -168,7 +168,7 @@ std::string get_class_function(int n ) {
 
     ss<<"typedef ReturnType(std_function_type)("
         <<space_<<endl_
-        <<space_<<space_<<"ClassType:: *,"<<space_<<endl_
+        <<space_<<space_<<"ClassType *,"<<space_<<endl_
         <<args_types_
         <<");"<<space_<<endl_;
     ss<<space_<<"typedef ClassType class_type ;"<<space_<<endl_;
