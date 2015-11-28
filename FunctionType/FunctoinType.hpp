@@ -17779,4 +17779,18 @@ public:
 
 }
 
+namespace cct{
+
+template<typename T>
+class func :
+        public FunctionType<T>::stl_function_type,
+        public FunctionType<T>
+{
+    typedef typename FunctionType<T>::stl_function_type super_type;
+public:
+    using super_type::super_type ;
+};
+
+}
+
 #endif

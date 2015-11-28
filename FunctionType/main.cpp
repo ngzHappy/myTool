@@ -336,3 +336,8 @@ int main() {
 
 }
 
+#include "FunctoinType.hpp"
+void test(){
+    cct::func<int(int, double)> foo=[](int, double) ->int{return 0; };
+     
+}

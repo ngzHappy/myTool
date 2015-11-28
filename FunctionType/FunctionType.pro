@@ -5,8 +5,7 @@ CONFIG -= qt
 CONFIG += c++14
 SOURCES += main.cpp
 
-HEADERS += \
-    FunctoinType.hpp
+HEADERS +=  $$PWD/FunctoinType.hpp
 
 
 
