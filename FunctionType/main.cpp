@@ -22,6 +22,7 @@ public:
     typedef void _0;
     typedef void _r0;
     typedef ReturnType(* function_type)();
+    typedef std::function< ReturnType( ) > stl_function_type;
     typedef ReturnType(std_function_type)();
     enum { arg_size = 1 };
 };
@@ -32,7 +33,10 @@ template<
 >
 class FunctionType< std::function< ReturnType( ) > >
     :public FunctionType< ReturnType( ) >
-{};
+{
+public:
+    typedef std::function<ReturnType()> stl_function_type;
+};
 
 template<
     typename ReturnType
@@ -44,6 +48,7 @@ public:
     typedef void _r0;
     typedef ReturnType(* function_type)();
     typedef ReturnType(std_function_type)();
+    typedef std::function<ReturnType()> stl_function_type;
     enum { arg_size = 1 };
 };
 
@@ -57,6 +62,7 @@ public:
     typedef void _0;
     typedef void _r0;
     typedef ReturnType(ClassType::* function_type)();
+    typedef std::function<ReturnType(ClassType *)> stl_function_type;
     typedef ReturnType(std_function_type)(ClassType *);
     typedef ClassType class_type;
     enum { arg_size = 1 };
@@ -147,11 +153,17 @@ std::string get_function(int n ) {
 
     ss<<"typedef ReturnType(* function_type)("<<space_<<endl_
         <<args_types_
-        <<");"<<space_<<endl_<<space_;
+        <<");"<<space_<< space_;
 
-    ss<<"typedef ReturnType(std_function_type)("<<space_<<endl_
+    ss<<endl_<<space_<<"typedef std::function< ReturnType("<<endl_;
+    ss << args_types_;
+    ss<<" ) > stl_function_type ; ";
+    ss <<endl_;
+
+    ss<< space_ <<"typedef ReturnType(std_function_type)("<<space_<<endl_
         <<args_types_
         <<");"<<space_<<endl_;
+
     ss<<space_;
     ss<<"enum { arg_size = "<<num_str_[n]<<" } ;" ;
 
@@ -190,13 +202,20 @@ std::string get_class_function(int n ) {
 
     ss<<"typedef ReturnType(ClassType::* function_type)("<<space_<<endl_
         <<args_types_
-        <<");"<<space_<<endl_<<space_;
+        <<");"<<space_<<endl_ ;
 
-    ss<<"typedef ReturnType(std_function_type)("
+    ss<< space_<<"typedef std::function< ReturnType("<<endl_;
+    ss<< space_ <<"ClassType * ,"<<endl_;
+    ss << args_types_;
+    ss<<" ) > stl_function_type ; ";
+    ss <<endl_;
+
+    ss<< space_ <<"typedef ReturnType(std_function_type)("
         <<space_<<endl_
         <<space_<<space_<<"ClassType *,"<<space_<<endl_
         <<args_types_
         <<");"<<space_<<endl_;
+
     ss<<space_<<"typedef ClassType class_type ;"<<space_<<endl_;
     ss<<space_;
     ss<<"enum { arg_size = "<<num_str_[n]<<" } ;" ;
@@ -235,9 +254,14 @@ std::string get_pointer_function(int n ) {
 
     ss<<"typedef ReturnType(* function_type)("<<space_<<endl_
         <<args_types_
-        <<");"<<space_<<endl_<<space_;
+        <<");"<<space_<< space_;
 
-    ss<<"typedef ReturnType(std_function_type)("<<space_<<endl_
+    ss<<endl_<<space_<<"typedef std::function< ReturnType("<<endl_;
+    ss << args_types_;
+    ss<<" ) > stl_function_type ; ";
+    ss <<endl_;
+
+    ss<<space_<<"typedef ReturnType(std_function_type)("<<space_<<endl_
         <<args_types_
         <<");"<<space_<<endl_;
     ss<<space_;
@@ -265,14 +289,16 @@ std::string get_std_function( int n) {
         ss << args_types_;
     }
     ss<<" ) > > ";
-    ss<<": public FunctionType< "<<endl_;
-    ss<<space_<<space_;
+    ss<<": public FunctionType< ";
     ss<<"ReturnType(" << endl_;
     ss<<args_types_<<" ) >";
     ss<<endl_;
-    ss<<"{} ;"<<endl_;
+    ss<<"{ " << endl_;
+    ss<< space_ <<"public : " <<endl_;
 
-    ss <<endl_;
+
+    ss<<"} ; "<<endl_;
+    ss<<endl_;
     return ss.str();
 }
 

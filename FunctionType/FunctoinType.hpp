@@ -18,6 +18,7 @@ public:
     typedef void _0;
     typedef void _r0;
     typedef ReturnType(*function_type)();
+    typedef std::function< ReturnType() > stl_function_type;
     typedef ReturnType(std_function_type)();
     enum { arg_size=1 };
 };
@@ -28,7 +29,10 @@ template<
 >
 class FunctionType< std::function< ReturnType() > >
     :public FunctionType< ReturnType() >
-{};
+{
+public:
+    typedef std::function<ReturnType()> stl_function_type;
+};
 
 template<
     typename ReturnType
@@ -40,6 +44,7 @@ public:
     typedef void _r0;
     typedef ReturnType(*function_type)();
     typedef ReturnType(std_function_type)();
+    typedef std::function<ReturnType()> stl_function_type;
     enum { arg_size=1 };
 };
 
@@ -53,6 +58,7 @@ public:
     typedef void _0;
     typedef void _r0;
     typedef ReturnType(ClassType::* function_type)();
+    typedef std::function<ReturnType(ClassType *)> stl_function_type;
     typedef ReturnType(std_function_type)(ClassType *);
     typedef ClassType class_type;
     enum { arg_size=1 };
@@ -70,6 +76,8 @@ public:
     typedef Arg0 _r0;
     typedef ReturnType(*function_type)(
         Arg0);
+    typedef std::function< ReturnType(
+        Arg0) > stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0);
     enum { arg_size=1 };
@@ -80,10 +88,11 @@ template<
     typename Arg0
 >
 class FunctionType< std::function< ReturnType(
-    Arg0) > > : public FunctionType<
-    ReturnType(
+    Arg0) > > : public FunctionType< ReturnType(
     Arg0) >
-{};
+{
+public:
+};
 
 template<
     typename ReturnType,
@@ -97,6 +106,8 @@ public:
     typedef Arg0 _r0;
     typedef ReturnType(*function_type)(
         Arg0);
+    typedef std::function< ReturnType(
+        Arg0) > stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0);
     enum { arg_size=1 };
@@ -115,6 +126,9 @@ public:
     typedef Arg0 _r0;
     typedef ReturnType(ClassType::* function_type)(
         Arg0);
+    typedef std::function< ReturnType(
+        ClassType *,
+        Arg0) > stl_function_type;
     typedef ReturnType(std_function_type)(
         ClassType *,
         Arg0);
@@ -139,6 +153,9 @@ public:
     typedef ReturnType(*function_type)(
         Arg0,
         Arg1);
+    typedef std::function< ReturnType(
+        Arg0,
+        Arg1) > stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1);
@@ -152,11 +169,12 @@ template<
 >
 class FunctionType< std::function< ReturnType(
     Arg0,
-    Arg1) > > : public FunctionType<
-    ReturnType(
+    Arg1) > > : public FunctionType< ReturnType(
     Arg0,
     Arg1) >
-{};
+{
+public:
+};
 
 template<
     typename ReturnType,
@@ -175,6 +193,9 @@ public:
     typedef ReturnType(*function_type)(
         Arg0,
         Arg1);
+    typedef std::function< ReturnType(
+        Arg0,
+        Arg1) > stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1);
@@ -199,6 +220,10 @@ public:
     typedef ReturnType(ClassType::* function_type)(
         Arg0,
         Arg1);
+    typedef std::function< ReturnType(
+        ClassType *,
+        Arg0,
+        Arg1) > stl_function_type;
     typedef ReturnType(std_function_type)(
         ClassType *,
         Arg0,
@@ -229,6 +254,10 @@ public:
         Arg0,
         Arg1,
         Arg2);
+    typedef std::function< ReturnType(
+        Arg0,
+        Arg1,
+        Arg2) > stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -245,12 +274,13 @@ template<
 class FunctionType< std::function< ReturnType(
     Arg0,
     Arg1,
-    Arg2) > > : public FunctionType<
-    ReturnType(
+    Arg2) > > : public FunctionType< ReturnType(
     Arg0,
     Arg1,
     Arg2) >
-{};
+{
+public:
+};
 
 template<
     typename ReturnType,
@@ -274,6 +304,10 @@ public:
         Arg0,
         Arg1,
         Arg2);
+    typedef std::function< ReturnType(
+        Arg0,
+        Arg1,
+        Arg2) > stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -304,6 +338,11 @@ public:
         Arg0,
         Arg1,
         Arg2);
+    typedef std::function< ReturnType(
+        ClassType *,
+        Arg0,
+        Arg1,
+        Arg2) > stl_function_type;
     typedef ReturnType(std_function_type)(
         ClassType *,
         Arg0,
@@ -340,6 +379,11 @@ public:
         Arg1,
         Arg2,
         Arg3);
+    typedef std::function< ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3) > stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -359,13 +403,14 @@ class FunctionType< std::function< ReturnType(
     Arg0,
     Arg1,
     Arg2,
-    Arg3) > > : public FunctionType<
-    ReturnType(
+    Arg3) > > : public FunctionType< ReturnType(
     Arg0,
     Arg1,
     Arg2,
     Arg3) >
-{};
+{
+public:
+};
 
 template<
     typename ReturnType,
@@ -394,6 +439,11 @@ public:
         Arg1,
         Arg2,
         Arg3);
+    typedef std::function< ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3) > stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -430,6 +480,12 @@ public:
         Arg1,
         Arg2,
         Arg3);
+    typedef std::function< ReturnType(
+        ClassType *,
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3) > stl_function_type;
     typedef ReturnType(std_function_type)(
         ClassType *,
         Arg0,
@@ -472,6 +528,12 @@ public:
         Arg2,
         Arg3,
         Arg4);
+    typedef std::function< ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4) > stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -494,14 +556,15 @@ class FunctionType< std::function< ReturnType(
     Arg1,
     Arg2,
     Arg3,
-    Arg4) > > : public FunctionType<
-    ReturnType(
+    Arg4) > > : public FunctionType< ReturnType(
     Arg0,
     Arg1,
     Arg2,
     Arg3,
     Arg4) >
-{};
+{
+public:
+};
 
 template<
     typename ReturnType,
@@ -535,6 +598,12 @@ public:
         Arg2,
         Arg3,
         Arg4);
+    typedef std::function< ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4) > stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -577,6 +646,13 @@ public:
         Arg2,
         Arg3,
         Arg4);
+    typedef std::function< ReturnType(
+        ClassType *,
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4) > stl_function_type;
     typedef ReturnType(std_function_type)(
         ClassType *,
         Arg0,
@@ -625,6 +701,13 @@ public:
         Arg3,
         Arg4,
         Arg5);
+    typedef std::function< ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5) > stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -650,15 +733,16 @@ class FunctionType< std::function< ReturnType(
     Arg2,
     Arg3,
     Arg4,
-    Arg5) > > : public FunctionType<
-    ReturnType(
+    Arg5) > > : public FunctionType< ReturnType(
     Arg0,
     Arg1,
     Arg2,
     Arg3,
     Arg4,
     Arg5) >
-{};
+{
+public:
+};
 
 template<
     typename ReturnType,
@@ -697,6 +781,13 @@ public:
         Arg3,
         Arg4,
         Arg5);
+    typedef std::function< ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5) > stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -745,6 +836,14 @@ public:
         Arg3,
         Arg4,
         Arg5);
+    typedef std::function< ReturnType(
+        ClassType *,
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5) > stl_function_type;
     typedef ReturnType(std_function_type)(
         ClassType *,
         Arg0,
@@ -799,6 +898,14 @@ public:
         Arg4,
         Arg5,
         Arg6);
+    typedef std::function< ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6) > stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -827,8 +934,7 @@ class FunctionType< std::function< ReturnType(
     Arg3,
     Arg4,
     Arg5,
-    Arg6) > > : public FunctionType<
-    ReturnType(
+    Arg6) > > : public FunctionType< ReturnType(
     Arg0,
     Arg1,
     Arg2,
@@ -836,7 +942,9 @@ class FunctionType< std::function< ReturnType(
     Arg4,
     Arg5,
     Arg6) >
-{};
+{
+public:
+};
 
 template<
     typename ReturnType,
@@ -880,6 +988,14 @@ public:
         Arg4,
         Arg5,
         Arg6);
+    typedef std::function< ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6) > stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -934,6 +1050,15 @@ public:
         Arg4,
         Arg5,
         Arg6);
+    typedef std::function< ReturnType(
+        ClassType *,
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6) > stl_function_type;
     typedef ReturnType(std_function_type)(
         ClassType *,
         Arg0,
@@ -994,6 +1119,15 @@ public:
         Arg5,
         Arg6,
         Arg7);
+    typedef std::function< ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7) > stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -1025,8 +1159,7 @@ class FunctionType< std::function< ReturnType(
     Arg4,
     Arg5,
     Arg6,
-    Arg7) > > : public FunctionType<
-    ReturnType(
+    Arg7) > > : public FunctionType< ReturnType(
     Arg0,
     Arg1,
     Arg2,
@@ -1035,7 +1168,9 @@ class FunctionType< std::function< ReturnType(
     Arg5,
     Arg6,
     Arg7) >
-{};
+{
+public:
+};
 
 template<
     typename ReturnType,
@@ -1084,6 +1219,15 @@ public:
         Arg5,
         Arg6,
         Arg7);
+    typedef std::function< ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7) > stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -1144,6 +1288,16 @@ public:
         Arg5,
         Arg6,
         Arg7);
+    typedef std::function< ReturnType(
+        ClassType *,
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7) > stl_function_type;
     typedef ReturnType(std_function_type)(
         ClassType *,
         Arg0,
@@ -1210,6 +1364,16 @@ public:
         Arg6,
         Arg7,
         Arg8);
+    typedef std::function< ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8) > stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -1244,8 +1408,7 @@ class FunctionType< std::function< ReturnType(
     Arg5,
     Arg6,
     Arg7,
-    Arg8) > > : public FunctionType<
-    ReturnType(
+    Arg8) > > : public FunctionType< ReturnType(
     Arg0,
     Arg1,
     Arg2,
@@ -1255,7 +1418,9 @@ class FunctionType< std::function< ReturnType(
     Arg6,
     Arg7,
     Arg8) >
-{};
+{
+public:
+};
 
 template<
     typename ReturnType,
@@ -1309,6 +1474,16 @@ public:
         Arg6,
         Arg7,
         Arg8);
+    typedef std::function< ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8) > stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -1375,6 +1550,17 @@ public:
         Arg6,
         Arg7,
         Arg8);
+    typedef std::function< ReturnType(
+        ClassType *,
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8) > stl_function_type;
     typedef ReturnType(std_function_type)(
         ClassType *,
         Arg0,
@@ -1447,6 +1633,17 @@ public:
         Arg7,
         Arg8,
         Arg9);
+    typedef std::function< ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9) > stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -1484,8 +1681,7 @@ class FunctionType< std::function< ReturnType(
     Arg6,
     Arg7,
     Arg8,
-    Arg9) > > : public FunctionType<
-    ReturnType(
+    Arg9) > > : public FunctionType< ReturnType(
     Arg0,
     Arg1,
     Arg2,
@@ -1496,7 +1692,9 @@ class FunctionType< std::function< ReturnType(
     Arg7,
     Arg8,
     Arg9) >
-{};
+{
+public:
+};
 
 template<
     typename ReturnType,
@@ -1555,6 +1753,17 @@ public:
         Arg7,
         Arg8,
         Arg9);
+    typedef std::function< ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9) > stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -1627,6 +1836,18 @@ public:
         Arg7,
         Arg8,
         Arg9);
+    typedef std::function< ReturnType(
+        ClassType *,
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9) > stl_function_type;
     typedef ReturnType(std_function_type)(
         ClassType *,
         Arg0,
@@ -1705,6 +1926,18 @@ public:
         Arg8,
         Arg9,
         Arg10);
+    typedef std::function< ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10) > stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -1745,8 +1978,7 @@ class FunctionType< std::function< ReturnType(
     Arg7,
     Arg8,
     Arg9,
-    Arg10) > > : public FunctionType<
-    ReturnType(
+    Arg10) > > : public FunctionType< ReturnType(
     Arg0,
     Arg1,
     Arg2,
@@ -1758,7 +1990,9 @@ class FunctionType< std::function< ReturnType(
     Arg8,
     Arg9,
     Arg10) >
-{};
+{
+    public:
+};
 
 template<
     typename ReturnType,
@@ -1822,6 +2056,18 @@ public:
         Arg8,
         Arg9,
         Arg10);
+    typedef std::function< ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10) > stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -1900,6 +2146,19 @@ public:
         Arg8,
         Arg9,
         Arg10);
+    typedef std::function< ReturnType(
+        ClassType *,
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10) > stl_function_type;
     typedef ReturnType(std_function_type)(
         ClassType *,
         Arg0,
@@ -1984,6 +2243,19 @@ public:
         Arg9,
         Arg10,
         Arg11);
+    typedef std::function< ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11) > stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -2027,8 +2299,7 @@ class FunctionType< std::function< ReturnType(
     Arg8,
     Arg9,
     Arg10,
-    Arg11) > > : public FunctionType<
-    ReturnType(
+    Arg11) > > : public FunctionType< ReturnType(
     Arg0,
     Arg1,
     Arg2,
@@ -2041,7 +2312,9 @@ class FunctionType< std::function< ReturnType(
     Arg9,
     Arg10,
     Arg11) >
-{};
+{
+    public:
+};
 
 template<
     typename ReturnType,
@@ -2110,6 +2383,19 @@ public:
         Arg9,
         Arg10,
         Arg11);
+    typedef std::function< ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11) > stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -2194,6 +2480,20 @@ public:
         Arg9,
         Arg10,
         Arg11);
+    typedef std::function< ReturnType(
+        ClassType *,
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11) > stl_function_type;
     typedef ReturnType(std_function_type)(
         ClassType *,
         Arg0,
@@ -2284,6 +2584,20 @@ public:
         Arg10,
         Arg11,
         Arg12);
+    typedef std::function< ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12) > stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -2330,8 +2644,7 @@ class FunctionType< std::function< ReturnType(
     Arg9,
     Arg10,
     Arg11,
-    Arg12) > > : public FunctionType<
-    ReturnType(
+    Arg12) > > : public FunctionType< ReturnType(
     Arg0,
     Arg1,
     Arg2,
@@ -2345,7 +2658,9 @@ class FunctionType< std::function< ReturnType(
     Arg10,
     Arg11,
     Arg12) >
-{};
+{
+    public:
+};
 
 template<
     typename ReturnType,
@@ -2419,6 +2734,20 @@ public:
         Arg10,
         Arg11,
         Arg12);
+    typedef std::function< ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12) > stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -2509,6 +2838,21 @@ public:
         Arg10,
         Arg11,
         Arg12);
+    typedef std::function< ReturnType(
+        ClassType *,
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12) > stl_function_type;
     typedef ReturnType(std_function_type)(
         ClassType *,
         Arg0,
@@ -2605,6 +2949,21 @@ public:
         Arg11,
         Arg12,
         Arg13);
+    typedef std::function< ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13) > stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -2654,8 +3013,7 @@ class FunctionType< std::function< ReturnType(
     Arg10,
     Arg11,
     Arg12,
-    Arg13) > > : public FunctionType<
-    ReturnType(
+    Arg13) > > : public FunctionType< ReturnType(
     Arg0,
     Arg1,
     Arg2,
@@ -2670,7 +3028,9 @@ class FunctionType< std::function< ReturnType(
     Arg11,
     Arg12,
     Arg13) >
-{};
+{
+    public:
+};
 
 template<
     typename ReturnType,
@@ -2749,6 +3109,21 @@ public:
         Arg11,
         Arg12,
         Arg13);
+    typedef std::function< ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13) > stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -2845,6 +3220,22 @@ public:
         Arg11,
         Arg12,
         Arg13);
+    typedef std::function< ReturnType(
+        ClassType *,
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13) > stl_function_type;
     typedef ReturnType(std_function_type)(
         ClassType *,
         Arg0,
@@ -2947,6 +3338,22 @@ public:
         Arg12,
         Arg13,
         Arg14);
+    typedef std::function< ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14) > stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -2999,8 +3406,7 @@ class FunctionType< std::function< ReturnType(
     Arg11,
     Arg12,
     Arg13,
-    Arg14) > > : public FunctionType<
-    ReturnType(
+    Arg14) > > : public FunctionType< ReturnType(
     Arg0,
     Arg1,
     Arg2,
@@ -3016,7 +3422,9 @@ class FunctionType< std::function< ReturnType(
     Arg12,
     Arg13,
     Arg14) >
-{};
+{
+    public:
+};
 
 template<
     typename ReturnType,
@@ -3100,6 +3508,22 @@ public:
         Arg12,
         Arg13,
         Arg14);
+    typedef std::function< ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14) > stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -3202,6 +3626,23 @@ public:
         Arg12,
         Arg13,
         Arg14);
+    typedef std::function< ReturnType(
+        ClassType *,
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14) > stl_function_type;
     typedef ReturnType(std_function_type)(
         ClassType *,
         Arg0,
@@ -3310,6 +3751,23 @@ public:
         Arg13,
         Arg14,
         Arg15);
+    typedef std::function< ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15) > stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -3365,8 +3823,7 @@ class FunctionType< std::function< ReturnType(
     Arg12,
     Arg13,
     Arg14,
-    Arg15) > > : public FunctionType<
-    ReturnType(
+    Arg15) > > : public FunctionType< ReturnType(
     Arg0,
     Arg1,
     Arg2,
@@ -3383,7 +3840,9 @@ class FunctionType< std::function< ReturnType(
     Arg13,
     Arg14,
     Arg15) >
-{};
+{
+    public:
+};
 
 template<
     typename ReturnType,
@@ -3472,6 +3931,23 @@ public:
         Arg13,
         Arg14,
         Arg15);
+    typedef std::function< ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15) > stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -3580,6 +4056,24 @@ public:
         Arg13,
         Arg14,
         Arg15);
+    typedef std::function< ReturnType(
+        ClassType *,
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15) > stl_function_type;
     typedef ReturnType(std_function_type)(
         ClassType *,
         Arg0,
@@ -3694,6 +4188,24 @@ public:
         Arg14,
         Arg15,
         Arg16);
+    typedef std::function< ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16) > stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -3752,8 +4264,7 @@ class FunctionType< std::function< ReturnType(
     Arg13,
     Arg14,
     Arg15,
-    Arg16) > > : public FunctionType<
-    ReturnType(
+    Arg16) > > : public FunctionType< ReturnType(
     Arg0,
     Arg1,
     Arg2,
@@ -3771,7 +4282,9 @@ class FunctionType< std::function< ReturnType(
     Arg14,
     Arg15,
     Arg16) >
-{};
+{
+    public:
+};
 
 template<
     typename ReturnType,
@@ -3865,6 +4378,24 @@ public:
         Arg14,
         Arg15,
         Arg16);
+    typedef std::function< ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16) > stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -3979,6 +4510,25 @@ public:
         Arg14,
         Arg15,
         Arg16);
+    typedef std::function< ReturnType(
+        ClassType *,
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16) > stl_function_type;
     typedef ReturnType(std_function_type)(
         ClassType *,
         Arg0,
@@ -4099,6 +4649,25 @@ public:
         Arg15,
         Arg16,
         Arg17);
+    typedef std::function< ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17) > stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -4160,8 +4729,7 @@ class FunctionType< std::function< ReturnType(
     Arg14,
     Arg15,
     Arg16,
-    Arg17) > > : public FunctionType<
-    ReturnType(
+    Arg17) > > : public FunctionType< ReturnType(
     Arg0,
     Arg1,
     Arg2,
@@ -4180,7 +4748,9 @@ class FunctionType< std::function< ReturnType(
     Arg15,
     Arg16,
     Arg17) >
-{};
+{
+    public:
+};
 
 template<
     typename ReturnType,
@@ -4279,6 +4849,25 @@ public:
         Arg15,
         Arg16,
         Arg17);
+    typedef std::function< ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17) > stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -4399,6 +4988,26 @@ public:
         Arg15,
         Arg16,
         Arg17);
+    typedef std::function< ReturnType(
+        ClassType *,
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17) > stl_function_type;
     typedef ReturnType(std_function_type)(
         ClassType *,
         Arg0,
@@ -4525,6 +5134,26 @@ public:
         Arg16,
         Arg17,
         Arg18);
+    typedef std::function< ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18) > stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -4589,8 +5218,7 @@ class FunctionType< std::function< ReturnType(
     Arg15,
     Arg16,
     Arg17,
-    Arg18) > > : public FunctionType<
-    ReturnType(
+    Arg18) > > : public FunctionType< ReturnType(
     Arg0,
     Arg1,
     Arg2,
@@ -4610,7 +5238,9 @@ class FunctionType< std::function< ReturnType(
     Arg16,
     Arg17,
     Arg18) >
-{};
+{
+    public:
+};
 
 template<
     typename ReturnType,
@@ -4714,6 +5344,26 @@ public:
         Arg16,
         Arg17,
         Arg18);
+    typedef std::function< ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18) > stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -4840,6 +5490,27 @@ public:
         Arg16,
         Arg17,
         Arg18);
+    typedef std::function< ReturnType(
+        ClassType *,
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18) > stl_function_type;
     typedef ReturnType(std_function_type)(
         ClassType *,
         Arg0,
@@ -4972,6 +5643,27 @@ public:
         Arg17,
         Arg18,
         Arg19);
+    typedef std::function< ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18,
+        Arg19) > stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -5039,8 +5731,7 @@ class FunctionType< std::function< ReturnType(
     Arg16,
     Arg17,
     Arg18,
-    Arg19) > > : public FunctionType<
-    ReturnType(
+    Arg19) > > : public FunctionType< ReturnType(
     Arg0,
     Arg1,
     Arg2,
@@ -5060,8 +5751,10 @@ class FunctionType< std::function< ReturnType(
     Arg16,
     Arg17,
     Arg18,
-    Arg19)>
-{};
+    Arg19) >
+{
+    public:
+};
 
 template<
     typename ReturnType,
@@ -5170,6 +5863,27 @@ public:
         Arg17,
         Arg18,
         Arg19);
+    typedef std::function< ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18,
+        Arg19) > stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -5302,6 +6016,28 @@ public:
         Arg17,
         Arg18,
         Arg19);
+    typedef std::function<ReturnType(
+        ClassType *,
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18,
+        Arg19)>stl_function_type;
     typedef ReturnType(std_function_type)(
         ClassType *,
         Arg0,
@@ -5440,6 +6176,28 @@ public:
         Arg18,
         Arg19,
         Arg20);
+    typedef std::function<ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18,
+        Arg19,
+        Arg20)>stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -5510,8 +6268,7 @@ class FunctionType<std::function<ReturnType(
     Arg17,
     Arg18,
     Arg19,
-    Arg20)>>: public FunctionType<
-    ReturnType(
+    Arg20)>>: public FunctionType<ReturnType(
     Arg0,
     Arg1,
     Arg2,
@@ -5533,7 +6290,9 @@ class FunctionType<std::function<ReturnType(
     Arg18,
     Arg19,
     Arg20)>
-{};
+{
+    public:
+};
 
 template<
     typename ReturnType,
@@ -5647,6 +6406,28 @@ public:
         Arg18,
         Arg19,
         Arg20);
+    typedef std::function<ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18,
+        Arg19,
+        Arg20)>stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -5785,6 +6566,29 @@ public:
         Arg18,
         Arg19,
         Arg20);
+    typedef std::function<ReturnType(
+        ClassType *,
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18,
+        Arg19,
+        Arg20)>stl_function_type;
     typedef ReturnType(std_function_type)(
         ClassType *,
         Arg0,
@@ -5929,6 +6733,29 @@ public:
         Arg19,
         Arg20,
         Arg21);
+    typedef std::function<ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18,
+        Arg19,
+        Arg20,
+        Arg21)>stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -6002,8 +6829,7 @@ class FunctionType<std::function<ReturnType(
     Arg18,
     Arg19,
     Arg20,
-    Arg21)>>: public FunctionType<
-    ReturnType(
+    Arg21)>>: public FunctionType<ReturnType(
     Arg0,
     Arg1,
     Arg2,
@@ -6026,7 +6852,9 @@ class FunctionType<std::function<ReturnType(
     Arg19,
     Arg20,
     Arg21)>
-{};
+{
+    public:
+};
 
 template<
     typename ReturnType,
@@ -6145,6 +6973,29 @@ public:
         Arg19,
         Arg20,
         Arg21);
+    typedef std::function<ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18,
+        Arg19,
+        Arg20,
+        Arg21)>stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -6289,6 +7140,30 @@ public:
         Arg19,
         Arg20,
         Arg21);
+    typedef std::function<ReturnType(
+        ClassType *,
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18,
+        Arg19,
+        Arg20,
+        Arg21)>stl_function_type;
     typedef ReturnType(std_function_type)(
         ClassType *,
         Arg0,
@@ -6439,6 +7314,30 @@ public:
         Arg20,
         Arg21,
         Arg22);
+    typedef std::function<ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18,
+        Arg19,
+        Arg20,
+        Arg21,
+        Arg22)>stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -6515,8 +7414,7 @@ class FunctionType<std::function<ReturnType(
     Arg19,
     Arg20,
     Arg21,
-    Arg22)>>: public FunctionType<
-    ReturnType(
+    Arg22)>>: public FunctionType<ReturnType(
     Arg0,
     Arg1,
     Arg2,
@@ -6540,7 +7438,9 @@ class FunctionType<std::function<ReturnType(
     Arg20,
     Arg21,
     Arg22)>
-{};
+{
+    public:
+};
 
 template<
     typename ReturnType,
@@ -6664,6 +7564,30 @@ public:
         Arg20,
         Arg21,
         Arg22);
+    typedef std::function<ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18,
+        Arg19,
+        Arg20,
+        Arg21,
+        Arg22)>stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -6814,6 +7738,31 @@ public:
         Arg20,
         Arg21,
         Arg22);
+    typedef std::function<ReturnType(
+        ClassType *,
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18,
+        Arg19,
+        Arg20,
+        Arg21,
+        Arg22)>stl_function_type;
     typedef ReturnType(std_function_type)(
         ClassType *,
         Arg0,
@@ -6970,6 +7919,31 @@ public:
         Arg21,
         Arg22,
         Arg23);
+    typedef std::function<ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18,
+        Arg19,
+        Arg20,
+        Arg21,
+        Arg22,
+        Arg23)>stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -7049,8 +8023,7 @@ class FunctionType<std::function<ReturnType(
     Arg20,
     Arg21,
     Arg22,
-    Arg23)>>: public FunctionType<
-    ReturnType(
+    Arg23)>>: public FunctionType<ReturnType(
     Arg0,
     Arg1,
     Arg2,
@@ -7075,7 +8048,9 @@ class FunctionType<std::function<ReturnType(
     Arg21,
     Arg22,
     Arg23)>
-{};
+{
+    public:
+};
 
 template<
     typename ReturnType,
@@ -7204,6 +8179,31 @@ public:
         Arg21,
         Arg22,
         Arg23);
+    typedef std::function<ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18,
+        Arg19,
+        Arg20,
+        Arg21,
+        Arg22,
+        Arg23)>stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -7360,6 +8360,32 @@ public:
         Arg21,
         Arg22,
         Arg23);
+    typedef std::function<ReturnType(
+        ClassType *,
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18,
+        Arg19,
+        Arg20,
+        Arg21,
+        Arg22,
+        Arg23)>stl_function_type;
     typedef ReturnType(std_function_type)(
         ClassType *,
         Arg0,
@@ -7522,6 +8548,32 @@ public:
         Arg22,
         Arg23,
         Arg24);
+    typedef std::function<ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18,
+        Arg19,
+        Arg20,
+        Arg21,
+        Arg22,
+        Arg23,
+        Arg24)>stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -7604,8 +8656,7 @@ class FunctionType<std::function<ReturnType(
     Arg21,
     Arg22,
     Arg23,
-    Arg24)>>: public FunctionType<
-    ReturnType(
+    Arg24)>>: public FunctionType<ReturnType(
     Arg0,
     Arg1,
     Arg2,
@@ -7631,7 +8682,9 @@ class FunctionType<std::function<ReturnType(
     Arg22,
     Arg23,
     Arg24)>
-{};
+{
+    public:
+};
 
 template<
     typename ReturnType,
@@ -7765,6 +8818,32 @@ public:
         Arg22,
         Arg23,
         Arg24);
+    typedef std::function<ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18,
+        Arg19,
+        Arg20,
+        Arg21,
+        Arg22,
+        Arg23,
+        Arg24)>stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -7927,6 +9006,33 @@ public:
         Arg22,
         Arg23,
         Arg24);
+    typedef std::function<ReturnType(
+        ClassType *,
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18,
+        Arg19,
+        Arg20,
+        Arg21,
+        Arg22,
+        Arg23,
+        Arg24)>stl_function_type;
     typedef ReturnType(std_function_type)(
         ClassType *,
         Arg0,
@@ -8095,6 +9201,33 @@ public:
         Arg23,
         Arg24,
         Arg25);
+    typedef std::function<ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18,
+        Arg19,
+        Arg20,
+        Arg21,
+        Arg22,
+        Arg23,
+        Arg24,
+        Arg25)>stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -8180,8 +9313,7 @@ class FunctionType<std::function<ReturnType(
     Arg22,
     Arg23,
     Arg24,
-    Arg25)>>: public FunctionType<
-    ReturnType(
+    Arg25)>>: public FunctionType<ReturnType(
     Arg0,
     Arg1,
     Arg2,
@@ -8208,7 +9340,9 @@ class FunctionType<std::function<ReturnType(
     Arg23,
     Arg24,
     Arg25)>
-{};
+{
+    public:
+};
 
 template<
     typename ReturnType,
@@ -8347,6 +9481,33 @@ public:
         Arg23,
         Arg24,
         Arg25);
+    typedef std::function<ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18,
+        Arg19,
+        Arg20,
+        Arg21,
+        Arg22,
+        Arg23,
+        Arg24,
+        Arg25)>stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -8515,6 +9676,34 @@ public:
         Arg23,
         Arg24,
         Arg25);
+    typedef std::function<ReturnType(
+        ClassType *,
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18,
+        Arg19,
+        Arg20,
+        Arg21,
+        Arg22,
+        Arg23,
+        Arg24,
+        Arg25)>stl_function_type;
     typedef ReturnType(std_function_type)(
         ClassType *,
         Arg0,
@@ -8689,6 +9878,34 @@ public:
         Arg24,
         Arg25,
         Arg26);
+    typedef std::function<ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18,
+        Arg19,
+        Arg20,
+        Arg21,
+        Arg22,
+        Arg23,
+        Arg24,
+        Arg25,
+        Arg26)>stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -8777,8 +9994,7 @@ class FunctionType<std::function<ReturnType(
     Arg23,
     Arg24,
     Arg25,
-    Arg26)>>: public FunctionType<
-    ReturnType(
+    Arg26)>>: public FunctionType<ReturnType(
     Arg0,
     Arg1,
     Arg2,
@@ -8806,7 +10022,9 @@ class FunctionType<std::function<ReturnType(
     Arg24,
     Arg25,
     Arg26)>
-{};
+{
+    public:
+};
 
 template<
     typename ReturnType,
@@ -8950,6 +10168,34 @@ public:
         Arg24,
         Arg25,
         Arg26);
+    typedef std::function<ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18,
+        Arg19,
+        Arg20,
+        Arg21,
+        Arg22,
+        Arg23,
+        Arg24,
+        Arg25,
+        Arg26)>stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -9124,6 +10370,35 @@ public:
         Arg24,
         Arg25,
         Arg26);
+    typedef std::function<ReturnType(
+        ClassType *,
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18,
+        Arg19,
+        Arg20,
+        Arg21,
+        Arg22,
+        Arg23,
+        Arg24,
+        Arg25,
+        Arg26)>stl_function_type;
     typedef ReturnType(std_function_type)(
         ClassType *,
         Arg0,
@@ -9304,6 +10579,35 @@ public:
         Arg25,
         Arg26,
         Arg27);
+    typedef std::function<ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18,
+        Arg19,
+        Arg20,
+        Arg21,
+        Arg22,
+        Arg23,
+        Arg24,
+        Arg25,
+        Arg26,
+        Arg27)>stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -9395,8 +10699,7 @@ class FunctionType<std::function<ReturnType(
     Arg24,
     Arg25,
     Arg26,
-    Arg27)>>: public FunctionType<
-    ReturnType(
+    Arg27)>>: public FunctionType<ReturnType(
     Arg0,
     Arg1,
     Arg2,
@@ -9425,7 +10728,9 @@ class FunctionType<std::function<ReturnType(
     Arg25,
     Arg26,
     Arg27)>
-{};
+{
+    public:
+};
 
 template<
     typename ReturnType,
@@ -9574,6 +10879,35 @@ public:
         Arg25,
         Arg26,
         Arg27);
+    typedef std::function<ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18,
+        Arg19,
+        Arg20,
+        Arg21,
+        Arg22,
+        Arg23,
+        Arg24,
+        Arg25,
+        Arg26,
+        Arg27)>stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -9754,6 +11088,36 @@ public:
         Arg25,
         Arg26,
         Arg27);
+    typedef std::function<ReturnType(
+        ClassType *,
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18,
+        Arg19,
+        Arg20,
+        Arg21,
+        Arg22,
+        Arg23,
+        Arg24,
+        Arg25,
+        Arg26,
+        Arg27)>stl_function_type;
     typedef ReturnType(std_function_type)(
         ClassType *,
         Arg0,
@@ -9940,6 +11304,36 @@ public:
         Arg26,
         Arg27,
         Arg28);
+    typedef std::function<ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18,
+        Arg19,
+        Arg20,
+        Arg21,
+        Arg22,
+        Arg23,
+        Arg24,
+        Arg25,
+        Arg26,
+        Arg27,
+        Arg28)>stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -10034,8 +11428,7 @@ class FunctionType<std::function<ReturnType(
     Arg25,
     Arg26,
     Arg27,
-    Arg28)>>: public FunctionType<
-    ReturnType(
+    Arg28)>>: public FunctionType<ReturnType(
     Arg0,
     Arg1,
     Arg2,
@@ -10065,7 +11458,9 @@ class FunctionType<std::function<ReturnType(
     Arg26,
     Arg27,
     Arg28)>
-{};
+{
+    public:
+};
 
 template<
     typename ReturnType,
@@ -10219,6 +11614,36 @@ public:
         Arg26,
         Arg27,
         Arg28);
+    typedef std::function<ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18,
+        Arg19,
+        Arg20,
+        Arg21,
+        Arg22,
+        Arg23,
+        Arg24,
+        Arg25,
+        Arg26,
+        Arg27,
+        Arg28)>stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -10405,6 +11830,37 @@ public:
         Arg26,
         Arg27,
         Arg28);
+    typedef std::function<ReturnType(
+        ClassType *,
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18,
+        Arg19,
+        Arg20,
+        Arg21,
+        Arg22,
+        Arg23,
+        Arg24,
+        Arg25,
+        Arg26,
+        Arg27,
+        Arg28)>stl_function_type;
     typedef ReturnType(std_function_type)(
         ClassType *,
         Arg0,
@@ -10597,6 +12053,37 @@ public:
         Arg27,
         Arg28,
         Arg29);
+    typedef std::function<ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18,
+        Arg19,
+        Arg20,
+        Arg21,
+        Arg22,
+        Arg23,
+        Arg24,
+        Arg25,
+        Arg26,
+        Arg27,
+        Arg28,
+        Arg29)>stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -10694,8 +12181,7 @@ class FunctionType<std::function<ReturnType(
     Arg26,
     Arg27,
     Arg28,
-    Arg29)>>: public FunctionType<
-    ReturnType(
+    Arg29)>>: public FunctionType<ReturnType(
     Arg0,
     Arg1,
     Arg2,
@@ -10726,7 +12212,9 @@ class FunctionType<std::function<ReturnType(
     Arg27,
     Arg28,
     Arg29)>
-{};
+{
+    public:
+};
 
 template<
     typename ReturnType,
@@ -10885,6 +12373,37 @@ public:
         Arg27,
         Arg28,
         Arg29);
+    typedef std::function<ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18,
+        Arg19,
+        Arg20,
+        Arg21,
+        Arg22,
+        Arg23,
+        Arg24,
+        Arg25,
+        Arg26,
+        Arg27,
+        Arg28,
+        Arg29)>stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -11077,6 +12596,38 @@ public:
         Arg27,
         Arg28,
         Arg29);
+    typedef std::function<ReturnType(
+        ClassType *,
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18,
+        Arg19,
+        Arg20,
+        Arg21,
+        Arg22,
+        Arg23,
+        Arg24,
+        Arg25,
+        Arg26,
+        Arg27,
+        Arg28,
+        Arg29)>stl_function_type;
     typedef ReturnType(std_function_type)(
         ClassType *,
         Arg0,
@@ -11275,6 +12826,38 @@ public:
         Arg28,
         Arg29,
         Arg30);
+    typedef std::function<ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18,
+        Arg19,
+        Arg20,
+        Arg21,
+        Arg22,
+        Arg23,
+        Arg24,
+        Arg25,
+        Arg26,
+        Arg27,
+        Arg28,
+        Arg29,
+        Arg30)>stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -11375,8 +12958,7 @@ class FunctionType<std::function<ReturnType(
     Arg27,
     Arg28,
     Arg29,
-    Arg30)>>: public FunctionType<
-    ReturnType(
+    Arg30)>>: public FunctionType<ReturnType(
     Arg0,
     Arg1,
     Arg2,
@@ -11408,7 +12990,9 @@ class FunctionType<std::function<ReturnType(
     Arg28,
     Arg29,
     Arg30)>
-{};
+{
+    public:
+};
 
 template<
     typename ReturnType,
@@ -11572,6 +13156,38 @@ public:
         Arg28,
         Arg29,
         Arg30);
+    typedef std::function<ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18,
+        Arg19,
+        Arg20,
+        Arg21,
+        Arg22,
+        Arg23,
+        Arg24,
+        Arg25,
+        Arg26,
+        Arg27,
+        Arg28,
+        Arg29,
+        Arg30)>stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -11770,6 +13386,39 @@ public:
         Arg28,
         Arg29,
         Arg30);
+    typedef std::function<ReturnType(
+        ClassType *,
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18,
+        Arg19,
+        Arg20,
+        Arg21,
+        Arg22,
+        Arg23,
+        Arg24,
+        Arg25,
+        Arg26,
+        Arg27,
+        Arg28,
+        Arg29,
+        Arg30)>stl_function_type;
     typedef ReturnType(std_function_type)(
         ClassType *,
         Arg0,
@@ -11974,6 +13623,39 @@ public:
         Arg29,
         Arg30,
         Arg31);
+    typedef std::function<ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18,
+        Arg19,
+        Arg20,
+        Arg21,
+        Arg22,
+        Arg23,
+        Arg24,
+        Arg25,
+        Arg26,
+        Arg27,
+        Arg28,
+        Arg29,
+        Arg30,
+        Arg31)>stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -12077,8 +13759,7 @@ class FunctionType<std::function<ReturnType(
     Arg28,
     Arg29,
     Arg30,
-    Arg31)>>: public FunctionType<
-    ReturnType(
+    Arg31)>>: public FunctionType<ReturnType(
     Arg0,
     Arg1,
     Arg2,
@@ -12111,7 +13792,9 @@ class FunctionType<std::function<ReturnType(
     Arg29,
     Arg30,
     Arg31)>
-{};
+{
+    public:
+};
 
 template<
     typename ReturnType,
@@ -12280,6 +13963,39 @@ public:
         Arg29,
         Arg30,
         Arg31);
+    typedef std::function<ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18,
+        Arg19,
+        Arg20,
+        Arg21,
+        Arg22,
+        Arg23,
+        Arg24,
+        Arg25,
+        Arg26,
+        Arg27,
+        Arg28,
+        Arg29,
+        Arg30,
+        Arg31)>stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -12484,6 +14200,40 @@ public:
         Arg29,
         Arg30,
         Arg31);
+    typedef std::function<ReturnType(
+        ClassType *,
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18,
+        Arg19,
+        Arg20,
+        Arg21,
+        Arg22,
+        Arg23,
+        Arg24,
+        Arg25,
+        Arg26,
+        Arg27,
+        Arg28,
+        Arg29,
+        Arg30,
+        Arg31)>stl_function_type;
     typedef ReturnType(std_function_type)(
         ClassType *,
         Arg0,
@@ -12694,6 +14444,40 @@ public:
         Arg30,
         Arg31,
         Arg32);
+    typedef std::function<ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18,
+        Arg19,
+        Arg20,
+        Arg21,
+        Arg22,
+        Arg23,
+        Arg24,
+        Arg25,
+        Arg26,
+        Arg27,
+        Arg28,
+        Arg29,
+        Arg30,
+        Arg31,
+        Arg32)>stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -12800,8 +14584,7 @@ class FunctionType<std::function<ReturnType(
     Arg29,
     Arg30,
     Arg31,
-    Arg32)>>: public FunctionType<
-    ReturnType(
+    Arg32)>>: public FunctionType<ReturnType(
     Arg0,
     Arg1,
     Arg2,
@@ -12835,7 +14618,9 @@ class FunctionType<std::function<ReturnType(
     Arg30,
     Arg31,
     Arg32)>
-{};
+{
+    public:
+};
 
 template<
     typename ReturnType,
@@ -13009,6 +14794,40 @@ public:
         Arg30,
         Arg31,
         Arg32);
+    typedef std::function<ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18,
+        Arg19,
+        Arg20,
+        Arg21,
+        Arg22,
+        Arg23,
+        Arg24,
+        Arg25,
+        Arg26,
+        Arg27,
+        Arg28,
+        Arg29,
+        Arg30,
+        Arg31,
+        Arg32)>stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -13219,6 +15038,41 @@ public:
         Arg30,
         Arg31,
         Arg32);
+    typedef std::function<ReturnType(
+        ClassType *,
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18,
+        Arg19,
+        Arg20,
+        Arg21,
+        Arg22,
+        Arg23,
+        Arg24,
+        Arg25,
+        Arg26,
+        Arg27,
+        Arg28,
+        Arg29,
+        Arg30,
+        Arg31,
+        Arg32)>stl_function_type;
     typedef ReturnType(std_function_type)(
         ClassType *,
         Arg0,
@@ -13435,6 +15289,41 @@ public:
         Arg31,
         Arg32,
         Arg33);
+    typedef std::function<ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18,
+        Arg19,
+        Arg20,
+        Arg21,
+        Arg22,
+        Arg23,
+        Arg24,
+        Arg25,
+        Arg26,
+        Arg27,
+        Arg28,
+        Arg29,
+        Arg30,
+        Arg31,
+        Arg32,
+        Arg33)>stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -13544,8 +15433,7 @@ class FunctionType<std::function<ReturnType(
     Arg30,
     Arg31,
     Arg32,
-    Arg33)>>: public FunctionType<
-    ReturnType(
+    Arg33)>>: public FunctionType<ReturnType(
     Arg0,
     Arg1,
     Arg2,
@@ -13580,7 +15468,9 @@ class FunctionType<std::function<ReturnType(
     Arg31,
     Arg32,
     Arg33)>
-{};
+{
+    public:
+};
 
 template<
     typename ReturnType,
@@ -13759,6 +15649,41 @@ public:
         Arg31,
         Arg32,
         Arg33);
+    typedef std::function<ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18,
+        Arg19,
+        Arg20,
+        Arg21,
+        Arg22,
+        Arg23,
+        Arg24,
+        Arg25,
+        Arg26,
+        Arg27,
+        Arg28,
+        Arg29,
+        Arg30,
+        Arg31,
+        Arg32,
+        Arg33)>stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -13975,6 +15900,42 @@ public:
         Arg31,
         Arg32,
         Arg33);
+    typedef std::function<ReturnType(
+        ClassType *,
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18,
+        Arg19,
+        Arg20,
+        Arg21,
+        Arg22,
+        Arg23,
+        Arg24,
+        Arg25,
+        Arg26,
+        Arg27,
+        Arg28,
+        Arg29,
+        Arg30,
+        Arg31,
+        Arg32,
+        Arg33)>stl_function_type;
     typedef ReturnType(std_function_type)(
         ClassType *,
         Arg0,
@@ -14197,6 +16158,42 @@ public:
         Arg32,
         Arg33,
         Arg34);
+    typedef std::function<ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18,
+        Arg19,
+        Arg20,
+        Arg21,
+        Arg22,
+        Arg23,
+        Arg24,
+        Arg25,
+        Arg26,
+        Arg27,
+        Arg28,
+        Arg29,
+        Arg30,
+        Arg31,
+        Arg32,
+        Arg33,
+        Arg34)>stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -14309,8 +16306,7 @@ class FunctionType<std::function<ReturnType(
     Arg31,
     Arg32,
     Arg33,
-    Arg34)>>: public FunctionType<
-    ReturnType(
+    Arg34)>>: public FunctionType<ReturnType(
     Arg0,
     Arg1,
     Arg2,
@@ -14346,7 +16342,9 @@ class FunctionType<std::function<ReturnType(
     Arg32,
     Arg33,
     Arg34)>
-{};
+{
+    public:
+};
 
 template<
     typename ReturnType,
@@ -14530,6 +16528,42 @@ public:
         Arg32,
         Arg33,
         Arg34);
+    typedef std::function<ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18,
+        Arg19,
+        Arg20,
+        Arg21,
+        Arg22,
+        Arg23,
+        Arg24,
+        Arg25,
+        Arg26,
+        Arg27,
+        Arg28,
+        Arg29,
+        Arg30,
+        Arg31,
+        Arg32,
+        Arg33,
+        Arg34)>stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -14752,6 +16786,43 @@ public:
         Arg32,
         Arg33,
         Arg34);
+    typedef std::function<ReturnType(
+        ClassType *,
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18,
+        Arg19,
+        Arg20,
+        Arg21,
+        Arg22,
+        Arg23,
+        Arg24,
+        Arg25,
+        Arg26,
+        Arg27,
+        Arg28,
+        Arg29,
+        Arg30,
+        Arg31,
+        Arg32,
+        Arg33,
+        Arg34)>stl_function_type;
     typedef ReturnType(std_function_type)(
         ClassType *,
         Arg0,
@@ -14980,6 +17051,43 @@ public:
         Arg33,
         Arg34,
         Arg35);
+    typedef std::function<ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18,
+        Arg19,
+        Arg20,
+        Arg21,
+        Arg22,
+        Arg23,
+        Arg24,
+        Arg25,
+        Arg26,
+        Arg27,
+        Arg28,
+        Arg29,
+        Arg30,
+        Arg31,
+        Arg32,
+        Arg33,
+        Arg34,
+        Arg35)>stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -15095,8 +17203,7 @@ class FunctionType<std::function<ReturnType(
     Arg32,
     Arg33,
     Arg34,
-    Arg35)>>: public FunctionType<
-    ReturnType(
+    Arg35)>>: public FunctionType<ReturnType(
     Arg0,
     Arg1,
     Arg2,
@@ -15133,7 +17240,9 @@ class FunctionType<std::function<ReturnType(
     Arg33,
     Arg34,
     Arg35)>
-{};
+{
+    public:
+};
 
 template<
     typename ReturnType,
@@ -15322,6 +17431,43 @@ public:
         Arg33,
         Arg34,
         Arg35);
+    typedef std::function<ReturnType(
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18,
+        Arg19,
+        Arg20,
+        Arg21,
+        Arg22,
+        Arg23,
+        Arg24,
+        Arg25,
+        Arg26,
+        Arg27,
+        Arg28,
+        Arg29,
+        Arg30,
+        Arg31,
+        Arg32,
+        Arg33,
+        Arg34,
+        Arg35)>stl_function_type;
     typedef ReturnType(std_function_type)(
         Arg0,
         Arg1,
@@ -15550,6 +17696,44 @@ public:
         Arg33,
         Arg34,
         Arg35);
+    typedef std::function<ReturnType(
+        ClassType *,
+        Arg0,
+        Arg1,
+        Arg2,
+        Arg3,
+        Arg4,
+        Arg5,
+        Arg6,
+        Arg7,
+        Arg8,
+        Arg9,
+        Arg10,
+        Arg11,
+        Arg12,
+        Arg13,
+        Arg14,
+        Arg15,
+        Arg16,
+        Arg17,
+        Arg18,
+        Arg19,
+        Arg20,
+        Arg21,
+        Arg22,
+        Arg23,
+        Arg24,
+        Arg25,
+        Arg26,
+        Arg27,
+        Arg28,
+        Arg29,
+        Arg30,
+        Arg31,
+        Arg32,
+        Arg33,
+        Arg34,
+        Arg35)>stl_function_type;
     typedef ReturnType(std_function_type)(
         ClassType *,
         Arg0,
@@ -15591,6 +17775,7 @@ public:
     typedef ClassType class_type;
     enum { arg_size=36 };
 };
+
 
 }
 
