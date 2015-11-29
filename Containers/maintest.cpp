@@ -1,4 +1,4 @@
-#include "TemplateString.hpp"
+﻿#include "TemplateString.hpp"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -40,21 +40,21 @@ namespace cct{
         typedef std::shared_ptr< std::${list}<T> > Super;
     public:
 
-        template<typename ... Ta>
-        ${List}(Ta && ... args):Super(new std::${list}<T>( std::forward<Ta>(args) ... ) ) {}
         ${List}( decltype(nullptr) ) {}
         ${List}() :Super(new std::${list}<T> ){}
         ${List}(const ${List} &)=default;
         ${List}(${List} &&)=default;
         ${List}(Super && o):Super( std::move(o) ) {}
         ${List}(const Super & o):Super( o ) {}
-        
+        ${List}(const std::${list}<T> & o):Super( new std::${list}<T>( o ) ) {}
+        ${List}(std::${list}<T> && o):Super( new std::${list}<T>( std::move(o) ) ) {}
+
         ${List}&operator=(const ${List}&)=default;
         ${List}&operator=(${List}&&)=default;
 
         ${List} copy() const { return ${List}( *(*this) ); }
         ${List} unique_copy() const { if (this->use_count()<2) { return *this; }return copy(); }
-        
+
     };
 
 }
@@ -78,19 +78,19 @@ namespace cct{
     private:
         typedef std::shared_ptr< std::${list}<T,U> > Super;
     public:
-    
-        template<typename ... Ta>
-        ${List}(Ta && ... args):Super(new std::${list}<T,U>( std::forward<Ta>(args) ... ) ) {}
+
         ${List}( decltype(nullptr) ) {}
         ${List}() :Super(new std::${list}<T,U> ){}
         ${List}(const ${List} &)=default;
         ${List}(${List} &&)=default;
         ${List}(Super && o):Super( std::move(o) ) {}
         ${List}(const Super & o):Super( o ) {}
+        ${List}(const std::${list}<T,U> & o):Super( new std::${list}<T,U>( o ) ) {}
+        ${List}(std::${list}<T,U> && o):Super( new std::${list}<T,U>( std::move(o) ) ) {}
 
         ${List}&operator=(const ${List}&)=default;
         ${List}&operator=(${List}&&)=default;
-        
+
         ${List} copy() const { return ${List}( *(*this) ); }
         ${List} unique_copy() const { if (this->use_count()<2) { return *this; }return copy(); }
 
@@ -102,7 +102,7 @@ namespace cct{
 
 )";
 
-std::string code2=u8R"(           
+std::string code2=u8R"(
 namespace spt{
 
     class ${List} : public std::shared_ptr< class ${list} > {
@@ -110,21 +110,21 @@ namespace spt{
         typedef std::shared_ptr< class ${list} > Super;
     public:
 
-        template<typename ... Ta>
-        ${List}(Ta && ... args):Super(new class ${list}( std::forward<Ta>(args) ... ) ) {}
         ${List}( decltype(nullptr) ) {}
         ${List}() :Super( new class ${list} ){}
         ${List}(const ${List} &)=default;
         ${List}(${List} &&)=default;
         ${List}(Super && o):Super( std::move(o) ) {}
         ${List}(const Super & o):Super( o ) {}
+        ${List}(const std::${list}<T> & o):Super( new std::${list}<T>( o ) ) {}
+        ${List}(std::${list}<T> && o):Super( new std::${list}<T>( std::move(o) ) ) {}
 
         ${List}&operator=(const ${List}&)=default;
         ${List}&operator=(${List}&&)=default;
-        
+
         ${List} copy() const { return ${List}( *(*this) ); }
         ${List} unique_copy() const { if (this->use_count()<2) { return *this; }return copy(); }
-        
+
     };
 
 }
@@ -141,7 +141,7 @@ std::string toUpper(const std::string & source_ ){
 }
 
 #include "Containers.hpp"
- 
+
 
 
 int main( int argc,char ** argv ) {
@@ -187,7 +187,7 @@ int main( int argc,char ** argv ) {
         }
     }
 
-    //test 
+    //test
     /*cct::Deque<int> deque;
     cct::Forward_list<int> forward_list;
     cct::List<int>  list;
@@ -202,6 +202,6 @@ int main( int argc,char ** argv ) {
     cct::Unordered_multimap<int, int> unordered_multimap;
     cct::Unordered_multiset<int> unordered_set;
     cct::Vector<int> vector;*/
-    
+
 }
 
