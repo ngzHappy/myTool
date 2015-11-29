@@ -12,6 +12,8 @@ public:
 
     SharedFromSuper( ) {}
     SharedFromSuper( decltype(nullptr) ) {}
+    SharedFromSuper(const SharedFromSuper &) = default;
+    SharedFromSuper(SharedFromSuper &&) = default;
     SharedFromSuper( std::weak_ptr<T> && u ):super( std::move(u) ) {}
     SharedFromSuper( const std::weak_ptr<T> & u ):super( u ) {}
 
