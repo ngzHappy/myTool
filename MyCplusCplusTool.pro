@@ -8,7 +8,8 @@ SUBDIRS += StringToolTest \
     ObjectDelete \
     CheckArgs \
     SharedFromSuper \
-    FunctionType
+    FunctionType \
+    UniqueSharedPointer
 SUBDIRS += TempOptional
 SUBDIRS += GetLine
 SUBDIRS += CPPSETGET
