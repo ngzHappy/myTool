@@ -39,6 +39,23 @@ public:
 };
 
 template<
+    typename ReturnType,
+    typename ClassType
+>
+class FunctionType< ReturnType(ClassType::*)() const > {
+public:
+    typedef ReturnType return_type;
+    typedef void _0;
+    typedef void _r0;
+    typedef ReturnType(ClassType::* function_type)() const;
+    typedef std::function<ReturnType(const ClassType *)> stl_function_type;
+    typedef ReturnType(std_function_type)(const ClassType *);
+    typedef ClassType class_type;
+    enum { arg_size=1 };
+};
+
+
+template<
     typename ReturnType
 >
 class FunctionType< ReturnType(*)( ) > {
@@ -223,6 +240,7 @@ std::string get_class_function(int n ) {
     ss<<endl_<<"} ;"<<space_<<endl_<<space_<<endl_;
     return ss.str();
 }
+
 // <int(*)(int,int)>
 std::string get_pointer_function(int n ) {
     std::stringstream ss;
@@ -302,6 +320,60 @@ std::string get_std_function( int n) {
     return ss.str();
 }
 
+// <int(Class::*)(int,int)> const
+std::string get_const_class_function(int n ) {
+    std::stringstream ss;
+    ss<<get_class_function_template(n);
+    ss<<"class FunctionType< ReturnType(ClassType:: *)(" << endl_;
+    std::string args_types_;
+    {
+        std::stringstream ss1;
+        ss1<<space_<<space_<<"Arg0";
+        for (int i=1; i <n; ++i) {
+            ss1<<","<<space_<<endl_<<space_<<space_;
+            ss1<<"Arg"<<num_str_[i];
+        }
+        args_types_ = ss1.str();
+        ss << args_types_;
+    }
+    ss<<" ) const > {"<<
+        endl_ <<"public:"<<space_<< endl_<<space_;
+
+    ss<<"typedef ReturnType return_type ;"<<space_<<endl_<<space_;
+    ss<<"typedef Arg0 _0 ;"<<space_<<endl_<<space_;
+    for (int i=1; i<(n ); ++i) {
+        ss<<"typedef Arg"<<num_str_[i]<<" _"<<num_str_[i]<<" ; "<<space_<<endl_<<space_;
+    }
+    //rdefine
+    for (int i=n-1; i>=0;--i) {
+        ss<<"typedef Arg"<<num_str_[i]<<" _r"<<num_str_[ n-1-i ]<<" ; "<<space_<<endl_<<space_;
+    }
+
+
+    ss<<"typedef ReturnType(ClassType::* function_type)("<<space_<<endl_
+        <<args_types_
+        <<") const ;"<<space_<<endl_ ;
+
+    ss<< space_<<"typedef std::function< ReturnType("<<endl_;
+    ss<< space_ <<"const ClassType * ,"<<endl_;
+    ss << args_types_;
+    ss<<" )  > stl_function_type ; ";
+    ss <<endl_;
+
+    ss<< space_ <<"typedef ReturnType(std_function_type)("
+        <<space_<<endl_
+        <<space_<<space_<<"const ClassType *,"<<space_<<endl_
+        <<args_types_
+        <<");"<<space_<<endl_;
+
+    ss<<space_<<"typedef ClassType class_type ;"<<space_<<endl_;
+    ss<<space_;
+    ss<<"enum { arg_size = "<<num_str_[n]<<" } ;" ;
+
+    ss<<endl_<<"} ;"<<space_<<endl_<<space_<<endl_;
+    return ss.str();
+}
+
 int main() {
     std::ofstream ofs("FunctoinType.hpp");
 
@@ -328,6 +400,7 @@ int main() {
         ofs<<get_std_function(i);
         ofs<<get_pointer_function(i);
         ofs<<get_class_function(i);
+        ofs<<get_const_class_function(i);
     }
 
     ofs<<endl_;
@@ -339,5 +412,5 @@ int main() {
 #include "FunctoinType.hpp"
 void test(){
     cct::func<int(int, double)> foo=[](int, double) ->int{return 0; };
-     
+
 }
