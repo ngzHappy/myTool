@@ -25,4 +25,5 @@ HEADERS += \
     Unordered_set.hpp \
     Vector.hpp \
     Function.hpp \
-    String.hpp
+    String.hpp \
+    TypeMemory.hpp

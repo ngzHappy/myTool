@@ -116,8 +116,8 @@ namespace spt{
         ${List}(${List} &&)=default;
         ${List}(Super && o):Super( std::move(o) ) {}
         ${List}(const Super & o):Super( o ) {}
-        ${List}(const std::${list}<T> & o):Super( new std::${list}<T>( o ) ) {}
-        ${List}(std::${list}<T> && o):Super( new std::${list}<T>( std::move(o) ) ) {}
+        ${List}(const class ${list} & o):Super( new class ${list}( o ) ) {}
+        ${List}(class ${list} && o):Super( new class ${list}( std::move(o) ) ) {}
 
         ${List}&operator=(const ${List}&)=default;
         ${List}&operator=(${List}&&)=default;
