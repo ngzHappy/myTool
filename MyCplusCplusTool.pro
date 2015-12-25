@@ -9,7 +9,8 @@ SUBDIRS += StringToolTest \
     CheckArgs \
     SharedFromSuper \
     FunctionType \
-    UniqueSharedPointer
+    UniqueSharedPointer \
+    FTypeTest
 SUBDIRS += TempOptional
 SUBDIRS += GetLine
 SUBDIRS += CPPSETGET
