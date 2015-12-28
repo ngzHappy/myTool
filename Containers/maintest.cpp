@@ -143,8 +143,10 @@ std::string toUpper(const std::string & source_ ){
 #include "Containers.hpp"
 
 
-
+extern int Xmain();
 int main( int argc,char ** argv ) {
+
+    Xmain();
 
     if (argc > 1) {
         std::string namespace_="::";
