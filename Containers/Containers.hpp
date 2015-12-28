@@ -1,4 +1,4 @@
-
+﻿
 #if !defined( CONTAINERS__HPP__CCT )
 #define CONTAINERS__HPP__CCT
 
@@ -18,5 +18,12 @@
 #include "Unordered_multiset.hpp"
 #include "Unordered_set.hpp"
 #include "Vector.hpp"
+
+/*
+ * Q_DECLARE_SEQUENTIAL_CONTAINER_METATYPE
+ * Q_DECLARE_ASSOCIATIVE_CONTAINER_METATYPE
+ * QAssociativeIterable
+ * QSequentialIterable
+*/
 
 #endif

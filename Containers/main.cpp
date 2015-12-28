@@ -44,6 +44,27 @@ int Xmain()
         }
     }
 
+    {
+        cct::Map<int,double> v;
+        for( const auto & i:v ){
+            std::cout << i.first <<std::endl;
+        }
+    }
+
+    {
+        cct::Unordered_set<int> v;
+        for( const auto & i:v ){
+            std::cout << i<<std::endl;
+        }
+    }
+
+    {
+        cct::Unordered_map<int,double> v;
+        for( const auto & i:v ){
+            std::cout << i.first <<std::endl;
+        }
+    }
+
     cout << "Hello World!" << endl;
     return 0;
 }

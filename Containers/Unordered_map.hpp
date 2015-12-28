@@ -1,4 +1,4 @@
-
+﻿
 #if !defined(UNORDERED_MAP__HPP__CCT)
 #define UNORDERED_MAP__HPP__CCT
 
@@ -27,7 +27,19 @@ namespace cct{
 
         Unordered_map copy() const { return Unordered_map( *(*this) ); }
         Unordered_map unique_copy() const { if (this->use_count()<2) { return *this; }return copy(); }
-
+    private:
+        typedef std::unordered_map<T,U> AssociativeContainer;
+        AssociativeContainer * data_() { return this->get(); }
+        const AssociativeContainer * data_()const { return this->get(); }
+    public:
+        typedef typename AssociativeContainer::key_type key_type;
+        typedef typename AssociativeContainer::mapped_type mapped_type;
+        typedef typename AssociativeContainer::const_iterator const_iterator;
+        auto begin()const { return data_()->begin(); }
+        auto end()const { return data_()->end(); }
+        auto begin() { return data_()->begin(); }
+        auto end() { return data_()->end(); }
+        auto find(const key_type & v) const { return data_()->find(v); }
     };
 
 }

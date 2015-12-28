@@ -1,4 +1,4 @@
-
+﻿
 #if !defined(UNORDERED_SET__HPP__CCT)
 #define UNORDERED_SET__HPP__CCT
 
@@ -27,7 +27,17 @@ namespace cct{
 
         Unordered_set copy() const { return Unordered_set( *(*this) ); }
         Unordered_set unique_copy() const { if (this->use_count()<2) { return *this; }return copy(); }
-
+    private:
+        typedef std::unordered_set<T> Container;
+        Container * data_() { return this->get(); }
+        const Container * data_()const { return this->get(); }
+    public:
+        typedef typename Container::value_type value_type;
+        typedef typename Container::const_iterator const_iterator;
+        auto begin()const { return data_()->begin(); }
+        auto end() const { return data_()->end(); }
+        auto begin() { return data_()->begin(); }
+        auto end() { return data_()->end(); }
     };
 
 }
