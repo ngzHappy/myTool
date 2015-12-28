@@ -1,4 +1,4 @@
-#if !defined(_cct_FTYPE__HPP__FUNCTION_TYPE_)
+﻿#if !defined(_cct_FTYPE__HPP__FUNCTION_TYPE_)
 #define _cct_FTYPE__HPP__FUNCTION_TYPE_
 
 #include <memory>
@@ -15,7 +15,7 @@ template<
     typename ... Args,
     ReturnType(*Function)(Args...)
 >
-class FType< ReturnType(*)(Args...),Function > 
+class FType< ReturnType(*)(Args...),Function >
     :public std::integral_constant<bool,false> {
 public:
     typedef ReturnType(*FunctionType)(Args ...);
@@ -30,7 +30,7 @@ template<
     typename ... Args,
     ReturnType(ClassType::* Function)(Args...)
 >
-class FType< ReturnType(ClassType::*)(Args...),Function > 
+class FType< ReturnType(ClassType::*)(Args...),Function >
     :public std::integral_constant<bool,true> {
 public:
     typedef ReturnType(ClassType::*FunctionType)(Args ...);
@@ -47,7 +47,7 @@ template<
     typename ... Args,
     ReturnType(ClassType::* Function)(Args...) &
 >
-class FType< ReturnType(ClassType::*)(Args...) &,Function > 
+class FType< ReturnType(ClassType::*)(Args...) &,Function >
     :public std::integral_constant<bool,true> {
 public:
     typedef ReturnType(ClassType::*FunctionType)(Args ...) &;
@@ -64,7 +64,7 @@ template<
     typename ... Args,
     ReturnType(ClassType::* Function)(Args...)&&
 >
-class FType< ReturnType(ClassType::*)(Args...)&&,Function > 
+class FType< ReturnType(ClassType::*)(Args...)&&,Function >
     :public std::integral_constant<bool,true> {
 public:
     typedef ReturnType(ClassType::*FunctionType)(Args ...)&&;
@@ -81,7 +81,7 @@ template<
     typename ... Args,
     ReturnType(ClassType::* Function)(Args...) const
 >
-class FType< ReturnType(ClassType::*)(Args...) const,Function > 
+class FType< ReturnType(ClassType::*)(Args...) const,Function >
     :public std::integral_constant<bool,true> {
 public:
     typedef ReturnType(ClassType::*FunctionType)(Args ...) const;
@@ -98,7 +98,7 @@ template<
     typename ... Args,
     ReturnType(ClassType::* Function)(Args...) const &
 >
-class FType< ReturnType(ClassType::*)(Args...) const &,Function > 
+class FType< ReturnType(ClassType::*)(Args...) const &,Function >
     :public std::integral_constant<bool,true> {
 public:
     typedef ReturnType(ClassType::*FunctionType)(Args ...) const &;
@@ -115,7 +115,7 @@ template<
     typename ... Args,
     ReturnType(ClassType::* Function)(Args...) const &&
 >
-class FType< ReturnType(ClassType::*)(Args...) const &&,Function > 
+class FType< ReturnType(ClassType::*)(Args...) const &&,Function >
     :public std::integral_constant<bool,true> {
 public:
     typedef ReturnType(ClassType::*FunctionType)(Args ...) const &&;
@@ -132,7 +132,7 @@ template<
     typename ... Args,
     ReturnType(ClassType::* Function)(Args...) const volatile
 >
-class FType< ReturnType(ClassType::*)(Args...) const volatile,Function > 
+class FType< ReturnType(ClassType::*)(Args...) const volatile,Function >
     :public std::integral_constant<bool,true> {
 public:
     typedef ReturnType(ClassType::*FunctionType)(Args ...) const volatile;
@@ -149,7 +149,7 @@ template<
     typename ... Args,
     ReturnType(ClassType::* Function)(Args...) const volatile &
 >
-class FType< ReturnType(ClassType::*)(Args...) const volatile &,Function > 
+class FType< ReturnType(ClassType::*)(Args...) const volatile &,Function >
     :public std::integral_constant<bool,true> {
 public:
     typedef ReturnType(ClassType::*FunctionType)(Args ...) const volatile &;
@@ -166,7 +166,7 @@ template<
     typename ... Args,
     ReturnType(ClassType::* Function)(Args...) const volatile &&
 >
-class FType< ReturnType(ClassType::*)(Args...) const volatile &&,Function > 
+class FType< ReturnType(ClassType::*)(Args...) const volatile &&,Function >
     :public std::integral_constant<bool,true> {
 public:
     typedef ReturnType(ClassType::*FunctionType)(Args ...) const volatile &&;
@@ -183,7 +183,7 @@ template<
     typename ... Args,
     ReturnType(ClassType::* Function)(Args...) volatile
 >
-class FType< ReturnType(ClassType::*)(Args...) volatile,Function > 
+class FType< ReturnType(ClassType::*)(Args...) volatile,Function >
     :public std::integral_constant<bool,true> {
 public:
     typedef ReturnType(ClassType::*FunctionType)(Args ...) volatile;
@@ -200,7 +200,7 @@ template<
     typename ... Args,
     ReturnType(ClassType::* Function)(Args...) volatile &
 >
-class FType< ReturnType(ClassType::*)(Args...) volatile &,Function > 
+class FType< ReturnType(ClassType::*)(Args...) volatile &,Function >
     :public std::integral_constant<bool,true> {
 public:
     typedef ReturnType(ClassType::*FunctionType)(Args ...) volatile &;
@@ -217,7 +217,7 @@ template<
     typename ... Args,
     ReturnType(ClassType::* Function)(Args...) volatile &&
 >
-class FType< ReturnType(ClassType::*)(Args...) volatile &&,Function > 
+class FType< ReturnType(ClassType::*)(Args...) volatile &&,Function >
     :public std::integral_constant<bool,true> {
 public:
     typedef ReturnType(ClassType::*FunctionType)(Args ...) volatile &&;
@@ -229,6 +229,14 @@ public:
 };
 
 }/*~cct*/
+
+namespace cct{
+template<typename T,T F,const char * (*Name)() >
+class FTypeName : public FType<T,F> {
+public:
+    static const char * functionName(){ return Name(); }
+};
+}
 
 #if !defined( FTYPE )
 #define FTYPE( _x_ ) ::cct::FType< decltype(_x_),_x_ >

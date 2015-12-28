@@ -1,4 +1,4 @@
-#include "FType.hpp"
+﻿#include "FType.hpp"
 
 using namespace cct;
 void foo() {}
@@ -65,8 +65,12 @@ using foo=FTYPE(&Type::foo);
 }/*~abc*/
 }
 
+const char * joo(){return "joo";}
+typedef cct::FTypeName< decltype(&joo),&joo,&joo > jootest;
+
 int main() {
 
+    jootest::functionName();
     C c;
 
     C::Foo::call(c,12);
@@ -98,12 +102,12 @@ int main() {
     FType<void(D::*)(int) volatile ,&D::foo>::call(&d,2);FType<void(D::*)(int) volatile ,&D::foo>::call(d,2);
     FType<void(D::*)(int) volatile const,&D::foo>::call(&d,2);
     D::Goo::call(d);
-    
+
     using namespace FunctionName::D;
     goo::call(d);
     using namespace FunctionName::abc::efg::E;
     Type e;
     foo::call(e);
-   
+
 }
 
