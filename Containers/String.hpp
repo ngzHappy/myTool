@@ -1,16 +1,16 @@
-#if !defined(STRING__HPP__CPP)
+﻿#if !defined(STRING__HPP__CPP)
 #define STRING__HPP__CPP
 
 #include <string>
 #include <memory>
 
 namespace cct{
-    
+
     class string : public std::shared_ptr< std::string > {
     private:
         typedef std::shared_ptr< std::string > Super;
     public:
-                
+
         string( decltype(nullptr) ) {}
         string() :Super( new std::string ){}
         string(const string &)=default;
@@ -25,7 +25,17 @@ namespace cct{
 
         string copy() const { return string( *(*this) ); }
         string unique_copy() const { if (this->use_count()<2) { return *this; }return copy(); }
-
+    private:
+        typedef std::string Container;
+        Container * data_() { return this->get(); }
+        const Container * data_()const { return this->get(); }
+    public:
+        typedef typename Container::value_type value_type;
+        typedef typename Container::const_iterator const_iterator;
+        auto begin()const { return data_()->begin(); }
+        auto end() const { return data_()->end(); }
+        auto begin() { return data_()->begin(); }
+        auto end() { return data_()->end(); }
     };
 
     class wstring : public std::shared_ptr< std::wstring > {
@@ -47,7 +57,17 @@ namespace cct{
 
         wstring copy() const { return wstring( *(*this) ); }
         wstring unique_copy() const { if (this->use_count()<2) { return *this; }return copy(); }
-
+    private:
+        typedef std::wstring Container;
+        Container * data_() { return this->get(); }
+        const Container * data_()const { return this->get(); }
+    public:
+        typedef typename Container::value_type value_type;
+        typedef typename Container::const_iterator const_iterator;
+        auto begin()const { return data_()->begin(); }
+        auto end() const { return data_()->end(); }
+        auto begin() { return data_()->begin(); }
+        auto end() { return data_()->end(); }
     };
 
     class u16string : public std::shared_ptr< std::u16string > {
@@ -69,7 +89,17 @@ namespace cct{
 
         u16string copy() const { return u16string( *(*this) ); }
         u16string unique_copy() const { if (this->use_count()<2) { return *this; }return copy(); }
-
+    private:
+        typedef std::u16string Container;
+        Container * data_() { return this->get(); }
+        const Container * data_()const { return this->get(); }
+    public:
+        typedef typename Container::value_type value_type;
+        typedef typename Container::const_iterator const_iterator;
+        auto begin()const { return data_()->begin(); }
+        auto end() const { return data_()->end(); }
+        auto begin() { return data_()->begin(); }
+        auto end() { return data_()->end(); }
     };
 
     class u32string : public std::shared_ptr< std::u32string > {
@@ -91,7 +121,17 @@ namespace cct{
 
         u32string copy() const { return u32string( *(*this) ); }
         u32string unique_copy() const { if (this->use_count()<2) { return *this; }return copy(); }
-
+    private:
+        typedef std::u32string Container;
+        Container * data_() { return this->get(); }
+        const Container * data_()const { return this->get(); }
+    public:
+        typedef typename Container::value_type value_type;
+        typedef typename Container::const_iterator const_iterator;
+        auto begin()const { return data_()->begin(); }
+        auto end() const { return data_()->end(); }
+        auto begin() { return data_()->begin(); }
+        auto end() { return data_()->end(); }
     };
 
     typedef string String;
