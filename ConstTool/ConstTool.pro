@@ -1,7 +1,6 @@
-
-
-QT       += core gui
- QT += widgets
+CONFIG += c++14
+QT  += core gui
+QT  += widgets
 
 TARGET = ConstTool
 TEMPLATE = app
