@@ -3,6 +3,11 @@
 #include <type_traits>
 #include <iostream>
 
+class E {
+public:
+    void foo(){}
+};
+
 namespace spr {
 class SomeClass;
 }
@@ -24,6 +29,7 @@ public:
     SomeClass();
     SomeClass(int,double ,int) {}
     SomeClass(int) {}
+    SomeClass(E) {}
     void foo()const {
         std::cout<<"123"<<std::endl;
     }
@@ -50,10 +56,10 @@ public:
     template<typename _U>SomeClass(const shared_ptr<_U>& x,element_type* p) :__Super(x,p){}
     template<typename A0,typename A1, typename ... Args>
     SomeClass(A0 && a0,A1 && a1, Args && ... args ):__Super(new element_type(std::forward<A0>(a0),std::forward<A1>(a1), std::forward<Args>(args)... ),&element_type::deleteThis){}
-    template<typename A0,typename _EXPLICIT=decltype( new element_type( std::declval<A0>() ) )>
-    SomeClass( A0 && a0 ):__Super(new element_type( std::move(a0) ),&element_type::deleteThis ) {}
-    template<typename A0,typename _EXPLICIT=decltype( new element_type( *(reinterpret_cast<const A0 *>(0)) ) )>
-    SomeClass(const A0 & a0 ):__Super(new element_type( a0 ),&element_type::deleteThis ) {}
+    template<typename A0,typename _EXPLICIT=decltype( new element_type( std::declval<A0>() ) ) ,typename _EMORE=void>
+    SomeClass(A0 && a0 ):__Super(new element_type( std::move(a0) ),&element_type::deleteThis ) {}
+    template<typename A0,typename _EXPLICIT=decltype( new element_type( *(reinterpret_cast<std::remove_reference_t<A0> *>(0)) ) )>
+    SomeClass(A0 & a0 ):__Super(new element_type( a0 ),&element_type::deleteThis ) {}
 
     ~SomeClass()=default;
     SomeClass(const SomeClass&)=default;
@@ -156,6 +162,11 @@ int main() {
         int m=44;
         xx=spr::SomeClass(m);
         xx=spr::SomeClass(m,m,m);
+        E e;
+        xx=spr::SomeClass(e);
+        const E ce;
+        xx=spr::SomeClass(ce);
+        e.foo();
     }
 
     spr::SomeClass s1( new SomeClass );
