@@ -16,6 +16,7 @@ public:
     using _Super::_Super;
     Vector()=default;
     Vector(const Vector &)=default;
+    Vector(Vector &&)=default;
     Vector(const _Super &v):_Super(v) {}
     Vector(_Super &&v):_Super(std::move(v)) {}
     Vector&operator=(Vector &&)=default;
@@ -51,12 +52,8 @@ public:
 
     auto begin() { return _get()->begin(); }
     auto end() { return _get()->end(); }
-    auto cbegin() { return _get()->cbegin(); }
-    auto cend() { return _get()->cend(); }
     auto rbegin() { return _get()->rbegin(); }
     auto rend() { return _get()->rend(); }
-    auto crbegin() { return _get()->crbegin(); }
-    auto crend() { return _get()->crend(); }
 
     Vector():__Super(new element_type,&element_type::deleteThis) {}
     Vector(decltype(nullptr)) {}
@@ -123,12 +120,17 @@ public:
 
     auto begin() { return get()->begin(); }
     auto end() { return get()->end(); }
-    auto cbegin() { return get()->cbegin(); }
-    auto cend() { return get()->cend(); }
     auto rbegin() { return get()->rbegin(); }
     auto rend() { return get()->rend(); }
-    auto crbegin() { return get()->crbegin(); }
-    auto crend() { return get()->crend(); }
+
+    auto begin()const { return get()->begin(); }
+    auto end()const { return get()->end(); }
+    auto cbegin()const { return get()->cbegin(); }
+    auto cend()const { return get()->cend(); }
+    auto rbegin()const { return get()->rbegin(); }
+    auto rend()const { return get()->rend(); }
+    auto crbegin()const { return get()->crbegin(); }
+    auto crend()const { return get()->crend(); }
 
     auto operator[](size_type n)->decltype(this->get()->operator[](n)) {
         return this->get()->operator[](n);

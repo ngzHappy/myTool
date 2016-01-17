@@ -5,4 +5,8 @@ CONFIG -= qt
 
 SOURCES += main.cpp \
     VectorTest.cpp \
-    ListTest.cpp
+    ListTest.cpp \
+    DequeTest.cpp \
+    Forward_list.cpp \
+    MAPTest.cpp \
+    FunctionTest.cpp

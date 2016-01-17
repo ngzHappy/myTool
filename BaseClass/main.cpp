@@ -37,7 +37,25 @@ public:
     static void deleteThis(SomeClass * v) { delete v; }
 };
 
+#include <list>
+
 namespace spr {
+
+namespace base {
+template<typename T>
+class SomeClass:public std::list<T> {
+    typedef std::list<T> _Super;
+public:
+    using _Super::_Super;
+    SomeClass()=default;
+    SomeClass(const SomeClass &)=default;
+    SomeClass(const _Super &v):_Super(v) {}
+    SomeClass(_Super &&v):_Super(std::move(v)) {}
+    SomeClass&operator=(SomeClass &&)=default;
+    SomeClass&operator=(const SomeClass &)=default;
+    static void deleteThis(SomeClass * v) { delete v; }
+};
+}
 
 class SomeClass :
     public std::shared_ptr< ::SomeClass >{
@@ -61,6 +79,8 @@ public:
     SomeClass(A0 && a0 ):__Super(new element_type( std::move(a0) ),&element_type::deleteThis ) {}
     template<typename A0,typename _EXPLICIT=decltype( new element_type( *(reinterpret_cast<std::remove_reference_t<A0> *>(0)) ) )>
     SomeClass(A0 & a0 ):__Super(new element_type( a0 ),&element_type::deleteThis ) {}
+    template<typename _U>
+    SomeClass(const std::initializer_list<_U> & v):__Super(new element_type(v),&element_type::deleteThis) {}
 
     ~SomeClass()=default;
     SomeClass(const SomeClass&)=default;

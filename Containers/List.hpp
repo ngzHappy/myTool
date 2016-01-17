@@ -16,6 +16,7 @@ public:
     using _Super::_Super;
     List()=default;
     List(const List &)=default;
+    List(List &&)=default;
     List(const _Super &v):_Super(v) {}
     List(_Super &&v):_Super(std::move(v)) {}
     List&operator=(List &&)=default;
@@ -50,12 +51,8 @@ public:
 
     auto begin() { return _get()->begin(); }
     auto end() { return _get()->end(); }
-    auto cbegin() { return _get()->cbegin(); }
-    auto cend() { return _get()->cend(); }
     auto rbegin() { return _get()->rbegin(); }
     auto rend() { return _get()->rend(); }
-    auto crbegin() { return _get()->crbegin(); }
-    auto crend() { return _get()->crend(); }
 
     List():__Super(new element_type,&element_type::deleteThis){}
     List(decltype(nullptr)) {}
@@ -114,12 +111,17 @@ public:
 
     auto begin() { return get()->begin(); }
     auto end() { return get()->end(); }
-    auto cbegin() { return get()->cbegin(); }
-    auto cend() { return get()->cend(); }
     auto rbegin() { return get()->rbegin(); }
     auto rend() { return get()->rend(); }
-    auto crbegin() { return get()->crbegin(); }
-    auto crend() { return get()->crend(); }
+
+    auto begin()const { return get()->begin(); }
+    auto end()const { return get()->end(); }
+    auto cbegin()const { return get()->cbegin(); }
+    auto cend()const { return get()->cend(); }
+    auto rbegin()const { return get()->rbegin(); }
+    auto rend()const { return get()->rend(); }
+    auto crbegin()const { return get()->crbegin(); }
+    auto crend()const { return get()->crend(); }
 
 };
 
