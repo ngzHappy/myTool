@@ -23,6 +23,7 @@ protected:
 public:
     SomeClass();
     SomeClass(int,double ,int) {}
+    SomeClass(int) {}
     void foo()const {
         std::cout<<"123"<<std::endl;
     }
@@ -39,7 +40,7 @@ private:
 public:
     SomeClass():__Super(new element_type,&element_type::deleteThis){}
     SomeClass(decltype(nullptr)) {}
-    template<typename _U> SomeClass(_U*value):__Super(static_cast<element_type *>(value) ,&element_type::deleteThis) {}
+    template<typename _U> SomeClass(_U* const & value):__Super(static_cast<element_type * const &>(value) ,&element_type::deleteThis) {}
     SomeClass(const __Super & s):__Super(s) {}
     template<typename _U>SomeClass(const std::shared_ptr<_U> &u):__Super(u) {}
     template<typename _U>SomeClass(const std::weak_ptr<_U> &u):__Super(u) {}
@@ -49,6 +50,11 @@ public:
     template<typename _U>SomeClass(const shared_ptr<_U>& x,element_type* p) :__Super(x,p){}
     template<typename A0,typename A1, typename ... Args>
     SomeClass(A0 && a0,A1 && a1, Args && ... args ):__Super(new element_type(std::forward<A0>(a0),std::forward<A1>(a1), std::forward<Args>(args)... ),&element_type::deleteThis){}
+    template<typename A0,typename _EXPLICIT=decltype( new element_type( std::declval<A0>() ) )>
+    SomeClass( A0 && a0 ):__Super(new element_type( std::move(a0) ),&element_type::deleteThis ) {}
+    template<typename A0,typename _EXPLICIT=decltype( new element_type( *(reinterpret_cast<const A0 *>(0)) ) )>
+    SomeClass(const A0 & a0 ):__Super(new element_type( a0 ),&element_type::deleteThis ) {}
+
     ~SomeClass()=default;
     SomeClass(const SomeClass&)=default;
     SomeClass(SomeClass&&)=default;
@@ -146,6 +152,10 @@ int main() {
         auto c1=_c1.get();
         c1->foo();
         spr::SomeClass xx=_c1;
+        xx=spr::SomeClass(22);
+        int m=44;
+        xx=spr::SomeClass(m);
+        xx=spr::SomeClass(m,m,m);
     }
 
     spr::SomeClass s1( new SomeClass );
