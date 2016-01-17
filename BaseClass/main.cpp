@@ -46,7 +46,8 @@ private:
 public:
     SomeClass():__Super(new element_type,&element_type::deleteThis){}
     SomeClass(decltype(nullptr)) {}
-    template<typename _U> SomeClass(_U* const & value):__Super(static_cast<element_type * const &>(value) ,&element_type::deleteThis) {}
+    template<typename _U,typename _EXPLICIT= decltype( static_cast<element_type *>( reinterpret_cast< std::remove_reference_t<_U> *>(0) ) ) >
+    SomeClass(_U* value):__Super(static_cast<element_type * >(value) ,&element_type::deleteThis) {}
     SomeClass(const __Super & s):__Super(s) {}
     template<typename _U>SomeClass(const std::shared_ptr<_U> &u):__Super(u) {}
     template<typename _U>SomeClass(const std::weak_ptr<_U> &u):__Super(u) {}
@@ -167,6 +168,9 @@ int main() {
         const E ce;
         xx=spr::SomeClass(ce);
         e.foo();
+        SomeClass * ss=0;
+        SomeClass * const & sy=ss;
+        xx=spr::SomeClass(sy);
     }
 
     spr::SomeClass s1( new SomeClass );
