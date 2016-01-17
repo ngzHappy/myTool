@@ -94,7 +94,7 @@ public:
         return SomeClass::operator->();
     }
     element_type * operator->() {
-        if (*this) {if (this->unique()==false) {*this = SomeClass( new element_type( *(*this) ) );}}
+        {if (this->unique()==false) {*this = SomeClass( new element_type( *(*this) ) );}}
         return SomeClass::operator->();
     }
     std::add_const_t<element_type> * get()const { return this->operator->(); }
@@ -144,7 +144,10 @@ public:
 
 }
 
+
 int main() {
+
+
 
     spr::SomeClass sss(1,2,3) ;
     sss->foo();
