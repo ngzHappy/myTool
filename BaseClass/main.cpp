@@ -54,7 +54,7 @@ public:
     SomeClass(__Super && s):__Super(std::move(s)) {}
     template<typename _U>SomeClass(std::shared_ptr<_U> &&u):__Super(std::move(u)) {}
     template<typename _U>SomeClass(std::unique_ptr<_U> &&u):__Super(std::move(u)) {}
-    template<typename _U>SomeClass(const shared_ptr<_U>& x,element_type* p) :__Super(x,p){}
+    template<typename _U>SomeClass(const std::shared_ptr<_U>& x,element_type* p) :__Super(x,p){}
     template<typename A0,typename A1, typename ... Args>
     SomeClass(A0 && a0,A1 && a1, Args && ... args ):__Super(new element_type(std::forward<A0>(a0),std::forward<A1>(a1), std::forward<Args>(args)... ),&element_type::deleteThis){}
     template<typename A0,typename _EXPLICIT=decltype( new element_type( std::declval<A0>() ) ) ,typename _EMORE=void>
@@ -94,7 +94,7 @@ public:
         return SomeClass::operator->();
     }
     element_type * operator->() {
-        {if (this->unique()==false) {*this = SomeClass( new element_type( *(*this) ) );}}
+        if(*this){if (this->unique()==false) {*this = SomeClass( new element_type( *(*this) ) );}}
         return SomeClass::operator->();
     }
     std::add_const_t<element_type> * get()const { return this->operator->(); }
