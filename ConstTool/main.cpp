@@ -8,6 +8,8 @@ template<typename _const_T> static inline auto & _no_const(_const_T & value) {re
 //auto _as_const=[](const auto & value)->auto & {return static_cast<std::add_const_t< std::remove_reference_t< decltype(value) > > &>(value);  };
 //auto _no_const=[](auto & value)->auto & { return const_cast<std::remove_const_t< std::remove_reference_t< decltype(value) > > &>(value); };
 
+#include <scoped_allocator>
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);

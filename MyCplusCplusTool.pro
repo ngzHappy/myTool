@@ -11,7 +11,8 @@ SUBDIRS += StringToolTest \
     FunctionType \
     UniqueSharedPointer \
     FTypeTest \
-    ConstTool
+    ConstTool \
+    BaseClass
 SUBDIRS += TempOptional
 SUBDIRS += GetLine
 SUBDIRS += CPPSETGET

@@ -142,7 +142,7 @@ std::string toUpper(const std::string & source_ ){
 
 #include "Containers.hpp"
 
-
+using namespace cct ;
 int main( int argc,char ** argv ) {
 
     if (argc > 1) {
