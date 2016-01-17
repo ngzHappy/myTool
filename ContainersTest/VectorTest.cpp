@@ -31,7 +31,6 @@ void vector_test(){
         }
 
 
-
     }
 
 }
