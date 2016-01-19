@@ -81,10 +81,8 @@ public:
 
 }/*spr*/
 
-template<typename _T>
-using Function=spr::Function< std::function<_T> >;
-template<typename _T>
-using ConstFunction=spr::Function<const std::function<_T> >;
+template<typename _T>using Function=spr::Function< std::function<_T> >;
+template<typename _T>using ConstFunction=spr::Function<const std::function<_T> >;
 
 }/*cct*/
 
