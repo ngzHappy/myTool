@@ -4,8 +4,9 @@
 #include <queue>
 #include <memory>
 #include <type_traits>
+#include <vector>
 
-namespace cct{
+namespace cct {
 namespace spr {
 template< typename _base_some_class_ >
 class Queue :
@@ -67,13 +68,15 @@ public:
     template<typename _U>Queue(Queue<_U>&v):__Super(v) {}
     Queue&operator=(const Queue&)=default;
     Queue&operator=(Queue&&)=default;
+
+    typedef typename element_type::size_type size_type;
+    size_type size()const { return _this_const_get().size(); }
+    size_type length()const { return size(); }
 };
 }/*spr*/
 
-template<typename __T>
-using Queue=spr::Queue< std::queue<__T> >;
-template<typename __T>
-using ConstQueue=spr::Queue<const std::queue<__T> >;
+template<typename __T,typename __C=std::vector<__T>>using Queue=spr::Queue< std::queue<__T,__C> >;
+template<typename __T,typename __C=std::vector<__T>>using ConstQueue=spr::Queue<const std::queue<__T,__C> >;
 
 }/*cct*/
 

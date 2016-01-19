@@ -10,9 +10,13 @@ extern void maptest();
 extern void function_test();
 extern void setTest();
 extern void multimuaptest();
+extern void PriorityQueueTest();
+extern void queuetest();
 
 int main()
 {
+    queuetest();
+    PriorityQueueTest();
     function_test();
     vector_test();
     listTest();

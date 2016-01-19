@@ -12,4 +12,6 @@ SOURCES += main.cpp \
     FunctionTest.cpp \
     SetTest.cpp \
     MultimapTest.cpp \
-    multisetTest.cpp
+    multisetTest.cpp \
+    PriorityQueue.cpp \
+    quequetest.cpp
