@@ -7,6 +7,6 @@ void multimuaptest(){
 
     map.rbegin();
     map.rend();
-
+    map.size();
 }
 

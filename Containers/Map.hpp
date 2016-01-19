@@ -93,6 +93,8 @@ public:
 
     Map(const std::initializer_list<value_type> & v):__Super(new element_type(v),_this_delete_this_()) {}
 
+    decltype(auto) operator[](const key_type & n) const { return _this_const_get()[n]; }
+    decltype(auto) operator[](const key_type & n) { return _this_get()[n]; }
 };
 
 }

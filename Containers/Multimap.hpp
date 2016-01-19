@@ -91,15 +91,13 @@ public:
     auto rend() { return _this_get().rend(); }
 
     Multimap(const std::initializer_list<value_type> & v):__Super(new element_type(v),_this_delete_this_()) {}
-
+  
 };
 
 }/*spr*/
 
-template<typename __K,typename __V>
-using Multimap=spr::Multimap< std::multimap<__K,__V> >;
-template<typename __K,typename __V>
-using ConstMultimap=spr::Multimap<const std::multimap<__K,__V> >;
+template<typename __K,typename __V,typename __C=std::less<__K>>using Multimap=spr::Multimap< std::multimap<__K,__V,__C> >;
+template<typename __K,typename __V,typename __C=std::less<__K>>using ConstMultimap=spr::Multimap<const std::multimap<__K,__V,__C> >;
 
 }/*cct*/
 

@@ -14,4 +14,6 @@ void maptest(){
 
    auto y2=y1.clone();
    y2.size();
+
+   y2[1]=1;
 }
