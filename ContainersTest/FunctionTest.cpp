@@ -2,7 +2,11 @@
 
 void function_test(){
 
-  cct::Function<void(void)> fun =std::function<void()>([](){}) ;
-  fun();
+  cct::Function<void(void)> fun =[](){} ;
+  
+  if (fun) {
+      fun();
+  }
+
 
 }

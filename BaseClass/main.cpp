@@ -1,7 +1,7 @@
 ﻿#include <memory>
 #include <functional>
 #include <type_traits>
-
+#include <string>
 int foo(int) { return 0; }
 
 template<typename _X1>
@@ -61,6 +61,8 @@ public:
     SomeClass( std::remove_const_t<element_type> && v ):__Super(new element_type( std::move(v) ),_this_delete_this_()) {}
     SomeClass( std::remove_const_t<element_type> & v ):__Super(new element_type(v),_this_delete_this_()) {}
     SomeClass< std::remove_const_t<_base_some_class_> > clone()const { return SomeClass< std::remove_const_t<_base_some_class_> >(*(*this)); }
+    
+    std::weak_ptr<_base_some_class_> toWeakPointer() const { return *this; }
 
     ~SomeClass()=default;
     SomeClass(const SomeClass&)=default;
@@ -207,6 +209,8 @@ public:
     String( std::remove_const_t<element_type> && v ):__Super(new element_type( std::move(v) ),_this_delete_this_()) {}
     String( std::remove_const_t<element_type> & v ):__Super(new element_type(v),_this_delete_this_()) {}
 
+    std::weak_ptr<_base_some_class_> toWeakPointer() const { return *this; }
+
     String< std::remove_const_t<_base_some_class_> > clone()const { return String< std::remove_const_t<_base_some_class_> >(*(*this)); }
 
     ~String()=default;
@@ -214,7 +218,6 @@ public:
     String(String&&)=default;
     template<typename _U>String(String<_U>&&v):__Super( std::move(v) ) {}
     template<typename _U>String(const String<_U>&v):__Super( v ) {}
-    template<typename _U>String(const String<_U>&&v):__Super( std::move(v) ) {}
     template<typename _U>String(String<_U>&v):__Super( v ) {}
     String&operator=(const String&)=default;
     String&operator=(String&&)=default;
@@ -245,8 +248,14 @@ int main() {
     if (func) {}
 
 
-    String s{ "aaaaaaaaa" };
+    const String s{ "aaaaaaaaa" };
     std::string sss{"sfsfssssssss"};
+
+    String sb{ std::move(s) };
+    sb=sb.clone();
+
+    auto ws=s.toWeakPointer();
+    std::cout<< *(ws.lock())<<std::endl;
 
 }
 

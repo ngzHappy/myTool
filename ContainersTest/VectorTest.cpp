@@ -3,35 +3,19 @@
 
 void vector_test(){
 
-    {
-        cct::Vector<int> v;
-    }
-
+    std::cout<<"vector"<<std::endl;
     {
         cct::Vector<int> v{1,2,3,4,5};
-        for (const auto i:v) {
-            std::cout<<i<<std::endl;
+        for (int i:v) {
+            std::cout<<i<<",";
         }
-        std::cout<<v.size()<<std::endl;
+       std::cout<< std::endl;
     }
 
-    {
-        cct::Vector<int> v(2,0);
-        for (const auto i:v) {
-            std::cout<<i<<std::endl;
-        }
-        std::cout<<v.size()<<std::endl;
-    
-        v[0]=1111;
-
-        auto wv=v.copy();
-        wv[1]=222;
-        for (const auto i:wv) {
-            std::cout<<i<<std::endl;
-        }
-
-
-    }
+    cct::Vector<int> v(12,3);
+    auto v1 = v.clone();
+    std::cout<<v1.size()<<","<<v1.use_count()<<std::endl;
+    v1=v;
 
 }
 

@@ -4,7 +4,7 @@ void deque_test(){
 
     cct::Deque<int> v{1,2,3};
 
-    auto cv = v.copy();
+    auto cv = v.clone();
     cv.cbegin();
     cv.cend();
 

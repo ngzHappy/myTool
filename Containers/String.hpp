@@ -6,138 +6,101 @@
 
 namespace cct{
 
-    class string : public std::shared_ptr< std::string > {
-    private:
-        typedef std::shared_ptr< std::string > Super;
-    public:
+namespace spr {
+template< typename _base_some_class_ >
+class String :
+    public std::shared_ptr< _base_some_class_ > {
+private:
+    typedef std::shared_ptr< _base_some_class_ > __Super;
+    typedef std::shared_ptr< std::add_const_t<_base_some_class_> > _const_Super;
+    typedef typename __Super::element_type __element_type;
+    static auto _this_delete_this_() { return [](__element_type * v) {delete v; }; }
+    __element_type & _this_get() { return *(this->get()); }
+    std::add_const_t<__element_type> & _this_const_get() const { return *(this->get()); }
+public:
+    typedef __element_type element_type;
+    String():__Super(new element_type,_this_delete_this_()) {}
+    String(decltype(nullptr)) {}
 
-        string( decltype(nullptr) ) {}
-        string() :Super( new std::string ){}
-        string(const string &)=default;
-        string(string &&)=default;
-        string(Super && o):Super( std::move(o) ) {}
-        string(const Super & o):Super( o ) {}
-        string(const std::string & o):Super( new std::string(o) ) {}
-        string(std::string && o):Super( new std::string( std::move(o) ) ) {}
+    template<typename _U,typename _EXPLICIT=decltype(static_cast<element_type *>(reinterpret_cast<std::remove_reference_t<_U> *>(0))) >
+    String(_U* value):__Super(static_cast<element_type *>(value),_this_delete_this_()) {}
 
-        string&operator=(const string&)=default;
-        string&operator=(string&&)=default;
+    String(const __Super & s):__Super(s) {}
+    String(__Super && s):__Super(std::move(s)) {}
+    String(__Super & s):__Super(s) {}
 
-        string copy() const { return string( *(*this) ); }
-        string unique_copy() const { if (this->use_count()<2) { return *this; }return copy(); }
-    private:
-        typedef std::string Container;
-        Container * data_() { return this->get(); }
-        const Container * data_()const { return this->get(); }
-    public:
-        typedef typename Container::value_type value_type;
-        typedef typename Container::const_iterator const_iterator;
-        auto begin()const { return data_()->begin(); }
-        auto end() const { return data_()->end(); }
-        auto begin() { return data_()->begin(); }
-        auto end() { return data_()->end(); }
-    };
+    template<typename _U>String(const std::shared_ptr<_U> &u):__Super(u) {}
+    template<typename _U>String(std::shared_ptr<_U> &u):__Super(u) {}
+    template<typename _U>String(std::shared_ptr<_U> &&u):__Super(std::move(u)) {}
 
-    class wstring : public std::shared_ptr< std::wstring > {
-    private:
-        typedef std::shared_ptr< std::wstring > Super;
-    public:
+    template<typename _U>String(const std::weak_ptr<_U> &u):__Super(u) {}
+    template<typename _U>String(std::weak_ptr<_U> &u):__Super(u) {}
+    template<typename _U>String(std::weak_ptr<_U> &&u):__Super(std::move(u)) {}
 
-        wstring( decltype(nullptr) ) {}
-        wstring() :Super( new std::wstring ){}
-        wstring(const wstring &)=default;
-        wstring(wstring &&)=default;
-        wstring(Super && o):Super( std::move(o) ) {}
-        wstring(const Super & o):Super( o ) {}
-        wstring(const std::wstring & o):Super( new std::wstring(o) ) {}
-        wstring(std::wstring && o):Super( new std::wstring( std::move(o) ) ) {}
+    template<typename _U>String(std::unique_ptr<_U> &&u):__Super(std::move(u)) {}
+    template<typename _U>String(std::unique_ptr<_U> &u)=delete;
+    template<typename _U>String(const std::unique_ptr<_U> &u)=delete;
 
-        wstring&operator=(const wstring&)=default;
-        wstring&operator=(wstring&&)=default;
+    template<typename _U>String(const std::shared_ptr<_U>& x,element_type* p):__Super(x,p) {}
 
-        wstring copy() const { return wstring( *(*this) ); }
-        wstring unique_copy() const { if (this->use_count()<2) { return *this; }return copy(); }
-    private:
-        typedef std::wstring Container;
-        Container * data_() { return this->get(); }
-        const Container * data_()const { return this->get(); }
-    public:
-        typedef typename Container::value_type value_type;
-        typedef typename Container::const_iterator const_iterator;
-        auto begin()const { return data_()->begin(); }
-        auto end() const { return data_()->end(); }
-        auto begin() { return data_()->begin(); }
-        auto end() { return data_()->end(); }
-    };
+    template<typename A0,typename A1,typename ... Args>
+    String(A0 && a0,A1 && a1,Args && ... args):__Super(new element_type(std::forward<A0>(a0),std::forward<A1>(a1),std::forward<Args>(args)...),_this_delete_this_()) {}
+    template<typename A0,typename _EXPLICIT=std::enable_if_t< !(std::is_constructible<__Super,A0 &&>::value) >,typename _EMORE=void>
+    String(A0 && a0):__Super(new element_type(std::forward<A0>(a0)),_this_delete_this_()) {}
 
-    class u16string : public std::shared_ptr< std::u16string > {
-    private:
-        typedef std::shared_ptr< std::u16string > Super;
-    public:
+    template<typename _U,typename _EXPLICIT=std::enable_if_t< (std::is_constructible<element_type,const std::initializer_list<_U> & >::value) > >
+    String(const std::initializer_list<_U> & v):__Super(new element_type(v),_this_delete_this_()) {}
+    String< std::add_const_t<_base_some_class_> > toConst()const { return static_cast<const _const_Super &>(*this); }
 
-        u16string( decltype(nullptr) ) {}
-        u16string() :Super( new std::u16string ){}
-        u16string(const u16string &)=default;
-        u16string(u16string &&)=default;
-        u16string(Super && o):Super( std::move(o) ) {}
-        u16string(const Super & o):Super( o ) {}
-        u16string(const std::u16string & o):Super( new std::u16string(o) ) {}
-        u16string(std::u16string && o):Super( new std::u16string( std::move(o) ) ) {}
+    String(const std::remove_const_t<element_type> & v):__Super(new element_type(v),_this_delete_this_()) {}
+    String(std::remove_const_t<element_type> && v):__Super(new element_type(std::move(v)),_this_delete_this_()) {}
+    String(std::remove_const_t<element_type> & v):__Super(new element_type(v),_this_delete_this_()) {}
+    String< std::remove_const_t<_base_some_class_> > clone()const { return String< std::remove_const_t<_base_some_class_> >(*(*this)); }
 
-        u16string&operator=(const  u16string&)=default;
-        u16string&operator=( u16string&&)=default;
+    std::weak_ptr<_base_some_class_> toWeakPointer() const { return *this; }
 
-        u16string copy() const { return u16string( *(*this) ); }
-        u16string unique_copy() const { if (this->use_count()<2) { return *this; }return copy(); }
-    private:
-        typedef std::u16string Container;
-        Container * data_() { return this->get(); }
-        const Container * data_()const { return this->get(); }
-    public:
-        typedef typename Container::value_type value_type;
-        typedef typename Container::const_iterator const_iterator;
-        auto begin()const { return data_()->begin(); }
-        auto end() const { return data_()->end(); }
-        auto begin() { return data_()->begin(); }
-        auto end() { return data_()->end(); }
-    };
+    ~String()=default;
+    String(const String&)=default;
+    String(String&&)=default;
 
-    class u32string : public std::shared_ptr< std::u32string > {
-    private:
-        typedef std::shared_ptr< std::u32string > Super;
-    public:
+    template<typename _U>String(String<_U>&&v):__Super(std::move(v)) {}
+    template<typename _U>String(const String<_U>&v):__Super(v) {}
+    template<typename _U>String(String<_U>&v):__Super(v) {}
+    String&operator=(const String&)=default;
+    String&operator=(String&&)=default;
 
-        u32string( decltype(nullptr) ) {}
-        u32string() :Super( new std::u32string ){}
-        u32string(const u32string &)=default;
-        u32string(u32string &&)=default;
-        u32string(Super && o):Super( std::move(o) ) {}
-        u32string(const Super & o):Super( o ) {}
-        u32string(const std::u32string & o):Super( new std::u32string(o) ) {}
-        u32string(std::u32string && o):Super( new std::u32string( std::move(o) ) ) {}
+    typedef typename element_type::value_type value_type;
+    typedef typename element_type::const_iterator const_iterator;
+    typedef typename element_type::size_type size_type;
 
-        u32string&operator=(const  u32string&)=default;
-        u32string&operator=( u32string&&)=default;
+    size_type size() const { return _this_const_get().size(); }
+    size_type length()const { return size(); }
+    auto begin()const { return _this_const_get().begin(); }
+    auto end() const { return _this_const_get().end(); }
+    auto cbegin()const { return _this_const_get().cbegin(); }
+    auto cend() const { return _this_const_get().cend(); }
+    auto rbegin()const { return _this_const_get().rbegin(); }
+    auto rend() const { return _this_const_get().rend(); }
+    auto crbegin()const { return _this_const_get().crbegin(); }
+    auto crend() const { return _this_const_get().crend(); }
 
-        u32string copy() const { return u32string( *(*this) ); }
-        u32string unique_copy() const { if (this->use_count()<2) { return *this; }return copy(); }
-    private:
-        typedef std::u32string Container;
-        Container * data_() { return this->get(); }
-        const Container * data_()const { return this->get(); }
-    public:
-        typedef typename Container::value_type value_type;
-        typedef typename Container::const_iterator const_iterator;
-        auto begin()const { return data_()->begin(); }
-        auto end() const { return data_()->end(); }
-        auto begin() { return data_()->begin(); }
-        auto end() { return data_()->end(); }
-    };
+    auto begin() { return _this_get().begin(); }
+    auto end() { return _this_get().end(); }
+    auto rbegin() { return _this_get().rbegin(); }
+    auto rend() { return _this_get().rend(); }
+};
 
-    typedef string String;
-    typedef wstring WString;
-    typedef u32string U32String;
-    typedef u16string U16String;
+}
+
+using String = spr::String< std::string >;
+using ConstString = spr::String<const std::string >;   
+using U16String = spr::String< std::u16string >;
+using ConstU16String = spr::String<const std::u16string >; 
+using U32String = spr::String< std::u32string >;
+using ConstU32String = spr::String<const std::u32string >; 
+using WString = spr::String< std::wstring >;
+using ConstWString = spr::String<const std::wstring >; 
+
 }
 
 #endif // !

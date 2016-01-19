@@ -8,137 +8,99 @@
 
 namespace cct {
 
-namespace base {
-template<typename T>
-class Vector :public std::vector<T> {
-    typedef std::vector<T> _Super;
-public:
-    using _Super::_Super;
-    Vector()=default;
-    Vector(const Vector &)=default;
-    Vector(Vector &&)=default;
-    Vector(const _Super &v):_Super(v) {}
-    Vector(_Super &&v):_Super(std::move(v)) {}
-    Vector&operator=(Vector &&)=default;
-    Vector&operator=(const Vector &)=default;
-    static void deleteThis(Vector * v) { delete v; }
-};
-}
+namespace spr {
 
-template<typename __T>
+template< typename _base_some_class_ >
 class Vector :
-    public std::shared_ptr< cct::base::Vector<__T> > {
+    public std::shared_ptr< _base_some_class_ >{
 private:
-    typedef std::shared_ptr< cct::base::Vector<__T> > __Super;
-    typedef typename __Super::element_type element_type;
-    const element_type * _get_const()const { return this->get(); }
-    element_type * _get() { return this->get(); }
-
+    typedef std::shared_ptr< _base_some_class_ > __Super;
+    typedef std::shared_ptr< std::add_const_t<_base_some_class_> > _const_Super;
+    typedef typename __Super::element_type __element_type;
+    static auto _this_delete_this_() { return [](__element_type * v) {delete v; }; }
+    __element_type & _this_get() { return *(this->get()); }
+    std::add_const_t<__element_type> & _this_const_get() const { return *(this->get()); }
 public:
-    typedef typename element_type::value_type value_type;
-    typedef typename element_type::const_iterator const_iterator;
-    typedef typename element_type::size_type size_type;
-    size_type size() const { return _get_const()->size(); }
-    size_type length()const { return size(); }
-
-    auto begin()const { return _get_const()->begin(); }
-    auto end() const { return _get_const()->end(); }
-    auto cbegin()const { return _get_const()->cbegin(); }
-    auto cend() const { return _get_const()->cend(); }
-    auto rbegin()const { return _get_const()->rbegin(); }
-    auto rend() const { return _get_const()->rend(); }
-    auto crbegin()const { return _get_const()->crbegin(); }
-    auto crend() const { return _get_const()->crend(); }
-
-    auto begin() { return _get()->begin(); }
-    auto end() { return _get()->end(); }
-    auto rbegin() { return _get()->rbegin(); }
-    auto rend() { return _get()->rend(); }
-
-    Vector():__Super(new element_type,&element_type::deleteThis) {}
+    typedef __element_type element_type;
+    Vector():__Super(new element_type,_this_delete_this_()){}
     Vector(decltype(nullptr)) {}
-    template<typename _U,typename _EXPLICIT=decltype(static_cast<element_type *>(reinterpret_cast<std::remove_reference_t<_U> *>(0))) >
-    Vector(_U* value):__Super(static_cast<element_type *>(value),&element_type::deleteThis) {}
+
+    template<typename _U,typename _EXPLICIT= decltype( static_cast<element_type *>( reinterpret_cast< std::remove_reference_t<_U> *>(0) ) ) >
+    Vector(_U* value):__Super(static_cast<element_type * >(value) ,_this_delete_this_()) {}
+
     Vector(const __Super & s):__Super(s) {}
-    template<typename _U>Vector(const std::shared_ptr<_U> &u):__Super(u) {}
-    template<typename _U>Vector(const std::weak_ptr<_U> &u):__Super(u) {}
     Vector(__Super && s):__Super(std::move(s)) {}
+    Vector(__Super & s):__Super(s) {}
+
+    template<typename _U>Vector(const std::shared_ptr<_U> &u):__Super(u) {}
+    template<typename _U>Vector(std::shared_ptr<_U> &u):__Super(u) {}
     template<typename _U>Vector(std::shared_ptr<_U> &&u):__Super(std::move(u)) {}
+
+    template<typename _U>Vector(const std::weak_ptr<_U> &u):__Super(u) {}
+    template<typename _U>Vector(std::weak_ptr<_U> &u):__Super(u) {}
+    template<typename _U>Vector(std::weak_ptr<_U> &&u):__Super(std::move(u)) {}
+
     template<typename _U>Vector(std::unique_ptr<_U> &&u):__Super(std::move(u)) {}
-    template<typename _U>Vector(const std::shared_ptr<_U>& x,element_type* p):__Super(x,p) {}
-    template<typename A0,typename A1,typename ... Args>
-    Vector(A0 && a0,A1 && a1,Args && ... args):__Super(new element_type(std::forward<A0>(a0),std::forward<A1>(a1),std::forward<Args>(args)...),&element_type::deleteThis) {}
-    template<typename A0,typename _EXPLICIT=decltype(new element_type(std::declval<A0>())),typename _EMORE=void>
-    Vector(A0 && a0):__Super(new element_type(std::move(a0)),&element_type::deleteThis) {}
-    template<typename A0,typename _EXPLICIT=decltype(new element_type(*(reinterpret_cast<std::remove_reference_t<A0> *>(0))))>
-    Vector(A0 & a0):__Super(new element_type(a0),&element_type::deleteThis) {}
-    template<typename _U>
-    Vector(const std::initializer_list<_U> & v):__Super(new element_type(v),&element_type::deleteThis) {}
+    template<typename _U>Vector(std::unique_ptr<_U> &u)=delete;
+    template<typename _U>Vector(const std::unique_ptr<_U> &u)=delete;
+
+    template<typename _U>Vector(const std::shared_ptr<_U>& x,element_type* p) :__Super(x,p){}
+
+    template<typename A0,typename A1, typename ... Args>
+    Vector(A0 && a0,A1 && a1, Args && ... args ):__Super(new element_type(std::forward<A0>(a0),std::forward<A1>(a1), std::forward<Args>(args)... ),_this_delete_this_()){}
+    template<typename A0,typename _EXPLICIT=std::enable_if_t< !(std::is_constructible<__Super,A0 &&>::value) > ,typename _EMORE=void>
+    Vector(A0 && a0 ):__Super(new element_type( std::forward<A0>(a0) ),_this_delete_this_() ) {}
+
+    template<typename _U,typename _EXPLICIT= std::enable_if_t< (std::is_constructible<element_type,const std::initializer_list<_U> & >::value) > >
+    Vector(const std::initializer_list<_U> & v):__Super(new element_type(v),_this_delete_this_()) {}
+    Vector< std::add_const_t<_base_some_class_> > toConst()const { return static_cast<const _const_Super &>(*this); }
+
+    Vector( const std::remove_const_t<element_type> & v ):__Super(new element_type(v),_this_delete_this_()) {}
+    Vector( std::remove_const_t<element_type> && v ):__Super(new element_type( std::move(v) ),_this_delete_this_()) {}
+    Vector( std::remove_const_t<element_type> & v ):__Super(new element_type(v),_this_delete_this_()) {}
+    Vector< std::remove_const_t<_base_some_class_> > clone()const { return Vector< std::remove_const_t<_base_some_class_> >(*(*this)); }
+
+    std::weak_ptr<_base_some_class_> toWeakPointer() const { return *this; }
 
     ~Vector()=default;
     Vector(const Vector&)=default;
     Vector(Vector&&)=default;
+    template<typename _U>Vector(Vector<_U>&&v):__Super( std::move(v) ) {}
+    template<typename _U>Vector(const Vector<_U>&v):__Super( v ) {}
+    template<typename _U>Vector(Vector<_U>&v):__Super( v ) {}
     Vector&operator=(const Vector&)=default;
     Vector&operator=(Vector&&)=default;
 
-    class WriteCopy;
-    const WriteCopy & copy() const { return reinterpret_cast<WriteCopy &>(const_cast<Vector &>(*this)); }
+    typedef typename element_type::value_type value_type;
+    typedef typename element_type::const_iterator const_iterator;
+    typedef typename element_type::size_type size_type;
 
-    auto operator[](size_type n)->decltype(this->_get()->operator[](n)) {
-        return this->_get()->operator[](n);
-    }
+    size_type size() const { return _this_const_get().size(); }
+    size_type length()const { return size(); }
+    auto begin()const { return _this_const_get().begin(); }
+    auto end() const { return _this_const_get().end(); }
+    auto cbegin()const { return _this_const_get().cbegin(); }
+    auto cend() const { return _this_const_get().cend(); }
+    auto rbegin()const { return _this_const_get().rbegin(); }
+    auto rend() const { return _this_const_get().rend(); }
+    auto crbegin()const { return _this_const_get().crbegin(); }
+    auto crend() const { return _this_const_get().crend(); }
 
-    auto operator[](size_type n)const ->decltype(this->_get_const()->operator[](n)) {
-        return this->_get_const()->operator[](n);
-    }
-
-};
-
-template<typename __T>
-class Vector<__T>::WriteCopy :
-    public Vector {
-public:
-    using Vector::Vector;
-    WriteCopy(const Vector & v):Vector(v) {}
-    WriteCopy(Vector && v):Vector(std::move(v)) {}
-    WriteCopy()=default;
-    WriteCopy(const WriteCopy &)=default;
-    WriteCopy(WriteCopy &&)=default;
-    WriteCopy&operator=(const WriteCopy &)=default;
-    WriteCopy&operator=(WriteCopy &&)=default;
-    std::add_const_t<element_type> * operator->()const {
-        static_assert(sizeof(Vector)==sizeof(WriteCopy),"you can not add any data");
-        return Vector::operator->();
-    }
-    element_type * operator->() {
-        if (*this) { if (this->unique()==false) { *this=Vector(new element_type(*(*this))); } }
-        return Vector::operator->();
-    }
-    std::add_const_t<element_type> * get()const { return this->operator->(); }
-    element_type * get() { return this->operator->(); }
-    const WriteCopy & copy() const { return *this; }
-
-    auto begin() { return get()->begin(); }
-    auto end() { return get()->end(); }
-    auto rbegin() { return get()->rbegin(); }
-    auto rend() { return get()->rend(); }
-
-    auto begin()const { return get()->begin(); }
-    auto end()const { return get()->end(); }
-    auto cbegin()const { return get()->cbegin(); }
-    auto cend()const { return get()->cend(); }
-    auto rbegin()const { return get()->rbegin(); }
-    auto rend()const { return get()->rend(); }
-    auto crbegin()const { return get()->crbegin(); }
-    auto crend()const { return get()->crend(); }
-
-    auto operator[](size_type n)->decltype(this->get()->operator[](n)) {
-        return this->get()->operator[](n);
-    }
+    auto begin() { return _this_get().begin(); }
+    auto end() { return _this_get().end(); }
+    auto rbegin() { return _this_get().rbegin(); }
+    auto rend() { return _this_get().rend(); }
 
 };
 
-}
+}/*spr*/
+
+template<typename _v_T>
+using Vector=spr::Vector< std::vector<_v_T> >;
+template<typename _v_T>
+using ConstVector=spr::Vector<const std::vector<_v_T> >;
+
+}/*cct*/
 
 #endif
 

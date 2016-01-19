@@ -15,4 +15,7 @@ void listTest(){
     list.rend();
     list.size();
 
+    auto l1=list.toConst();
+    l1.clone();
+
 }
