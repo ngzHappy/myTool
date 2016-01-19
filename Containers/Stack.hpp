@@ -4,6 +4,7 @@
 
 #include <stack>
 #include <memory>
+#include <type_traits>
 
 namespace cct{
 

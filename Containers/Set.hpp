@@ -15,7 +15,7 @@ private:
     typedef std::shared_ptr< _base_some_class_ > __Super;
     typedef std::shared_ptr< std::add_const_t<_base_some_class_> > _const_Super;
     typedef typename __Super::element_type __element_type;
-    static auto _this_delete_this_() { return &__element_type::deleteThis; }
+    static auto _this_delete_this_() { return [](__element_type * v){delete v;}; }
     __element_type & _this_get() { return *(this->get()); }
     std::add_const_t<__element_type> & _this_const_get() const { return *(this->get()); }
 public:

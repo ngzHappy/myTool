@@ -9,4 +9,7 @@ SOURCES += main.cpp \
     DequeTest.cpp \
     Forward_list.cpp \
     MAPTest.cpp \
-    FunctionTest.cpp
+    FunctionTest.cpp \
+    SetTest.cpp \
+    MultimapTest.cpp \
+    multisetTest.cpp

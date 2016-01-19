@@ -4,6 +4,7 @@
 
 #include <queue>
 #include <memory>
+#include <type_traits>
 
 namespace cct{
 

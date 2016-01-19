@@ -3,6 +3,7 @@
 #define UNORDERED_SET__HPP__CCT
 
 #include <unordered_set>
+#include <type_traits>
 #include <memory>
 
 namespace cct{

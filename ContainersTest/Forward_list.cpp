@@ -1,8 +1,8 @@
-﻿#include "../Containers/Forward_list.hpp"
+﻿#include "../Containers/ForwardList.hpp"
 
 void Forward_list(){
 
-cct::Forward_list<int> xx{1,2,3};
+cct::ForwardList<int> xx{1,2,3};
 
 xx.begin();
 xx.end();

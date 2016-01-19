@@ -68,7 +68,7 @@ int Xmain()
     }
 
     {
-        cct::Forward_list<int> v;
+        cct::ForwardList<int> v;
         for( const auto & i:v ){
             std::cout << i<<std::endl;
         }

@@ -8,6 +8,8 @@ extern void deque_test();
 extern void Forward_list();
 extern void maptest();
 extern void function_test();
+extern void setTest();
+extern void multimuaptest();
 
 int main()
 {
@@ -17,6 +19,8 @@ int main()
     deque_test();
     Forward_list();
     maptest();
+    multimuaptest();
+    setTest();
     system("pause");
     return 0;
 }

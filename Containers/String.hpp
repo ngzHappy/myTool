@@ -3,6 +3,7 @@
 
 #include <string>
 #include <memory>
+#include <type_traits>
 
 namespace cct{
 
