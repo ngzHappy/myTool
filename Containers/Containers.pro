@@ -10,12 +10,12 @@ SOURCES += main.cpp \
 
 
 HEADERS += Containers.hpp
+HEADERS += MultiMap.hpp
+HEADERS += MultiSet.hpp
 HEADERS += Deque.hpp
 HEADERS += ForwardList.hpp
 HEADERS += List.hpp
 HEADERS += Map.hpp
-HEADERS += MultiMap.hpp
-HEADERS += MultiSet.hpp
 HEADERS += PriorityQueue.hpp
 HEADERS += Queue.hpp
 HEADERS += Set.hpp
