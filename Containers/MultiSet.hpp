@@ -1,12 +1,11 @@
-﻿
-#if !defined(MULTISET__HPP__CCT)
+﻿#if !defined(MULTISET__HPP__CCT)
 #define MULTISET__HPP__CCT 1
 
 #include <set>
 #include <memory>
 #include <type_traits>
 
-namespace cct{
+namespace cct {
 namespace spr {
 template< typename _base_some_class_ >
 class Multiset :
@@ -91,8 +90,8 @@ public:
 };
 }/*spr*/
 
-template<typename __T>using MultiSet=spr::Multiset< std::multiset<__T> >;
-template<typename __T>using ConstMultiSet=spr::Multiset<const std::multiset<__T> >;
+template<typename __T,typename __C=std::less<__T>>using MultiSet=spr::Multiset< std::multiset<__T,__C> >;
+template<typename __T,typename __C=std::less<__T>>using ConstMultiSet=spr::Multiset<const std::multiset<__T,__C> >;
 
 }/*cct*/
 

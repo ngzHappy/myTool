@@ -9,4 +9,6 @@ void multiset_test(){
     s.rend();
     s.toConst();
 
+    s.size();
+
 }
