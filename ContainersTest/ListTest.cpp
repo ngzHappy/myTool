@@ -19,5 +19,5 @@ void listTest(){
     l1.clone();
 
     cct::List<double> l2(l1.rbegin(),l1.rend());
-
+    l2.length();
 }

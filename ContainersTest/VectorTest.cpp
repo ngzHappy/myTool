@@ -19,5 +19,6 @@ void vector_test(){
 
     std::cout<<v[1]<<std::endl;
     cct::Vector<int> v2(v1.begin(),v1.end());
+    v2.size();
 }
 

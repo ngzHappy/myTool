@@ -6,12 +6,12 @@
 #include <memory>
 #include <type_traits>
 
-namespace cct{
+namespace cct {
 namespace spr {
 
 template< typename _base_some_class_ >
 class Map :
-    public std::shared_ptr< _base_some_class_ >{
+    public std::shared_ptr< _base_some_class_ > {
 private:
     typedef std::shared_ptr< _base_some_class_ > __Super;
     typedef std::shared_ptr< std::add_const_t<_base_some_class_> > _const_Super;
@@ -21,11 +21,11 @@ private:
     std::add_const_t<__element_type> & _this_const_get() const { return *(this->get()); }
 public:
     typedef __element_type element_type;
-    Map():__Super(new element_type,_this_delete_this_()){}
+    Map():__Super(new element_type,_this_delete_this_()) {}
     Map(decltype(nullptr)) {}
 
-    template<typename _U,typename _EXPLICIT= decltype( static_cast<element_type *>( reinterpret_cast< std::remove_reference_t<_U> *>(0) ) ) >
-    Map(_U* value):__Super(static_cast<element_type * >(value) ,_this_delete_this_()) {}
+    template<typename _U,typename _EXPLICIT=decltype(static_cast<element_type *>(reinterpret_cast<std::remove_reference_t<_U> *>(0))) >
+    Map(_U* value):__Super(static_cast<element_type *>(value),_this_delete_this_()) {}
 
     Map(const __Super & s):__Super(s) {}
     Map(__Super && s):__Super(std::move(s)) {}
@@ -43,18 +43,18 @@ public:
     template<typename _U>Map(std::unique_ptr<_U> &u)=delete;
     template<typename _U>Map(const std::unique_ptr<_U> &u)=delete;
 
-    template<typename _U>Map(const std::shared_ptr<_U>& x,element_type* p) :__Super(x,p){}
+    template<typename _U>Map(const std::shared_ptr<_U>& x,element_type* p):__Super(x,p) {}
 
-    template<typename A0,typename A1, typename ... Args,typename _EXPLICIT=std::enable_if_t<!(std::is_constructible<__Super,A0 &&,A1&&,Args && ...>::value)> >
-    Map(A0 && a0,A1 && a1, Args && ... args ):__Super(new element_type(std::forward<A0>(a0),std::forward<A1>(a1), std::forward<Args>(args)... ),_this_delete_this_()){}
-    template<typename A0,typename _EXPLICIT=std::enable_if_t< !(std::is_constructible<__Super,A0 &&>::value) > ,typename _EMORE=void>
-    Map(A0 && a0 ):__Super(new element_type( std::forward<A0>(a0) ),_this_delete_this_() ) {}
+    template<typename A0,typename A1,typename ... Args,typename _EXPLICIT=std::enable_if_t<!(std::is_constructible<__Super,A0 &&,A1&&,Args && ...>::value)> >
+    Map(A0 && a0,A1 && a1,Args && ... args):__Super(new element_type(std::forward<A0>(a0),std::forward<A1>(a1),std::forward<Args>(args)...),_this_delete_this_()) {}
+    template<typename A0,typename _EXPLICIT=std::enable_if_t< !(std::is_constructible<__Super,A0 &&>::value) >,typename _EMORE=void>
+    Map(A0 && a0):__Super(new element_type(std::forward<A0>(a0)),_this_delete_this_()) {}
 
     const Map< std::add_const_t<_base_some_class_> > & toConst()const { return reinterpret_cast<const Map< std::add_const_t<_base_some_class_> > &>(*this); }
 
-    Map( const std::remove_const_t<element_type> & v ):__Super(new element_type(v),_this_delete_this_()) {}
-    Map( std::remove_const_t<element_type> && v ):__Super(new element_type( std::move(v) ),_this_delete_this_()) {}
-    Map( std::remove_const_t<element_type> & v ):__Super(new element_type(v),_this_delete_this_()) {}
+    Map(const std::remove_const_t<element_type> & v):__Super(new element_type(v),_this_delete_this_()) {}
+    Map(std::remove_const_t<element_type> && v):__Super(new element_type(std::move(v)),_this_delete_this_()) {}
+    Map(std::remove_const_t<element_type> & v):__Super(new element_type(v),_this_delete_this_()) {}
     Map< std::remove_const_t<_base_some_class_> > clone()const { return Map< std::remove_const_t<_base_some_class_> >(*(*this)); }
 
     std::weak_ptr<_base_some_class_> toWeakPointer() const { return *this; }
@@ -62,9 +62,9 @@ public:
     ~Map()=default;
     Map(const Map&)=default;
     Map(Map&&)=default;
-    template<typename _U>Map(Map<_U>&&v):__Super( std::move(v) ) {}
-    template<typename _U>Map(const Map<_U>&v):__Super( v ) {}
-    template<typename _U>Map(Map<_U>&v):__Super( v ) {}
+    template<typename _U>Map(Map<_U>&&v):__Super(std::move(v)) {}
+    template<typename _U>Map(const Map<_U>&v):__Super(v) {}
+    template<typename _U>Map(Map<_U>&v):__Super(v) {}
     Map&operator=(const Map&)=default;
     Map&operator=(Map&&)=default;
 
@@ -97,8 +97,8 @@ public:
 
 }
 
-template<typename __K,typename __V>using Map=spr::Map< std::map<__K,__V> >;
-template<typename __K,typename __V>using ConstMap=spr::Map<const std::map<__K,__V> >;
+template<typename __K,typename __V,typename __C=std::less<__K>>using Map=spr::Map< std::map<__K,__V,__C> >;
+template<typename __K,typename __V,typename __C=std::less<__K>>using ConstMap=spr::Map<const std::map<__K,__V,__C> >;
 
 }
 

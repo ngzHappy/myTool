@@ -92,10 +92,8 @@ public:
 };
 }/*spr*/
 
-template<typename _T>
-using List=spr::List< std::list<_T> >;
-template<typename _T>
-using ConstList=spr::List<const std::list<_T> >;
+template<typename _T>using List=spr::List< std::list<_T> >;
+template<typename _T>using ConstList=spr::List<const std::list<_T> >;
 
 }
 
