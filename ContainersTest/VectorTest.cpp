@@ -17,5 +17,7 @@ void vector_test(){
     std::cout<<v1.size()<<","<<v1.use_count()<<std::endl;
     v1=v;
 
+    std::cout<<v[1]<<std::endl;
+    cct::Vector<int> v2(v1.begin(),v1.end());
 }
 
