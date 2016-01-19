@@ -1,6 +1,6 @@
 ﻿
 #if !defined(DEQUE__HPP__CCT)
-#define DEQUE__HPP__CCT
+#define DEQUE__HPP__CCT 1
 
 #include <deque>
 #include <memory>

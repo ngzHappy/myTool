@@ -1,6 +1,6 @@
 ﻿
 #if !defined(MAP__HPP__CCT)
-#define MAP__HPP__CCT
+#define MAP__HPP__CCT 1
 
 #include <map>
 #include <memory>

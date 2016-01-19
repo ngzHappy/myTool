@@ -1,6 +1,6 @@
 ﻿
 #if !defined(FORWARD_LIST__HPP__CCT)
-#define FORWARD_LIST__HPP__CCT
+#define FORWARD_LIST__HPP__CCT 1
 
 #include <forward_list>
 #include <memory>

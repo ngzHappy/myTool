@@ -1,6 +1,6 @@
 ﻿
 #if !defined(LIST__HPP__CCT)
-#define LIST__HPP__CCT
+#define LIST__HPP__CCT 1
 
 #include <list>
 #include <memory>

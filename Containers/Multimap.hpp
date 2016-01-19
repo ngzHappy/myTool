@@ -1,6 +1,6 @@
 ﻿
 #if !defined(MULTIMAP__HPP__CCT)
-#define MULTIMAP__HPP__CCT
+#define MULTIMAP__HPP__CCT 1
 
 #include <map>
 #include <memory>

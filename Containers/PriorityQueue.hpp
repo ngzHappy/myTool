@@ -1,6 +1,6 @@
-
+﻿
 #if !defined(PRIORITY_QUEUE__HPP__CCT)
-#define PRIORITY_QUEUE__HPP__CCT
+#define PRIORITY_QUEUE__HPP__CCT 1
 
 #include <queue>
 #include <vector>

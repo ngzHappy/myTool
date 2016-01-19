@@ -1,6 +1,6 @@
 ﻿
 #if !defined(MULTISET__HPP__CCT)
-#define MULTISET__HPP__CCT
+#define MULTISET__HPP__CCT 1
 
 #include <set>
 #include <memory>
