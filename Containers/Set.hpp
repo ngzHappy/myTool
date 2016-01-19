@@ -6,25 +6,25 @@
 #include <memory>
 #include <type_traits>
 
-namespace cct{
-namespace spr{
+namespace cct {
+namespace spr {
 template< typename _base_some_class_ >
 class Set :
-    public std::shared_ptr< _base_some_class_ >{
+    public std::shared_ptr< _base_some_class_ > {
 private:
     typedef std::shared_ptr< _base_some_class_ > __Super;
     typedef std::shared_ptr< std::add_const_t<_base_some_class_> > _const_Super;
     typedef typename __Super::element_type __element_type;
-    static auto _this_delete_this_() { return [](__element_type * v){delete v;}; }
+    static auto _this_delete_this_() { return [](__element_type * v) {delete v; }; }
     __element_type & _this_get() { return *(this->get()); }
     std::add_const_t<__element_type> & _this_const_get() const { return *(this->get()); }
 public:
     typedef __element_type element_type;
-    Set():__Super(new element_type,_this_delete_this_()){}
+    Set():__Super(new element_type,_this_delete_this_()) {}
     Set(decltype(nullptr)) {}
 
-    template<typename _U,typename _EXPLICIT= decltype( static_cast<element_type *>( reinterpret_cast< std::remove_reference_t<_U> *>(0) ) ) >
-    Set(_U* value):__Super(static_cast<element_type * >(value) ,_this_delete_this_()) {}
+    template<typename _U,typename _EXPLICIT=decltype(static_cast<element_type *>(reinterpret_cast<std::remove_reference_t<_U> *>(0))) >
+    Set(_U* value):__Super(static_cast<element_type *>(value),_this_delete_this_()) {}
 
     Set(const __Super & s):__Super(s) {}
     Set(__Super && s):__Super(std::move(s)) {}
@@ -42,20 +42,20 @@ public:
     template<typename _U>Set(std::unique_ptr<_U> &u)=delete;
     template<typename _U>Set(const std::unique_ptr<_U> &u)=delete;
 
-    template<typename _U>Set(const std::shared_ptr<_U>& x,element_type* p) :__Super(x,p){}
+    template<typename _U>Set(const std::shared_ptr<_U>& x,element_type* p):__Super(x,p) {}
 
-    template<typename A0,typename A1, typename ... Args,typename _EXPLICIT=std::enable_if_t<!(std::is_constructible<__Super,A0 &&,A1&&,Args && ...>::value)> >
-    Set(A0 && a0,A1 && a1, Args && ... args ):__Super(new element_type(std::forward<A0>(a0),std::forward<A1>(a1), std::forward<Args>(args)... ),_this_delete_this_()){}
-    template<typename A0,typename _EXPLICIT=std::enable_if_t< !(std::is_constructible<__Super,A0 &&>::value) > ,typename _EMORE=void>
-    Set(A0 && a0 ):__Super(new element_type( std::forward<A0>(a0) ),_this_delete_this_() ) {}
+    template<typename A0,typename A1,typename ... Args,typename _EXPLICIT=std::enable_if_t<!(std::is_constructible<__Super,A0 &&,A1&&,Args && ...>::value)> >
+    Set(A0 && a0,A1 && a1,Args && ... args):__Super(new element_type(std::forward<A0>(a0),std::forward<A1>(a1),std::forward<Args>(args)...),_this_delete_this_()) {}
+    template<typename A0,typename _EXPLICIT=std::enable_if_t< !(std::is_constructible<__Super,A0 &&>::value) >,typename _EMORE=void>
+    Set(A0 && a0):__Super(new element_type(std::forward<A0>(a0)),_this_delete_this_()) {}
 
-    template<typename _U,typename _EXPLICIT= std::enable_if_t< (std::is_constructible<element_type,const std::initializer_list<_U> & >::value) > >
+    template<typename _U,typename _EXPLICIT=std::enable_if_t< (std::is_constructible<element_type,const std::initializer_list<_U> & >::value) > >
     Set(const std::initializer_list<_U> & v):__Super(new element_type(v),_this_delete_this_()) {}
     const Set< std::add_const_t<_base_some_class_> > & toConst()const { return reinterpret_cast<const Set< std::add_const_t<_base_some_class_> > &>(*this); }
 
-    Set( const std::remove_const_t<element_type> & v ):__Super(new element_type(v),_this_delete_this_()) {}
-    Set( std::remove_const_t<element_type> && v ):__Super(new element_type( std::move(v) ),_this_delete_this_()) {}
-    Set( std::remove_const_t<element_type> & v ):__Super(new element_type(v),_this_delete_this_()) {}
+    Set(const std::remove_const_t<element_type> & v):__Super(new element_type(v),_this_delete_this_()) {}
+    Set(std::remove_const_t<element_type> && v):__Super(new element_type(std::move(v)),_this_delete_this_()) {}
+    Set(std::remove_const_t<element_type> & v):__Super(new element_type(v),_this_delete_this_()) {}
     Set< std::remove_const_t<_base_some_class_> > clone()const { return Set< std::remove_const_t<_base_some_class_> >(*(*this)); }
 
     std::weak_ptr<_base_some_class_> toWeakPointer() const { return *this; }
@@ -63,9 +63,9 @@ public:
     ~Set()=default;
     Set(const Set&)=default;
     Set(Set&&)=default;
-    template<typename _U>Set(Set<_U>&&v):__Super( std::move(v) ) {}
-    template<typename _U>Set(const Set<_U>&v):__Super( v ) {}
-    template<typename _U>Set(Set<_U>&v):__Super( v ) {}
+    template<typename _U>Set(Set<_U>&&v):__Super(std::move(v)) {}
+    template<typename _U>Set(const Set<_U>&v):__Super(v) {}
+    template<typename _U>Set(Set<_U>&v):__Super(v) {}
     Set&operator=(const Set&)=default;
     Set&operator=(Set&&)=default;
 
@@ -93,10 +93,8 @@ public:
 
 }/*spr*/
 
-template<typename _T>
-using Set=spr::Set< std::set<_T> >;
-template<typename _T>
-using ConstSet=spr::Set<const std::set<_T> >;
+template<typename __T,typename __C=std::less<__T>>using Set=spr::Set< std::set<__T,__C> >;
+template<typename __T,typename __C=std::less<__T>>using ConstSet=spr::Set<const std::set<__T,__C> >;
 
 }/*cct*/
 
