@@ -2,11 +2,12 @@
 #if !defined(STACK__HPP__CCT)
 #define STACK__HPP__CCT 1
 
+#include <vector>
 #include <stack>
 #include <memory>
 #include <type_traits>
 
-namespace cct{
+namespace cct {
 
 namespace spr {
 template< typename _base_some_class_ >
@@ -52,7 +53,7 @@ public:
 
     template<typename _U,typename _EXPLICIT=std::enable_if_t< (std::is_constructible<element_type,const std::initializer_list<_U> & >::value) > >
     Stack(const std::initializer_list<_U> & v):__Super(new element_type(v),_this_delete_this_()) {}
-    const Stack< std::add_const_t<_base_some_class_> > & toConst()const { return reinterpret_cast< const Stack< std::add_const_t<_base_some_class_> > &>(*this); }
+    const Stack< std::add_const_t<_base_some_class_> > & toConst()const { return reinterpret_cast<const Stack< std::add_const_t<_base_some_class_> > &>(*this); }
 
     Stack(const std::remove_const_t<element_type> & v):__Super(new element_type(v),_this_delete_this_()) {}
     Stack(std::remove_const_t<element_type> && v):__Super(new element_type(std::move(v)),_this_delete_this_()) {}
@@ -69,13 +70,15 @@ public:
     template<typename _U>Stack(Stack<_U>&v):__Super(v) {}
     Stack&operator=(const Stack&)=default;
     Stack&operator=(Stack&&)=default;
+
+    typedef typename element_type::size_type size_type;
+    size_type size()const { return _this_const_get().size(); }
+    size_type length()const { return size(); }
 };
 }/*spr*/
 
-template<typename __T>
-using Stack=spr::Stack< std::stack<__T> >;
-template<typename __T>
-using ConstStack=spr::Stack<const std::stack<__T> >;
+template<typename __T,typename __C=std::vector<__T>>using Stack=spr::Stack< std::stack<__T,__C> >;
+template<typename __T,typename __C=std::vector<__T>>using ConstStack=spr::Stack<const std::stack<__T,__C> >;
 
 }/*cct*/
 

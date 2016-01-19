@@ -14,4 +14,5 @@ SOURCES += main.cpp \
     MultimapTest.cpp \
     multisetTest.cpp \
     PriorityQueue.cpp \
-    quequetest.cpp
+    quequetest.cpp \
+    stacktest.cpp

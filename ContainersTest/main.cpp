@@ -12,6 +12,7 @@ extern void setTest();
 extern void multimuaptest();
 extern void PriorityQueueTest();
 extern void queuetest();
+extern void stacktest();
 
 int main()
 {
