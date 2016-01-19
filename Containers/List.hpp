@@ -6,7 +6,7 @@
 #include <memory>
 #include <type_traits>
 
-namespace cct{
+namespace cct {
 
 namespace spr {
 template< typename _base_some_class_ >
