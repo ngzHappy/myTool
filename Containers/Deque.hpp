@@ -89,6 +89,9 @@ public:
     auto end() { return _this_get().end(); }
     auto rbegin() { return _this_get().rbegin(); }
     auto rend() { return _this_get().rend(); }
+
+    decltype(auto) operator[](size_type n) const { return _this_const_get()[n]; }
+    decltype(auto) operator[](size_type n) { return _this_get()[n]; }
 };
 
 }

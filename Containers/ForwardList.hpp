@@ -85,10 +85,8 @@ public:
 };
 }/*spr*/
 
-template<typename _T>
-using ForwardList=spr::ForwardList< std::forward_list<_T> >;
-template<typename _T>
-using ConstForwardList=spr::ForwardList<const std::forward_list<_T> >;
+template<typename _T>using ForwardList=spr::ForwardList< std::forward_list<_T> >;
+template<typename _T>using ConstForwardList=spr::ForwardList<const std::forward_list<_T> >;
 
 }/*cct*/
 
