@@ -16,4 +16,6 @@ void deque_test(){
 
     v.size();
 
+    v.clone().size();
+
 }

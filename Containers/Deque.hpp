@@ -93,10 +93,8 @@ public:
 
 }
 
-template<typename __T>
-using Deque=spr::Deque< std::deque<__T> >;
-template<typename __T>
-using ConstDeque=spr::Deque<const std::deque<__T> >;
+template<typename __T>using Deque=spr::Deque< std::deque<__T> >;
+template<typename __T>using ConstDeque=spr::Deque<const std::deque<__T> >;
 
 }
 
