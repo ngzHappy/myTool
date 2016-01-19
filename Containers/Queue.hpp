@@ -5,6 +5,7 @@
 #include <memory>
 #include <type_traits>
 #include <vector>
+#include <utility>
 
 namespace cct {
 namespace spr {
@@ -38,9 +39,9 @@ public:
     template<typename _U>Queue(std::weak_ptr<_U> &u):__Super(u) {}
     template<typename _U>Queue(std::weak_ptr<_U> &&u):__Super(std::move(u)) {}
 
-    template<typename _U>Queue(std::unique_ptr<_U> &&u):__Super(std::move(u)) {}
-    template<typename _U>Queue(std::unique_ptr<_U> &u)=delete;
-    template<typename _U>Queue(const std::unique_ptr<_U> &u)=delete;
+    template<typename ..._U>Queue(std::unique_ptr<_U...> &&u):__Super(std::move(u)) {}
+    template<typename ..._U>Queue(std::unique_ptr<_U...> &u)=delete;
+    template<typename ..._U>Queue(const std::unique_ptr<_U...> &u)=delete;
 
     template<typename _U>Queue(const std::shared_ptr<_U>& x,element_type* p):__Super(x,p) {}
 

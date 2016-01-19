@@ -22,6 +22,7 @@ private:
     static auto _this_delete_this_() { return &__element_type::deleteThis; }
     __element_type & _this_get() { return *(this->get()); }
     std::add_const_t<__element_type> & _this_const_get() const { return *(this->get()); }
+   
 public:
     typedef __element_type element_type;
     SomeClass():__Super(new element_type,_this_delete_this_()){}
@@ -42,17 +43,14 @@ public:
     template<typename _U>SomeClass(std::weak_ptr<_U> &u):__Super(u) {}
     template<typename _U>SomeClass(std::weak_ptr<_U> &&u):__Super(std::move(u)) {}
 
-    template<typename _U>SomeClass(std::unique_ptr<_U> &&u):__Super(std::move(u)) {}
-    template<typename _U>SomeClass(std::unique_ptr<_U> &u)=delete;
-    template<typename _U>SomeClass(const std::unique_ptr<_U> &u)=delete;
+    template<typename ... _U>SomeClass(std::unique_ptr<_U...> &&u):__Super(std::move(u)) {}
+    template<typename ... _U>SomeClass(std::unique_ptr<_U...> &u)=delete;
+    template<typename ... _U>SomeClass(const std::unique_ptr<_U...> &u)=delete;
 
     template<typename _U>SomeClass(const std::shared_ptr<_U>& x,element_type* p) :__Super(x,p){}
 
-    template<typename A0,typename A1, typename ... Args,typename _EXPLICIT=std::enable_if_t<!(std::is_constructible<__Super,A0 &&,A1&&,Args && ...>::value)> >
-    SomeClass(A0 && a0,A1 && a1, Args && ... args ):__Super(new element_type(std::forward<A0>(a0),std::forward<A1>(a1), std::forward<Args>(args)... ),_this_delete_this_()){}
-    template<typename A0,typename _EXPLICIT=std::enable_if_t< !(std::is_constructible<__Super,A0 &&>::value) > ,typename _EMORE=void>
-    SomeClass(A0 && a0 ):__Super(new element_type( std::forward<A0>(a0) ),_this_delete_this_() ) {}
-
+    template<typename ... _U>
+    SomeClass(std::piecewise_construct_t,_U && ... args):__Super(new element_type(std::forward<_U>(args)...),_this_delete_this_()) {}
     template<typename _U,typename _EXPLICIT= std::enable_if_t< (std::is_constructible<element_type,const std::initializer_list<_U> & >::value) > >
     SomeClass(const std::initializer_list<_U> & v):__Super(new element_type(v),_this_delete_this_()) {}
     const SomeClass< std::add_const_t<_base_some_class_> > & toConst()const { return reinterpret_cast<const SomeClass< std::add_const_t<_base_some_class_> > &>(*this); }
@@ -196,8 +194,8 @@ public:
 
     template<typename _U>String(const std::shared_ptr<_U>& x,element_type* p) :__Super(x,p){}
 
-    template<typename A0,typename A1, typename ... Args>
-    String(A0 && a0,A1 && a1, Args && ... args ):__Super(new element_type(std::forward<A0>(a0),std::forward<A1>(a1), std::forward<Args>(args)... ),_this_delete_this_()){}
+    template<typename A0,typename A1,typename A2, typename ... Args>
+    String(A0 && a0,A1 && a1, A2 && a2,Args && ... args ):__Super(new element_type(std::forward<A0>(a0),std::forward<A1>(a1),std::forward<A2>(a2), std::forward<Args>(args)... ),_this_delete_this_()){}
     template<typename A0,typename _EXPLICIT=std::enable_if_t< !(std::is_constructible<__Super,A0 &&>::value) > ,typename _EMORE=void>
     String(A0 && a0 ):__Super(new element_type( std::forward<A0>(a0) ),_this_delete_this_() ) {}
 

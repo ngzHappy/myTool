@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <memory>
 #include <type_traits>
+#include <utility>
 
 namespace cct{
 
@@ -39,9 +40,9 @@ public:
     template<typename _U>UnorderedMultimap(std::weak_ptr<_U> &u):__Super(u) {}
     template<typename _U>UnorderedMultimap(std::weak_ptr<_U> &&u):__Super(std::move(u)) {}
 
-    template<typename _U>UnorderedMultimap(std::unique_ptr<_U> &&u):__Super(std::move(u)) {}
-    template<typename _U>UnorderedMultimap(std::unique_ptr<_U> &u)=delete;
-    template<typename _U>UnorderedMultimap(const std::unique_ptr<_U> &u)=delete;
+    template<typename ..._U>UnorderedMultimap(std::unique_ptr<_U...> &&u):__Super(std::move(u)) {}
+    template<typename ..._U>UnorderedMultimap(std::unique_ptr<_U...> &u)=delete;
+    template<typename ..._U>UnorderedMultimap(const std::unique_ptr<_U...> &u)=delete;
 
     template<typename _U>UnorderedMultimap(const std::shared_ptr<_U>& x,element_type* p):__Super(x,p) {}
 

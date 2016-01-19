@@ -4,8 +4,9 @@
 #include <string>
 #include <memory>
 #include <type_traits>
+#include <utility>
 
-namespace cct{
+namespace cct {
 
 namespace spr {
 template< typename _base_some_class_ >
@@ -38,14 +39,14 @@ public:
     template<typename _U>String(std::weak_ptr<_U> &u):__Super(u) {}
     template<typename _U>String(std::weak_ptr<_U> &&u):__Super(std::move(u)) {}
 
-    template<typename _U>String(std::unique_ptr<_U> &&u):__Super(std::move(u)) {}
-    template<typename _U>String(std::unique_ptr<_U> &u)=delete;
-    template<typename _U>String(const std::unique_ptr<_U> &u)=delete;
+    template<typename ..._U>String(std::unique_ptr<_U...> &&u):__Super(std::move(u)) {}
+    template<typename ..._U>String(std::unique_ptr<_U...> &u)=delete;
+    template<typename ..._U>String(const std::unique_ptr<_U...> &u)=delete;
 
     template<typename _U>String(const std::shared_ptr<_U>& x,element_type* p):__Super(x,p) {}
 
-    template<typename A0,typename A1,typename ... Args,typename _EXPLICIT=std::enable_if_t<!(std::is_constructible<__Super,A0 &&,A1&&,Args && ...>::value)> >
-    String(A0 && a0,A1 && a1,Args && ... args):__Super(new element_type(std::forward<A0>(a0),std::forward<A1>(a1),std::forward<Args>(args)...),_this_delete_this_()) {}
+    template<typename A0,typename A1,typename A2,typename ... Args >
+    String(A0 && a0,A1 && a1,A2 && a2,Args && ... args):__Super(new element_type(std::forward<A0>(a0),std::forward<A1>(a1),std::forward<A2>(a2),std::forward<Args>(args)...),_this_delete_this_()) {}
     template<typename A0,typename _EXPLICIT=std::enable_if_t< !(std::is_constructible<__Super,A0 &&>::value) >,typename _EMORE=void>
     String(A0 && a0):__Super(new element_type(std::forward<A0>(a0)),_this_delete_this_()) {}
 
@@ -93,14 +94,14 @@ public:
 
 }
 
-using String = spr::String< std::string >;
-using ConstString = spr::String<const std::string >;
-using U16String = spr::String< std::u16string >;
-using ConstU16String = spr::String<const std::u16string >;
-using U32String = spr::String< std::u32string >;
-using ConstU32String = spr::String<const std::u32string >;
-using WString = spr::String< std::wstring >;
-using ConstWString = spr::String<const std::wstring >;
+using String=spr::String< std::string >;
+using ConstString=spr::String<const std::string >;
+using U16String=spr::String< std::u16string >;
+using ConstU16String=spr::String<const std::u16string >;
+using U32String=spr::String< std::u32string >;
+using ConstU32String=spr::String<const std::u32string >;
+using WString=spr::String< std::wstring >;
+using ConstWString=spr::String<const std::wstring >;
 
 }
 
