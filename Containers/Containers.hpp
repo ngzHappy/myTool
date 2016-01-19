@@ -1,5 +1,4 @@
-﻿
-#if !defined( CONTAINERS__HPP__CCT )
+﻿#if !defined( CONTAINERS__HPP__CCT )
 #define CONTAINERS__HPP__CCT
 
 #include "Deque.hpp"/**/

@@ -2,9 +2,7 @@
 
 void string_test(){
 
-    //cct::String str("aaaa",3);
-    
-    //str.size();
-    std::is_constructible<std::shared_ptr<std::string>,const char *>::value;
-  
+    cct::String str(std::piecewise_construct,"aaaa",3);
+    str.size();
+
 }

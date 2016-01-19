@@ -8,7 +8,7 @@ void function_test(){
       fun();
   }
 
-  cct::Function<int(int,double,float)> fun1=[](int,double,float) {return 1; };
+  cct::Function<int(int,double,float)> fun1(std::piecewise_construct,[](int,double,float) {return 1; });
   fun1.toConst()(1,2,3.1f);
 
 }

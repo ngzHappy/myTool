@@ -1,5 +1,4 @@
-﻿
-#if !defined(UNORDERED_SET__HPP__CCT)
+﻿#if !defined(UNORDERED_SET__HPP__CCT)
 #define UNORDERED_SET__HPP__CCT 1
 
 #include <unordered_set>
@@ -45,10 +44,8 @@ public:
 
     template<typename _U>UnorderedSet(const std::shared_ptr<_U>& x,element_type* p):__Super(x,p) {}
 
-    template<typename A0,typename A1,typename ... Args,typename _EXPLICIT=std::enable_if_t<!(std::is_constructible<__Super,A0 &&,A1&&,Args && ...>::value)> >
-    UnorderedSet(A0 && a0,A1 && a1,Args && ... args):__Super(new element_type(std::forward<A0>(a0),std::forward<A1>(a1),std::forward<Args>(args)...),_this_delete_this_()) {}
-    template<typename A0,typename _EXPLICIT=std::enable_if_t< !(std::is_constructible<__Super,A0 &&>::value) >,typename _EMORE=void>
-    UnorderedSet(A0 && a0):__Super(new element_type(std::forward<A0>(a0)),_this_delete_this_()) {}
+    template<typename ... Args  >
+    UnorderedSet(std::piecewise_construct_t, Args && ... args ):__Super(new element_type(std::forward<Args>(args)... ),_this_delete_this_()){}
 
     template<typename _U,typename _EXPLICIT=std::enable_if_t< (std::is_constructible<element_type,const std::initializer_list<_U> & >::value) > >
     UnorderedSet(const std::initializer_list<_U> & v):__Super(new element_type(v),_this_delete_this_()) {}
@@ -93,10 +90,10 @@ public:
 };
 }/*spr*/
 
-template<typename __T>
-using UnorderedSet=spr::UnorderedSet< std::unordered_set<__T> >;
-template<typename __T>
-using ConstUnorderedSet=spr::UnorderedSet<const std::unordered_set<__T> >;
+template<typename __K,typename __H=std::hash<__K>,typename __P=std::equal_to<__K>>
+using UnorderedSet=spr::UnorderedSet< std::unordered_set<__K,__H,__P> >;
+template<typename __K,typename __H=std::hash<__K>,typename __P=std::equal_to<__K>>
+using ConstUnorderedSet=spr::UnorderedSet<const std::unordered_set<__K,__H,__P> >;
 
 }/*cct*/
 

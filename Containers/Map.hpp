@@ -1,5 +1,4 @@
-﻿
-#if !defined(MAP__HPP__CCT)
+﻿#if !defined(MAP__HPP__CCT)
 #define MAP__HPP__CCT 1
 
 #include <map>
@@ -46,10 +45,8 @@ public:
 
     template<typename _U>Map(const std::shared_ptr<_U>& x,element_type* p):__Super(x,p) {}
 
-    template<typename A0,typename A1,typename ... Args,typename _EXPLICIT=std::enable_if_t<!(std::is_constructible<__Super,A0 &&,A1&&,Args && ...>::value)> >
-    Map(A0 && a0,A1 && a1,Args && ... args):__Super(new element_type(std::forward<A0>(a0),std::forward<A1>(a1),std::forward<Args>(args)...),_this_delete_this_()) {}
-    template<typename A0,typename _EXPLICIT=std::enable_if_t< !(std::is_constructible<__Super,A0 &&>::value) >,typename _EMORE=void>
-    Map(A0 && a0):__Super(new element_type(std::forward<A0>(a0)),_this_delete_this_()) {}
+    template<typename ... Args  >
+    Map(std::piecewise_construct_t, Args && ... args ):__Super(new element_type(std::forward<Args>(args)... ),_this_delete_this_()){}
 
     const Map< std::add_const_t<_base_some_class_> > & toConst()const { return reinterpret_cast<const Map< std::add_const_t<_base_some_class_> > &>(*this); }
 

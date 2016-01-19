@@ -1,5 +1,4 @@
-﻿
-#if !defined(FORWARD_LIST__HPP__CCT)
+﻿#if !defined(FORWARD_LIST__HPP__CCT)
 #define FORWARD_LIST__HPP__CCT 1
 
 #include <forward_list>
@@ -46,10 +45,8 @@ public:
 
     template<typename _U>ForwardList(const std::shared_ptr<_U>& x,element_type* p) :__Super(x,p){}
 
-    template<typename A0,typename A1, typename ... Args,typename _EXPLICIT=std::enable_if_t<!(std::is_constructible<__Super,A0 &&,A1&&,Args && ...>::value)> >
-    ForwardList(A0 && a0,A1 && a1, Args && ... args ):__Super(new element_type(std::forward<A0>(a0),std::forward<A1>(a1), std::forward<Args>(args)... ),_this_delete_this_()){}
-    template<typename A0,typename _EXPLICIT=std::enable_if_t< !(std::is_constructible<__Super,A0 &&>::value) > ,typename _EMORE=void>
-    ForwardList(A0 && a0 ):__Super(new element_type( std::forward<A0>(a0) ),_this_delete_this_() ) {}
+    template<typename ... Args  >
+    ForwardList(std::piecewise_construct_t, Args && ... args ):__Super(new element_type(std::forward<Args>(args)... ),_this_delete_this_()){}
 
     template<typename _U,typename _EXPLICIT= std::enable_if_t< (std::is_constructible<element_type,const std::initializer_list<_U> & >::value) > >
     ForwardList(const std::initializer_list<_U> & v):__Super(new element_type(v),_this_delete_this_()) {}

@@ -18,6 +18,6 @@ void listTest(){
     auto l1=list.toConst();
     l1.clone();
 
-    cct::List<double> l2(l1.rbegin(),l1.rend());
+    cct::List<double> l2(std::piecewise_construct, l1.rbegin(),l1.rend());
     l2.length();
 }

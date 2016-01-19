@@ -1,5 +1,4 @@
-﻿
-#if !defined( ITETATOR__HPP__CCT__ )
+﻿#if !defined( ITETATOR__HPP__CCT__ )
 #define ITETATOR__HPP__CCT__
 
 #include <memory>

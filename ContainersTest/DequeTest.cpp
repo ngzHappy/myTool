@@ -18,4 +18,6 @@ void deque_test(){
 
     v.clone().size();
 
+    cct::Deque<int> vx(std::piecewise_construct,12,1);
+    vx.size();
 }
