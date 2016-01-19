@@ -103,16 +103,30 @@ int Xmain()
     }
 
     {
-        cct::Unordered_set<int> v;
+        cct::UnorderedSet<int> v;
         for( const auto & i:v ){
             std::cout << i<<std::endl;
         }
     }
 
     {
-        cct::Unordered_map<int,double> v;
+        cct::UnorderedMap<int,double> v{ {1,2},{3,4} };
         for( const auto & i:v ){
             std::cout << i.first <<std::endl;
+        }
+    }
+
+    {
+        cct::UnorderedMultimap<int,double> v{ {1,2},{3,4} };
+        for( const auto & i:v ){
+            std::cout << i.first <<std::endl;
+        }
+    }
+
+    {
+        cct::UnorderedMultiset<int> v{1,2,3};
+        for( const auto & i:v ){
+            std::cout << i <<std::endl;
         }
     }
 

@@ -1,6 +1,6 @@
 ﻿
 #if !defined(SET__HPP__CCT)
-#define SET__HPP__CCT
+#define SET__HPP__CCT 1
 
 #include <set>
 #include <memory>

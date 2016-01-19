@@ -1,5 +1,5 @@
 ﻿#if !defined(STRING__HPP__CPP)
-#define STRING__HPP__CPP
+#define STRING__HPP__CPP 1
 
 #include <string>
 #include <memory>

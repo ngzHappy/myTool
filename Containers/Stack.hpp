@@ -1,6 +1,6 @@
 
 #if !defined(STACK__HPP__CCT)
-#define STACK__HPP__CCT
+#define STACK__HPP__CCT 1
 
 #include <stack>
 #include <memory>
@@ -8,30 +8,76 @@
 
 namespace cct{
 
-    template<typename T>
-    class Stack : public std::shared_ptr< std::stack<T> > {
-    private:
-        typedef std::shared_ptr< std::stack<T> > Super;
-    public:
+namespace spr {
+template< typename _base_some_class_ >
+class Stack :
+    public std::shared_ptr< _base_some_class_ > {
+private:
+    typedef std::shared_ptr< _base_some_class_ > __Super;
+    typedef std::shared_ptr< std::add_const_t<_base_some_class_> > _const_Super;
+    typedef typename __Super::element_type __element_type;
+    static auto _this_delete_this_() { return [](__element_type * v) {delete v; }; }
+    __element_type & _this_get() { return *(this->get()); }
+    std::add_const_t<__element_type> & _this_const_get() const { return *(this->get()); }
+public:
+    typedef __element_type element_type;
+    Stack():__Super(new element_type,_this_delete_this_()) {}
+    Stack(decltype(nullptr)) {}
 
-        Stack( decltype(nullptr) ) {}
-        Stack() :Super(new std::stack<T> ){}
-        Stack(const Stack &)=default;
-        Stack(Stack &&)=default;
-        Stack(Super && o):Super( std::move(o) ) {}
-        Stack(const Super & o):Super( o ) {}
-        Stack(const std::stack<T> & o):Super( new std::stack<T>( o ) ) {}
-        Stack(std::stack<T> && o):Super( new std::stack<T>( std::move(o) ) ) {}
+    template<typename _U,typename _EXPLICIT=decltype(static_cast<element_type *>(reinterpret_cast<std::remove_reference_t<_U> *>(0))) >
+    Stack(_U* value):__Super(static_cast<element_type *>(value),_this_delete_this_()) {}
 
-        Stack&operator=(const Stack&)=default;
-        Stack&operator=(Stack&&)=default;
+    Stack(const __Super & s):__Super(s) {}
+    Stack(__Super && s):__Super(std::move(s)) {}
+    Stack(__Super & s):__Super(s) {}
 
-        Stack copy() const { return Stack( *(*this) ); }
-        Stack unique_copy() const { if (this->use_count()<2) { return *this; }return copy(); }
+    template<typename _U>Stack(const std::shared_ptr<_U> &u):__Super(u) {}
+    template<typename _U>Stack(std::shared_ptr<_U> &u):__Super(u) {}
+    template<typename _U>Stack(std::shared_ptr<_U> &&u):__Super(std::move(u)) {}
 
-    };
+    template<typename _U>Stack(const std::weak_ptr<_U> &u):__Super(u) {}
+    template<typename _U>Stack(std::weak_ptr<_U> &u):__Super(u) {}
+    template<typename _U>Stack(std::weak_ptr<_U> &&u):__Super(std::move(u)) {}
 
-}
+    template<typename _U>Stack(std::unique_ptr<_U> &&u):__Super(std::move(u)) {}
+    template<typename _U>Stack(std::unique_ptr<_U> &u)=delete;
+    template<typename _U>Stack(const std::unique_ptr<_U> &u)=delete;
+
+    template<typename _U>Stack(const std::shared_ptr<_U>& x,element_type* p):__Super(x,p) {}
+
+    template<typename A0,typename A1,typename ... Args>
+    Stack(A0 && a0,A1 && a1,Args && ... args):__Super(new element_type(std::forward<A0>(a0),std::forward<A1>(a1),std::forward<Args>(args)...),_this_delete_this_()) {}
+    template<typename A0,typename _EXPLICIT=std::enable_if_t< !(std::is_constructible<__Super,A0 &&>::value) >,typename _EMORE=void>
+    Stack(A0 && a0):__Super(new element_type(std::forward<A0>(a0)),_this_delete_this_()) {}
+
+    template<typename _U,typename _EXPLICIT=std::enable_if_t< (std::is_constructible<element_type,const std::initializer_list<_U> & >::value) > >
+    Stack(const std::initializer_list<_U> & v):__Super(new element_type(v),_this_delete_this_()) {}
+    Stack< std::add_const_t<_base_some_class_> > toConst()const { return static_cast<const _const_Super &>(*this); }
+
+    Stack(const std::remove_const_t<element_type> & v):__Super(new element_type(v),_this_delete_this_()) {}
+    Stack(std::remove_const_t<element_type> && v):__Super(new element_type(std::move(v)),_this_delete_this_()) {}
+    Stack(std::remove_const_t<element_type> & v):__Super(new element_type(v),_this_delete_this_()) {}
+    Stack< std::remove_const_t<_base_some_class_> > clone()const { return Stack< std::remove_const_t<_base_some_class_> >(*(*this)); }
+
+    std::weak_ptr<_base_some_class_> toWeakPointer() const { return *this; }
+
+    ~Stack()=default;
+    Stack(const Stack&)=default;
+    Stack(Stack&&)=default;
+    template<typename _U>Stack(Stack<_U>&&v):__Super(std::move(v)) {}
+    template<typename _U>Stack(const Stack<_U>&v):__Super(v) {}
+    template<typename _U>Stack(Stack<_U>&v):__Super(v) {}
+    Stack&operator=(const Stack&)=default;
+    Stack&operator=(Stack&&)=default;
+};
+}/*spr*/
+
+template<typename __T>
+using Stack=spr::Stack< std::stack<__T> >;
+template<typename __T>
+using ConstStack=spr::Stack<const std::stack<__T> >;
+
+}/*cct*/
 
 #endif
 
