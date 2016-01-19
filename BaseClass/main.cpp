@@ -1,218 +1,252 @@
-﻿
-#include <memory>
+﻿#include <memory>
+#include <functional>
 #include <type_traits>
-#include <iostream>
 
-class E {
+int foo(int) { return 0; }
+
+template<typename _X1>
+class A {
 public:
-    void foo(){}
+    template<typename T,typename EXPLICIT_=decltype(new std::function<_X1>(std::declval<T &&>())) >
+    void goo(T &&v) { v(12); }
 };
 
-namespace spr {
-class SomeClass;
-}
 
-class SomeClass {
-protected:
-
-    friend spr::SomeClass;
-    class SomeClassManager {
-    public:
-        SomeClassManager();
-        ~SomeClassManager();
-        static void deleteData( SomeClass * );
-    };
-    static SomeClassManager thisManager;
-    ~SomeClass();
-
-public:
-    SomeClass();
-    SomeClass(int,double ,int) {}
-    SomeClass(int) {}
-    SomeClass(E) {}
-    void foo()const {
-        std::cout<<"123"<<std::endl;
-    }
-
-    static void deleteThis(SomeClass * v) { delete v; }
-};
-
-#include <list>
-
-namespace spr {
-
-namespace base {
-template<typename T>
-class SomeClass:public std::list<T> {
-    typedef std::list<T> _Super;
-public:
-    using _Super::_Super;
-    SomeClass()=default;
-    SomeClass(const SomeClass &)=default;
-    SomeClass(const _Super &v):_Super(v) {}
-    SomeClass(_Super &&v):_Super(std::move(v)) {}
-    SomeClass&operator=(SomeClass &&)=default;
-    SomeClass&operator=(const SomeClass &)=default;
-    static void deleteThis(SomeClass * v) { delete v; }
-};
-}
-
+template< typename _base_some_class_ >
 class SomeClass :
-    public std::shared_ptr< ::SomeClass >{
+    public std::shared_ptr< _base_some_class_ >{
 private:
-    typedef std::shared_ptr< element_type > __Super;
+    typedef std::shared_ptr< _base_some_class_ > __Super;
+    typedef std::shared_ptr< std::add_const_t<_base_some_class_> > _const_Super;
+    typedef typename __Super::element_type __element_type;
+    static auto _this_delete_this_() { return &__element_type::deleteThis; }
+    __element_type & _this_get() { return *(this->get()); }
+    std::add_const_t<__element_type> & _this_const_get() const { return *(this->get()); }
 public:
-    SomeClass():__Super(new element_type,&element_type::deleteThis){}
+    typedef __element_type element_type;
+    SomeClass():__Super(new element_type,_this_delete_this_()){}
     SomeClass(decltype(nullptr)) {}
+
     template<typename _U,typename _EXPLICIT= decltype( static_cast<element_type *>( reinterpret_cast< std::remove_reference_t<_U> *>(0) ) ) >
-    SomeClass(_U* value):__Super(static_cast<element_type * >(value) ,&element_type::deleteThis) {}
+    SomeClass(_U* value):__Super(static_cast<element_type * >(value) ,_this_delete_this_()) {}
+
     SomeClass(const __Super & s):__Super(s) {}
-    template<typename _U>SomeClass(const std::shared_ptr<_U> &u):__Super(u) {}
-    template<typename _U>SomeClass(const std::weak_ptr<_U> &u):__Super(u) {}
     SomeClass(__Super && s):__Super(std::move(s)) {}
+    SomeClass(__Super & s):__Super(s) {}
+
+    template<typename _U>SomeClass(const std::shared_ptr<_U> &u):__Super(u) {}
+    template<typename _U>SomeClass(std::shared_ptr<_U> &u):__Super(u) {}
     template<typename _U>SomeClass(std::shared_ptr<_U> &&u):__Super(std::move(u)) {}
+
+    template<typename _U>SomeClass(const std::weak_ptr<_U> &u):__Super(u) {}
+    template<typename _U>SomeClass(std::weak_ptr<_U> &u):__Super(u) {}
+    template<typename _U>SomeClass(std::weak_ptr<_U> &&u):__Super(std::move(u)) {}
+
     template<typename _U>SomeClass(std::unique_ptr<_U> &&u):__Super(std::move(u)) {}
+    template<typename _U>SomeClass(std::unique_ptr<_U> &u)=delete;
+    template<typename _U>SomeClass(const std::unique_ptr<_U> &u)=delete;
+
     template<typename _U>SomeClass(const std::shared_ptr<_U>& x,element_type* p) :__Super(x,p){}
+
     template<typename A0,typename A1, typename ... Args>
-    SomeClass(A0 && a0,A1 && a1, Args && ... args ):__Super(new element_type(std::forward<A0>(a0),std::forward<A1>(a1), std::forward<Args>(args)... ),&element_type::deleteThis){}
-    template<typename A0,typename _EXPLICIT=decltype( new element_type( std::declval<A0>() ) ) ,typename _EMORE=void>
-    SomeClass(A0 && a0 ):__Super(new element_type( std::move(a0) ),&element_type::deleteThis ) {}
-    template<typename A0,typename _EXPLICIT=decltype( new element_type( *(reinterpret_cast<std::remove_reference_t<A0> *>(0)) ) )>
-    SomeClass(A0 & a0 ):__Super(new element_type( a0 ),&element_type::deleteThis ) {}
-    template<typename _U>
-    SomeClass(const std::initializer_list<_U> & v):__Super(new element_type(v),&element_type::deleteThis) {}
+    SomeClass(A0 && a0,A1 && a1, Args && ... args ):__Super(new element_type(std::forward<A0>(a0),std::forward<A1>(a1), std::forward<Args>(args)... ),_this_delete_this_()){}
+    template<typename A0,typename _EXPLICIT=std::enable_if_t< !(std::is_constructible<__Super,A0 &&>::value) > ,typename _EMORE=void>
+    SomeClass(A0 && a0 ):__Super(new element_type( std::forward<A0>(a0) ),_this_delete_this_() ) {}
+
+    template<typename _U,typename _EXPLICIT= std::enable_if_t< (std::is_constructible<element_type,const std::initializer_list<_U> & >::value) > >
+    SomeClass(const std::initializer_list<_U> & v):__Super(new element_type(v),_this_delete_this_()) {}
+    SomeClass< std::add_const_t<_base_some_class_> > toConst()const { return static_cast<const _const_Super &>(*this); }
+
+    SomeClass( const std::remove_const_t<element_type> & v ):__Super(new element_type(v),_this_delete_this_()) {}
+    SomeClass( std::remove_const_t<element_type> && v ):__Super(new element_type( std::move(v) ),_this_delete_this_()) {}
+    SomeClass( std::remove_const_t<element_type> & v ):__Super(new element_type(v),_this_delete_this_()) {}
+    SomeClass< std::remove_const_t<_base_some_class_> > clone()const { return SomeClass< std::remove_const_t<_base_some_class_> >(*(*this)); }
 
     ~SomeClass()=default;
     SomeClass(const SomeClass&)=default;
     SomeClass(SomeClass&&)=default;
+    template<typename _U>SomeClass(SomeClass<_U>&&v):__Super( std::move(v) ) {}
+    template<typename _U>SomeClass(const SomeClass<_U>&v):__Super( v ) {}
+    template<typename _U>SomeClass(SomeClass<_U>&v):__Super( v ) {}
     SomeClass&operator=(const SomeClass&)=default;
     SomeClass&operator=(SomeClass&&)=default;
-
-    class WriteCopy;
-    const WriteCopy & copy() const { return reinterpret_cast<WriteCopy &>(const_cast<SomeClass &>(*this));  }
-    //friend bool operator<(const SomeClass & l,const SomeClass & r) { return (*l)<(*r); }
-    //friend bool operator>(const SomeClass & l,const SomeClass & r) { return (*r)<(*l); }
-    //friend bool operator<=(const SomeClass & l,const SomeClass & r) {  }
-    //friend bool operator>=(const SomeClass & l,const SomeClass & r) {  }
-    //friend bool operator==(const SomeClass & l,const SomeClass & r) {  }
-    //friend bool operator!=(const SomeClass & l,const SomeClass & r) {  }
 };
 
-class SomeClass::WriteCopy:
-    public SomeClass{
-public:
-    using SomeClass::SomeClass;
-    WriteCopy(const SomeClass & v):SomeClass(v) {}
-    WriteCopy(SomeClass && v):SomeClass(std::move(v)) {}
-    WriteCopy()=default;
-    WriteCopy(const WriteCopy &)=default;
-    WriteCopy(WriteCopy &&)=default;
-    WriteCopy&operator=(const WriteCopy &)=default;
-    WriteCopy&operator=(WriteCopy &&)=default;
-    std::add_const_t<element_type> * operator->()const {
-        static_assert(sizeof(SomeClass)==sizeof(WriteCopy),"you can not add any data");
-        return SomeClass::operator->();
-    }
-    element_type * operator->() {
-        if(*this){if (this->unique()==false) {*this = SomeClass( new element_type( *(*this) ) );}}
-        return SomeClass::operator->();
-    }
-    std::add_const_t<element_type> * get()const { return this->operator->(); }
-    element_type * get(){ return this->operator->(); }
-    const WriteCopy & copy() const { return *this; }
-};
+#include <memory>
 
-}
-
-class YY {
-public:
-    static void deleteThis(YY * v) { delete v; }
-};
-namespace test {
-
-class YY :
-    public std::shared_ptr< ::YY >{
+namespace spr {
+template< typename _base_some_class_ >
+class Function :
+    public std::shared_ptr< _base_some_class_ >{
 private:
-    typedef std::shared_ptr< element_type > __Super;
+    typedef std::shared_ptr< _base_some_class_ > __Super;
+    typedef std::shared_ptr< std::add_const_t<_base_some_class_> > _const_Super;
+    typedef typename __Super::element_type __element_type;
+    static auto _this_delete_this_() { return [](__element_type * v) {delete v; }; }
+    __element_type & _this_get() { return *(this->get()); }
+    std::add_const_t<__element_type> & _this_const_get() const { return *(this->get()); }
+
 public:
-    YY():__Super(new element_type,&element_type::deleteThis){}
-    YY(decltype(nullptr)) {}
-    template<typename _U> YY(_U*value):__Super(static_cast<element_type *>(value) ,&element_type::deleteThis) {}
-    YY(const __Super & s):__Super(s) {}
-    template<typename _U>YY(const std::shared_ptr<_U> &u):__Super(u) {}
-    template<typename _U>YY(const std::weak_ptr<_U> &u):__Super(u) {}
-    YY(__Super && s):__Super(std::move(s)) {}
-    template<typename _U>YY(std::shared_ptr<_U> &&u):__Super(std::move(u)) {}
-    template<typename _U>YY(std::unique_ptr<_U> &&u):__Super(std::move(u)) {}
-    template<typename _U>YY(const shared_ptr<_U>& x,element_type* p) :__Super(x,p){}
-    template<typename ... Args>
-    YY( Args && ... args ):__Super(new element_type( std::forward<Args>(args)... ),&element_type::deleteThis){}
-    ~YY()=default;
-    YY(const YY&)=default;
-    YY(YY&&)=default;
-    YY&operator=(const YY&)=default;
-    YY&operator=(YY&&)=default;
-    YY copy() const { if (*this) { return YY(new element_type(*(*this))); }return YY(); }
-    //friend bool operator<(const YY & l,const YY & r) { return (*l)<(*r); }
-    //friend bool operator>(const YY & l,const YY & r) { return (*r)<(*l); }
-    //friend bool operator<=(const YY & l,const YY & r) {  }
-    //friend bool operator>=(const YY & l,const YY & r) {  }
-    //friend bool operator==(const YY & l,const YY & r) {  }
-    //friend bool operator!=(const YY & l,const YY & r) {  }
+    typedef __element_type element_type;
+    Function():__Super(new element_type,_this_delete_this_()){}
+    Function(decltype(nullptr)) {}
+
+    template<typename _U,typename _EXPLICIT= decltype( static_cast<element_type *>( reinterpret_cast< std::remove_reference_t<_U> *>(0) ) ) >
+    Function(_U* value):__Super(static_cast<element_type * >(value) ,_this_delete_this_()) {}
+
+    Function(const __Super & s):__Super(s) {}
+    Function(__Super && s):__Super(std::move(s)) {}
+    Function(__Super & s):__Super(s) {}
+
+    template<typename _U>Function(const std::shared_ptr<_U> &u):__Super(u) {}
+    template<typename _U>Function(std::shared_ptr<_U> &u):__Super(u) {}
+    template<typename _U>Function(std::shared_ptr<_U> &&u):__Super(std::move(u)) {}
+    template<typename _U>Function(const std::shared_ptr<_U> &&u):__Super(std::move(u)) {}
+
+    template<typename _U>Function(const std::weak_ptr<_U> &u):__Super(u) {}
+    template<typename _U>Function(std::weak_ptr<_U> &u):__Super(u) {}
+    template<typename _U>Function(std::weak_ptr<_U> &&u):__Super(std::move(u)) {}
+    template<typename _U>Function(const std::weak_ptr<_U> &&u):__Super(std::move(u)) {}
+
+    template<typename _U>Function(std::unique_ptr<_U> &&u):__Super(std::move(u)) {}
+    template<typename _U>Function(const std::unique_ptr<_U> &&u):__Super(std::move(u)) {}
+    template<typename _U>Function(std::unique_ptr<_U> &u)=delete;
+    template<typename _U>Function(const std::unique_ptr<_U> &u)=delete;
+
+    template<typename _U>Function(const std::shared_ptr<_U>& x,element_type* p) :__Super(x,p){}
+
+    template<typename A0,typename A1, typename ... Args>
+    Function(A0 && a0,A1 && a1, Args && ... args ):__Super(new element_type(std::forward<A0>(a0),std::forward<A1>(a1), std::forward<Args>(args)... ),_this_delete_this_()){}
+
+    /**/
+    template<
+        typename A0,
+        typename _EXPLICIT= std::enable_if_t< !std::is_constructible<__Super,A0 &&>::value > ,
+        typename _EMORE=void
+    >
+    Function(A0 && a0 ):__Super(new element_type( std::forward<A0>(a0) ),_this_delete_this_() ) {}
+
+    template<typename _U>
+    Function(const std::initializer_list<_U> & v):__Super(new element_type(v),_this_delete_this_()) {}
+    Function< std::add_const_t<_base_some_class_> > toConst()const { return static_cast<const _const_Super &>(*this); }
+
+    Function( const std::remove_const_t<element_type> & v ):__Super(new element_type(v),_this_delete_this_()) {}
+    Function( std::remove_const_t<element_type> && v ):__Super(new element_type( std::move(v) ),_this_delete_this_()) {}
+    Function( std::remove_const_t<element_type> & v ):__Super(new element_type(v),_this_delete_this_()) {}
+    Function( const std::remove_const_t<element_type> && v ):__Super(new element_type( std::move(v) ),_this_delete_this_()) {}
+
+    Function< std::remove_const_t<_base_some_class_> > clone()const { return Function< std::remove_const_t<_base_some_class_> >(*(*this)); }
+
+    ~Function()=default;
+    Function(const Function&)=default;
+    Function(Function&&)=default;
+    template<typename _U>Function(Function<_U>&&v):__Super( std::move(v) ) {}
+    template<typename _U>Function(const Function<_U>&v):__Super( v ) {}
+    template<typename _U>Function(const Function<_U>&&v):__Super( std::move(v) ) {}
+    template<typename _U>Function(Function<_U>&v):__Super( v ) {}
+    Function&operator=(const Function&)=default;
+    Function&operator=(Function&&)=default;
 };
 
 
+
 }
+
+template<typename T>
+using Function=spr::Function< std::function<T> >;
+template<typename T>
+using ConstFunction=spr::Function<const std::function<T> >;
+
+namespace spr {
+template< typename _base_some_class_ >
+class String :
+    public std::shared_ptr< _base_some_class_ >{
+private:
+    typedef std::shared_ptr< _base_some_class_ > __Super;
+    typedef std::shared_ptr< std::add_const_t<_base_some_class_> > _const_Super;
+    typedef typename __Super::element_type __element_type;
+    static auto _this_delete_this_() { return [](__element_type *v) {delete v; }; }
+    __element_type & _this_get() { return *(this->get()); }
+    std::add_const_t<__element_type> & _this_const_get() const { return *(this->get()); }
+public:
+    typedef __element_type element_type;
+    String():__Super(new element_type,_this_delete_this_()){}
+    String(decltype(nullptr)) {}
+
+    template<typename _U,typename _EXPLICIT= decltype( static_cast<element_type *>( reinterpret_cast< std::remove_reference_t<_U> *>(0) ) ) >
+    String(_U* value):__Super(static_cast<element_type * >(value) ,_this_delete_this_()) {}
+
+    String(const __Super & s):__Super(s) {}
+    String(__Super && s):__Super(std::move(s)) {}
+    String(__Super & s):__Super(s) {}
+
+    template<typename _U>String(const std::shared_ptr<_U> &u):__Super(u) {}
+    template<typename _U>String(std::shared_ptr<_U> &u):__Super(u) {}
+    template<typename _U>String(std::shared_ptr<_U> &&u):__Super(std::move(u)) {}
+
+    template<typename _U>String(const std::weak_ptr<_U> &u):__Super(u) {}
+    template<typename _U>String(std::weak_ptr<_U> &u):__Super(u) {}
+    template<typename _U>String(std::weak_ptr<_U> &&u):__Super(std::move(u)) {}
+
+    template<typename _U>String(std::unique_ptr<_U> &&u):__Super(std::move(u)) {}
+    template<typename _U>String(std::unique_ptr<_U> &u)=delete;
+    template<typename _U>String(const std::unique_ptr<_U> &u)=delete;
+
+    template<typename _U>String(const std::shared_ptr<_U>& x,element_type* p) :__Super(x,p){}
+
+    template<typename A0,typename A1, typename ... Args>
+    String(A0 && a0,A1 && a1, Args && ... args ):__Super(new element_type(std::forward<A0>(a0),std::forward<A1>(a1), std::forward<Args>(args)... ),_this_delete_this_()){}
+    template<typename A0,typename _EXPLICIT=std::enable_if_t< !(std::is_constructible<__Super,A0 &&>::value) > ,typename _EMORE=void>
+    String(A0 && a0 ):__Super(new element_type( std::forward<A0>(a0) ),_this_delete_this_() ) {}
+
+    template<typename _U,typename _EXPLICIT= std::enable_if_t< (std::is_constructible<element_type,const std::initializer_list<_U> & >::value) > >
+    String(const std::initializer_list<_U> & v):__Super(new element_type(v),_this_delete_this_()) {}
+    String< std::add_const_t<_base_some_class_> > toConst()const { return static_cast<const _const_Super &>(*this); }
+
+    String( const std::remove_const_t<element_type> & v ):__Super(new element_type(v),_this_delete_this_()) {}
+    String( std::remove_const_t<element_type> && v ):__Super(new element_type( std::move(v) ),_this_delete_this_()) {}
+    String( std::remove_const_t<element_type> & v ):__Super(new element_type(v),_this_delete_this_()) {}
+
+    String< std::remove_const_t<_base_some_class_> > clone()const { return String< std::remove_const_t<_base_some_class_> >(*(*this)); }
+
+    ~String()=default;
+    String(const String&)=default;
+    String(String&&)=default;
+    template<typename _U>String(String<_U>&&v):__Super( std::move(v) ) {}
+    template<typename _U>String(const String<_U>&v):__Super( v ) {}
+    template<typename _U>String(const String<_U>&&v):__Super( std::move(v) ) {}
+    template<typename _U>String(String<_U>&v):__Super( v ) {}
+    String&operator=(const String&)=default;
+    String&operator=(String&&)=default;
+};
+
+
+
+}
+
+using String=spr::String<std::string>;
+
+#include <iostream>
+
 
 
 int main() {
 
+    //  std::function<void(void)> fxxe=[]() {std::cout<<"Hellow Word"<<std::endl; };
+
+    Function<void(void)> func=[]() {};
+    auto ff  = func.toConst();
+    //ff->operator()();
+
+    ConstFunction<void(void)> funx( func ) ;
+    //funx();
+    //func();
+
+    if (func) {}
 
 
-    spr::SomeClass sss(1,2,3) ;
-    sss->foo();
+    String s{ "aaaaaaaaa" };
+    std::string sss{"sfsfssssssss"};
 
-    {
-        const auto c1=sss.copy();
-        c1->foo();
-    }
-
-    {
-        auto _c1=sss.copy();
-        auto c1=_c1.get();
-        c1->foo();
-        spr::SomeClass xx=_c1;
-        xx=spr::SomeClass(22);
-        int m=44;
-        xx=spr::SomeClass(m);
-        xx=spr::SomeClass(m,m,m);
-        E e;
-        xx=spr::SomeClass(e);
-        const E ce;
-        xx=spr::SomeClass(ce);
-        e.foo();
-        SomeClass * ss=0;
-        SomeClass * const & sy=ss;
-        xx=spr::SomeClass(sy);
-    }
-
-    spr::SomeClass s1( new SomeClass );
 }
 
-SomeClass::SomeClassManager SomeClass::thisManager;
-
-SomeClass::~SomeClass() {
-}
-
-SomeClass::SomeClass() {
-}
-
-SomeClass::SomeClassManager::SomeClassManager() {
-}
-
-SomeClass::SomeClassManager::~SomeClassManager() {
-}
-
-void SomeClass::SomeClassManager::deleteData(SomeClass * v) {
-    delete v;
-}
