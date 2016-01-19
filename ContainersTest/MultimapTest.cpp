@@ -3,7 +3,7 @@
 
 void multimuaptest(){
 
-    cct::Multimap<int,int> map{{1,2},{3,4}};
+    cct::MultiMap<int,int> map{{1,2},{3,4}};
 
     map.rbegin();
     map.rend();

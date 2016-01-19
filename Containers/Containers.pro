@@ -14,8 +14,8 @@ HEADERS += \
     ForwardList.hpp \
     List.hpp \
     Map.hpp \
-    Multimap.hpp \
-    Multiset.hpp \
+    MultiMap.hpp \
+    MultiSet.hpp \
     PriorityQueue.hpp \
     Queue.hpp \
     Set.hpp \

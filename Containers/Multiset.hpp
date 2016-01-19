@@ -91,8 +91,8 @@ public:
 };
 }/*spr*/
 
-template<typename __T>using Multiset=spr::Multiset< std::multiset<__T> >;
-template<typename __T>using ConstMultiset=spr::Multiset<const std::multiset<__T> >;
+template<typename __T>using MultiSet=spr::Multiset< std::multiset<__T> >;
+template<typename __T>using ConstMultiSet=spr::Multiset<const std::multiset<__T> >;
 
 }/*cct*/
 
