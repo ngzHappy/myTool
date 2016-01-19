@@ -46,10 +46,10 @@ public:
 
     template<typename A0,typename A1,typename ... Args>
     UnorderedMap(A0 && a0,A1 && a1,Args && ... args):__Super(new element_type(std::forward<A0>(a0),std::forward<A1>(a1),std::forward<Args>(args)...),_this_delete_this_()) {}
-  
+
     template<typename _U,typename _EXPLICIT=std::enable_if_t< (std::is_constructible<element_type,const std::initializer_list<_U> & >::value) > >
     UnorderedMap(const std::initializer_list<_U> & v):__Super(new element_type(v),_this_delete_this_()) {}
-    UnorderedMap< std::add_const_t<_base_some_class_> > toConst()const { return static_cast<const _const_Super &>(*this); }
+    const UnorderedMap< std::add_const_t<_base_some_class_> > & toConst()const { return reinterpret_cast<const UnorderedMap< std::add_const_t<_base_some_class_> > &>(*this); }
 
     UnorderedMap(const std::remove_const_t<element_type> & v):__Super(new element_type(v),_this_delete_this_()) {}
     UnorderedMap(std::remove_const_t<element_type> && v):__Super(new element_type(std::move(v)),_this_delete_this_()) {}

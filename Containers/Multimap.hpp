@@ -49,7 +49,7 @@ public:
     template<typename A0,typename _EXPLICIT=std::enable_if_t< !(std::is_constructible<__Super,A0 &&>::value) > ,typename _EMORE=void>
     Multimap(A0 && a0 ):__Super(new element_type( std::forward<A0>(a0) ),_this_delete_this_() ) {}
 
-    Multimap< std::add_const_t<_base_some_class_> > toConst()const { return static_cast<const _const_Super &>(*this); }
+    const Multimap< std::add_const_t<_base_some_class_> > & toConst()const { return reinterpret_cast< const Multimap< std::add_const_t<_base_some_class_> > &>(*this); }
 
     Multimap( const std::remove_const_t<element_type> & v ):__Super(new element_type(v),_this_delete_this_()) {}
     Multimap( std::remove_const_t<element_type> && v ):__Super(new element_type( std::move(v) ),_this_delete_this_()) {}

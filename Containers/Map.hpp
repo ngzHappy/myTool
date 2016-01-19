@@ -50,7 +50,7 @@ public:
     template<typename A0,typename _EXPLICIT=std::enable_if_t< !(std::is_constructible<__Super,A0 &&>::value) > ,typename _EMORE=void>
     Map(A0 && a0 ):__Super(new element_type( std::forward<A0>(a0) ),_this_delete_this_() ) {}
 
-    Map< std::add_const_t<_base_some_class_> > toConst()const { return static_cast<const _const_Super &>(*this); }
+    const Map< std::add_const_t<_base_some_class_> > & toConst()const { return reinterpret_cast<const Map< std::add_const_t<_base_some_class_> > &>(*this); }
 
     Map( const std::remove_const_t<element_type> & v ):__Super(new element_type(v),_this_delete_this_()) {}
     Map( std::remove_const_t<element_type> && v ):__Super(new element_type( std::move(v) ),_this_delete_this_()) {}

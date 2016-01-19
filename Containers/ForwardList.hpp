@@ -52,7 +52,7 @@ public:
 
     template<typename _U,typename _EXPLICIT= std::enable_if_t< (std::is_constructible<element_type,const std::initializer_list<_U> & >::value) > >
     ForwardList(const std::initializer_list<_U> & v):__Super(new element_type(v),_this_delete_this_()) {}
-    ForwardList< std::add_const_t<_base_some_class_> > toConst()const { return static_cast<const _const_Super &>(*this); }
+    const ForwardList< std::add_const_t<_base_some_class_> > & toConst()const { return reinterpret_cast<const ForwardList< std::add_const_t<_base_some_class_> > &>(*this); }
 
     ForwardList( const std::remove_const_t<element_type> & v ):__Super(new element_type(v),_this_delete_this_()) {}
     ForwardList( std::remove_const_t<element_type> && v ):__Super(new element_type( std::move(v) ),_this_delete_this_()) {}

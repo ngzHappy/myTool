@@ -51,7 +51,7 @@ public:
 
     template<typename _U,typename _EXPLICIT=std::enable_if_t< (std::is_constructible<element_type,const std::initializer_list<_U> & >::value) > >
     UnorderedSet(const std::initializer_list<_U> & v):__Super(new element_type(v),_this_delete_this_()) {}
-    UnorderedSet< std::add_const_t<_base_some_class_> > toConst()const { return static_cast<const _const_Super &>(*this); }
+    const UnorderedSet< std::add_const_t<_base_some_class_> > & toConst()const { return reinterpret_cast<const UnorderedSet< std::add_const_t<_base_some_class_> > &>(*this); }
 
     UnorderedSet(const std::remove_const_t<element_type> & v):__Super(new element_type(v),_this_delete_this_()) {}
     UnorderedSet(std::remove_const_t<element_type> && v):__Super(new element_type(std::move(v)),_this_delete_this_()) {}

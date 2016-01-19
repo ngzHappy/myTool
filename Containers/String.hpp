@@ -51,7 +51,7 @@ public:
 
     template<typename _U,typename _EXPLICIT=std::enable_if_t< (std::is_constructible<element_type,const std::initializer_list<_U> & >::value) > >
     String(const std::initializer_list<_U> & v):__Super(new element_type(v),_this_delete_this_()) {}
-    String< std::add_const_t<_base_some_class_> > toConst()const { return static_cast<const _const_Super &>(*this); }
+    const String< std::add_const_t<_base_some_class_> > & toConst()const { return reinterpret_cast<const String< std::add_const_t<_base_some_class_> > &>(*this); }
 
     String(const std::remove_const_t<element_type> & v):__Super(new element_type(v),_this_delete_this_()) {}
     String(std::remove_const_t<element_type> && v):__Super(new element_type(std::move(v)),_this_delete_this_()) {}
@@ -94,13 +94,13 @@ public:
 }
 
 using String = spr::String< std::string >;
-using ConstString = spr::String<const std::string >;   
+using ConstString = spr::String<const std::string >;
 using U16String = spr::String< std::u16string >;
-using ConstU16String = spr::String<const std::u16string >; 
+using ConstU16String = spr::String<const std::u16string >;
 using U32String = spr::String< std::u32string >;
-using ConstU32String = spr::String<const std::u32string >; 
+using ConstU32String = spr::String<const std::u32string >;
 using WString = spr::String< std::wstring >;
-using ConstWString = spr::String<const std::wstring >; 
+using ConstWString = spr::String<const std::wstring >;
 
 }
 

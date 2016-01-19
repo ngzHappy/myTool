@@ -1,4 +1,4 @@
-
+﻿
 #if !defined(STACK__HPP__CCT)
 #define STACK__HPP__CCT 1
 
@@ -52,7 +52,7 @@ public:
 
     template<typename _U,typename _EXPLICIT=std::enable_if_t< (std::is_constructible<element_type,const std::initializer_list<_U> & >::value) > >
     Stack(const std::initializer_list<_U> & v):__Super(new element_type(v),_this_delete_this_()) {}
-    Stack< std::add_const_t<_base_some_class_> > toConst()const { return static_cast<const _const_Super &>(*this); }
+    const Stack< std::add_const_t<_base_some_class_> > & toConst()const { return reinterpret_cast< const Stack< std::add_const_t<_base_some_class_> > &>(*this); }
 
     Stack(const std::remove_const_t<element_type> & v):__Super(new element_type(v),_this_delete_this_()) {}
     Stack(std::remove_const_t<element_type> && v):__Super(new element_type(std::move(v)),_this_delete_this_()) {}
