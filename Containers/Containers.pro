@@ -9,7 +9,8 @@ SOURCES += main.cpp \
     maintest.cpp
 
 
-HEADERS += Containers.hpp
+HEADERS += Containers.hpp \
+    ClassFunction.hpp
 HEADERS += MultiMap.hpp
 HEADERS += MultiSet.hpp
 HEADERS += Deque.hpp
