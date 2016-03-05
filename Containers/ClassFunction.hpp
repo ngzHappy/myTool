@@ -83,3 +83,6 @@ public:
 }
 
 #endif // CLASSFUNCTION_HPP
+/*
+ * #endif // CLASSFUNCTION_HPP
+*/
