@@ -10,7 +10,8 @@ SOURCES += main.cpp \
 
 
 HEADERS += Containers.hpp \
-    ClassFunction.hpp
+    ClassFunction.hpp \
+    Model.hpp
 HEADERS += MultiMap.hpp
 HEADERS += MultiSet.hpp
 HEADERS += Deque.hpp
